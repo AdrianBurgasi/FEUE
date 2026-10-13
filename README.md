@@ -1,2 +1,166 @@
 # Murga-Invitations
 A little site to share the invitations for the events for one day
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación Murga ULEAM 2026</title>
+    <!-- Fuentes elegantes de Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 0; display: flex; justify-content: center; background-color: #1a1a1a; font-family: 'Montserrat', sans-serif; }
+        
+        /* Contenedor principal simulando la pantalla del móvil */
+        .invitation-card { width: 100%; max-width: 414px; background: linear-gradient(135deg, #0b1f42 0%, #061124 100%); color: white; min-height: 100vh; padding: 15px; box-sizing: border-box; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; }
+        
+        /* Efecto de destellos sutiles en el fondo */
+        .invitation-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(224,169,34,0.1) 1px, transparent 1px); background-size: 30px 30px; z-index: 0; }
+        
+        /* Marco interior dorado */
+        .inner-border { border: 1px solid rgba(224, 169, 34, 0.6); border-radius: 12px; padding: 25px 20px; height: 100%; box-sizing: border-box; position: relative; z-index: 1; }
+        
+        /* Detalles en las esquinas del marco */
+        .corner-tl, .corner-tr, .corner-bl, .corner-br { position: absolute; width: 12px; height: 12px; border: 2px solid #e0a922; }
+        .corner-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 12px; }
+        .corner-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-top-right-radius: 12px; }
+        .corner-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 12px; }
+        .corner-br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-bottom-right-radius: 12px; }
+        
+        /* Cabecera con los logos */
+        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
+        .logo-feue { height: 50px; width: 50px; object-fit: cover; border-radius: 50%; border: 1px solid #e0a922;}
+        .logo-uleam { text-align: right; color: #e0a922; }
+        .logo-uleam .text-uleam { font-family: 'Cinzel', serif; font-size: 22px; font-weight: bold; }
+        .logo-uleam .text-41 { font-size: 24px; font-weight: 300; }
+        .logo-uleam .text-anos { font-size: 8px; letter-spacing: 2px; display: block; margin-top: -5px; }
+        
+        /* Títulos */
+        .titles { text-align: center; margin-bottom: 20px; }
+        .titles h3 { font-weight: 300; font-size: 14px; margin: 0; color: #fff; letter-spacing: 1px; }
+        .titles h1 { font-family: 'Cinzel', serif; font-size: 30px; color: #e0a922; margin: 10px 0 0 0; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
+        
+        /* Contenido y texto */
+        .content { text-align: center; margin-bottom: 25px; }
+        .greeting { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 15px; }
+        .body-text { font-size: 12px; line-height: 1.6; color: #dcdcdc; padding: 0 5px; }
+        
+        /* Fecha y Hora */
+        .datetime { margin-top: 20px; border-top: 1px solid rgba(224, 169, 34, 0.3); border-bottom: 1px solid rgba(224, 169, 34, 0.3); padding: 15px 0; }
+        .datetime .date { font-family: 'Cinzel', serif; font-weight: bold; color: #e0a922; font-size: 16px; margin: 0 0 5px 0; }
+        .datetime .time { font-size: 12px; margin: 0; color: #dcdcdc; }
+        
+        /* Mapa */
+        .map-container { margin-bottom: 25px; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(224, 169, 34, 0.5); background: #fff;}
+        .map-label { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #0b1f42; color: #fff; padding: 4px 15px; font-size: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10; border: 1px solid rgba(224, 169, 34, 0.8); border-top: none; letter-spacing: 1px; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.3);}
+        
+        /* Formulario de Asistencia */
+        .rsvp-container { text-align: center; border: 1px solid rgba(224, 169, 34, 0.4); padding: 20px 15px; border-radius: 8px; background: rgba(0, 0, 0, 0.2); }
+        .rsvp-container h4 { margin: 0 0 15px 0; font-size: 13px; color: #fff; font-weight: 600; letter-spacing: 1px;}
+        .options { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
+        .radio-btn { flex: 1; border: 1px solid rgba(224, 169, 34, 0.5); padding: 10px 5px; border-radius: 5px; font-size: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; background: rgba(255,255,255,0.05); }
+        .radio-btn input { display: none; }
+        .radio-btn.selected { background: rgba(224, 169, 34, 0.9); color: #0b1f42; font-weight: 600; border-color: #e0a922; }
+        .submit-btn { width: 100%; background: linear-gradient(90deg, #d4af37, #f9d976, #d4af37); color: #0b1f42; font-weight: bold; padding: 12px; border: none; border-radius: 5px; font-size: 13px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;}
+        .submit-btn:hover { opacity: 0.9; }
+        
+        /* Footer */
+        footer { text-align: center; margin-top: 25px; font-size: 11px; color: #e0a922; font-style: italic; }
+    </style>
+</head>
+<body>
+    <div class="invitation-card">
+        <div class="inner-border">
+            <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+            
+            <header>
+                <!-- Logo de FEUE (Usando tu enlace original) -->
+                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoT2jKm57Wg2c4dPAl212-EP7HIAl11JpVkdVU57loZcfYt7A8NXA2CfXPitOwGplYNQmPtdBSymr5DOCwXn4ahh4hWgc_kFBBGvZXW5TAc736Gz_NC5T4nVkNde5ZnLbRLTXkuXGbafAApPByiIQ1gnKjk5UPki__DFevYWDl6Dq8UVpElOHZl0RUTuJz/s1280/feue.jpeg" alt="FEUE ULEAM" class="logo-feue">
+                
+                <!-- Logo Uleam 41 construido con tipografía Cinzel -->
+                <div class="logo-uleam">
+                    <span class="text-uleam">Uleam</span>
+                    <span class="text-41">41</span><br>
+                    <span class="text-anos">AÑOS</span>
+                </div>
+            </header>
+
+            <div class="titles">
+                <h3>Invitación Especial</h3>
+                <h1>MURGA<br>UNIVERSITARIA</h1>
+            </div>
+
+            <div class="content">
+                <!-- Saludo principal dinámico -->
+                <p class="greeting" id="invitado-nombre">Estimado/a Autoridad Universitaria</p>
+                <p class="body-text">El arte, la cultura y la tradición nos unen. Nos complace invitarle a celebrar y compartir la alegría de nuestra mayor fiesta universitaria.</p>
+                
+                <div class="datetime">
+                    <p class="date">Miércoles 11 de Noviembre</p>
+                    <p class="time">18:00 hrs | Calles de Manta</p>
+                </div>
+            </div>
+
+            <div class="map-container">
+                <div class="map-label">Ruta del Recorrido</div>
+                <!-- Aquí está incrustado exactamente tu mapa interactivo oficial de la ruta -->
+                <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" width="100%" height="200" style="border:0; display: block;" allowfullscreen="" loading="lazy"></iframe>
+            </div>
+
+            <div class="rsvp-container">
+                <h4>CONFIRMACIÓN DE ASISTENCIA</h4>
+                <div class="options">
+                    <label class="radio-btn" id="btn-si" onclick="selectOption('yes')">
+                        <input type="radio" name="attendance" value="yes">
+                        <span>✓ Sí, asistiré</span>
+                    </label>
+                    <label class="radio-btn" id="btn-no" onclick="selectOption('no')">
+                        <input type="radio" name="attendance" value="no">
+                        <span>✗ No podré asistir</span>
+                    </label>
+                </div>
+                <button class="submit-btn" onclick="enviarConfirmacion()">ENVIAR CONFIRMACIÓN</button>
+            </div>
+            
+            <footer>
+                <p>Atentamente, FEUE ULEAM</p>
+            </footer>
+        </div>
+    </div>
+
+    <script>
+        // Animación y selección de los botones
+        function selectOption(option) {
+            document.getElementById('btn-si').classList.remove('selected');
+            document.getElementById('btn-no').classList.remove('selected');
+            
+            if(option === 'yes') {
+                document.getElementById('btn-si').classList.add('selected');
+            } else {
+                document.getElementById('btn-no').classList.add('selected');
+            }
+        }
+
+        // Simulación del envío del formulario
+        function enviarConfirmacion() {
+            const si = document.getElementById('btn-si').classList.contains('selected');
+            const no = document.getElementById('btn-no').classList.contains('selected');
+            
+            if(!si && !no) {
+                alert("Por favor, seleccione una opción antes de confirmar.");
+                return;
+            }
+            
+            // Aquí puedes conectar a una base de datos mediante JavaScript (fetch API)
+            alert("¡Muchas gracias! Su confirmación ha sido registrada exitosamente.");
+        }
+
+        // PARAMETRIZACIÓN DEL NOMBRE (El Truco para personalizar)
+        const params = new URLSearchParams(window.location.search);
+        const nombre = params.get("nombre");
+        if(nombre) {
+            document.getElementById("invitado-nombre").innerText = "Estimado/a " + nombre;
+        }
+    </script>
+</body>
+</html>
