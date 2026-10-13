@@ -3,162 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Invitación Murga ULEAM 2026</title>
-    <!-- Fuentes elegantes de Google Fonts -->
+    <title>Invitación 3D Murga ULEAM 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; display: flex; justify-content: center; background-color: #1a1a1a; font-family: 'Montserrat', sans-serif; }
+        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background-color: #111; font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow: hidden; }
         
-        /* Contenedor principal simulando la pantalla del móvil */
-        .invitation-card { width: 100%; max-width: 414px; background: linear-gradient(135deg, #0b1f42 0%, #061124 100%); color: white; min-height: 100vh; padding: 15px; box-sizing: border-box; position: relative; box-shadow: 0 10px 30px rgba(0,0,0,0.5); overflow: hidden; }
-        
-        /* Efecto de destellos sutiles en el fondo */
-        .invitation-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-image: radial-gradient(circle, rgba(224,169,34,0.1) 1px, transparent 1px); background-size: 30px 30px; z-index: 0; }
-        
-        /* Marco interior dorado */
-        .inner-border { border: 1px solid rgba(224, 169, 34, 0.6); border-radius: 12px; padding: 25px 20px; height: 100%; box-sizing: border-box; position: relative; z-index: 1; }
-        
-        /* Detalles en las esquinas del marco */
-        .corner-tl, .corner-tr, .corner-bl, .corner-br { position: absolute; width: 12px; height: 12px; border: 2px solid #e0a922; }
-        .corner-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 12px; }
-        .corner-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-top-right-radius: 12px; }
-        .corner-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 12px; }
-        .corner-br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-bottom-right-radius: 12px; }
-        
-        /* Cabecera con los logos */
-        header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 25px; }
-        .logo-feue { height: 50px; width: 50px; object-fit: cover; border-radius: 50%; border: 1px solid #e0a922;}
+        /* Fondo con animación de partículas estelares (Puro CSS) */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #061124; }
+        .star { position: absolute; background: rgba(224, 169, 34, 0.8); border-radius: 50%; animation: twinkle linear infinite; }
+        @keyframes twinkle {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            50% { opacity: 1; transform: translateY(-50vh) scale(1); box-shadow: 0 0 10px #e0a922; }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+
+        /* --- CONTENEDOR 3D --- */
+        .scene {
+            width: 100%;
+            max-width: 400px;
+            height: 90vh; /* Altura fija para emular una tarjeta física */
+            max-height: 800px;
+            perspective: 1200px; /* Crea la profundidad 3D */
+            padding: 20px;
+            box-sizing: border-box;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición suave con un pequeño rebote */
+            transform-style: preserve-3d; /* Permite que los hijos tengan 3D */
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* --- CARAS DE LA TARJETA --- */
+        .card__face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden; /* Oculta la parte de atrás al girar */
+            background: linear-gradient(135deg, #0b1f42 0%, #030a17 100%);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(224, 169, 34, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* La cara trasera se gira 180 grados de inicio */
+        .card__face--back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #030a17 0%, #0b1f42 100%);
+        }
+
+        /* Marcos Interiores */
+        .inner-border {
+            border: 1px solid rgba(224, 169, 34, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Detalles de las esquinas */
+        .corner { position: absolute; width: 12px; height: 12px; border: 2px solid #e0a922; }
+        .c-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 10px; }
+        .c-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-top-right-radius: 10px; }
+        .c-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 10px; }
+        .c-br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-bottom-right-radius: 10px; }
+
+        /* --- DISEÑO INTERIOR --- */
+        header { display: flex; justify-content: space-between; align-items: center; }
+        .logo-feue { height: 50px; width: 50px; border-radius: 50%; border: 1px solid #e0a922;}
         .logo-uleam { text-align: right; color: #e0a922; }
-        .logo-uleam .text-uleam { font-family: 'Cinzel', serif; font-size: 22px; font-weight: bold; }
-        .logo-uleam .text-41 { font-size: 24px; font-weight: 300; }
-        .logo-uleam .text-anos { font-size: 8px; letter-spacing: 2px; display: block; margin-top: -5px; }
+        .logo-uleam .text-uleam { font-family: 'Cinzel', serif; font-size: 20px; font-weight: bold; }
+        .logo-uleam .text-41 { font-size: 22px; font-weight: 300; }
+        .logo-uleam .text-anos { font-size: 7px; letter-spacing: 2px; display: block; margin-top: -3px; }
+
+        .titles { text-align: center; margin-top: 10%; }
+        .titles h3 { font-weight: 300; font-size: 14px; margin: 0; color: #fff; letter-spacing: 2px; text-transform: uppercase;}
+        .titles h1 { font-family: 'Cinzel', serif; font-size: 32px; color: #e0a922; margin: 15px 0; line-height: 1.1; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+
+        .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
+        .greeting { font-weight: 600; font-size: 16px; margin-bottom: 15px; color: #e0a922;}
+        .body-text { font-size: 13px; line-height: 1.6; color: #ccc; }
         
-        /* Títulos */
-        .titles { text-align: center; margin-bottom: 20px; }
-        .titles h3 { font-weight: 300; font-size: 14px; margin: 0; color: #fff; letter-spacing: 1px; }
-        .titles h1 { font-family: 'Cinzel', serif; font-size: 30px; color: #e0a922; margin: 10px 0 0 0; line-height: 1.1; text-shadow: 0 2px 4px rgba(0,0,0,0.5); }
-        
-        /* Contenido y texto */
-        .content { text-align: center; margin-bottom: 25px; }
-        .greeting { font-weight: 600; font-size: 14px; color: #fff; margin-bottom: 15px; }
-        .body-text { font-size: 12px; line-height: 1.6; color: #dcdcdc; padding: 0 5px; }
-        
-        /* Fecha y Hora */
         .datetime { margin-top: 20px; border-top: 1px solid rgba(224, 169, 34, 0.3); border-bottom: 1px solid rgba(224, 169, 34, 0.3); padding: 15px 0; }
-        .datetime .date { font-family: 'Cinzel', serif; font-weight: bold; color: #e0a922; font-size: 16px; margin: 0 0 5px 0; }
-        .datetime .time { font-size: 12px; margin: 0; color: #dcdcdc; }
+        .datetime .date { font-family: 'Cinzel', serif; font-weight: bold; color: #e0a922; font-size: 17px; margin: 0 0 5px 0; }
+        .datetime .time { font-size: 13px; margin: 0; color: #dcdcdc; }
+
+        /* Botones Animados */
+        .flip-btn { background: transparent; border: 1px solid #e0a922; color: #e0a922; padding: 12px; border-radius: 25px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.3s; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; }
+        .flip-btn:hover { background: rgba(224, 169, 34, 0.1); box-shadow: 0 0 15px rgba(224,169,34,0.4); }
+        .flip-btn.solid { background: linear-gradient(90deg, #d4af37, #f9d976, #d4af37); color: #0b1f42; border: none; margin-top: 15px;}
+        .flip-btn.solid:hover { transform: scale(1.02); }
+
+        /* Cara Trasera Específica */
+        .map-container { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(224, 169, 34, 0.5); height: 200px; width: 100%; margin-top: 10px; margin-bottom: 20px;}
+        .map-label { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #0b1f42; color: #fff; padding: 4px 15px; font-size: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10; border: 1px solid rgba(224, 169, 34, 0.8); border-top: none; font-weight: 600;}
         
-        /* Mapa */
-        .map-container { margin-bottom: 25px; position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(224, 169, 34, 0.5); background: #fff;}
-        .map-label { position: absolute; top: 0; left: 50%; transform: translateX(-50%); background: #0b1f42; color: #fff; padding: 4px 15px; font-size: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10; border: 1px solid rgba(224, 169, 34, 0.8); border-top: none; letter-spacing: 1px; font-weight: 600; box-shadow: 0 2px 5px rgba(0,0,0,0.3);}
-        
-        /* Formulario de Asistencia */
-        .rsvp-container { text-align: center; border: 1px solid rgba(224, 169, 34, 0.4); padding: 20px 15px; border-radius: 8px; background: rgba(0, 0, 0, 0.2); }
-        .rsvp-container h4 { margin: 0 0 15px 0; font-size: 13px; color: #fff; font-weight: 600; letter-spacing: 1px;}
-        .options { display: flex; justify-content: space-between; gap: 10px; margin-bottom: 15px; }
-        .radio-btn { flex: 1; border: 1px solid rgba(224, 169, 34, 0.5); padding: 10px 5px; border-radius: 5px; font-size: 12px; cursor: pointer; color: #fff; transition: all 0.3s ease; background: rgba(255,255,255,0.05); }
-        .radio-btn input { display: none; }
-        .radio-btn.selected { background: rgba(224, 169, 34, 0.9); color: #0b1f42; font-weight: 600; border-color: #e0a922; }
-        .submit-btn { width: 100%; background: linear-gradient(90deg, #d4af37, #f9d976, #d4af37); color: #0b1f42; font-weight: bold; padding: 12px; border: none; border-radius: 5px; font-size: 13px; cursor: pointer; transition: 0.3s; text-transform: uppercase; letter-spacing: 1px;}
-        .submit-btn:hover { opacity: 0.9; }
-        
-        /* Footer */
-        footer { text-align: center; margin-top: 25px; font-size: 11px; color: #e0a922; font-style: italic; }
+        .rsvp-container { text-align: center; }
+        .rsvp-container h4 { margin: 0 0 15px 0; font-size: 13px; color: #fff; letter-spacing: 1px;}
+        .options { display: flex; gap: 10px; margin-bottom: 15px; }
+        .radio-btn { flex: 1; border: 1px solid rgba(224, 169, 34, 0.5); padding: 12px 5px; border-radius: 5px; font-size: 12px; cursor: pointer; color: #fff; background: rgba(255,255,255,0.05); transition: 0.3s;}
+        .radio-btn.selected { background: rgba(224, 169, 34, 0.9); color: #0b1f42; font-weight: bold; border-color: #e0a922; }
+
     </style>
 </head>
 <body>
-    <div class="invitation-card">
-        <div class="inner-border">
-            <div class="corner-tl"></div><div class="corner-tr"></div><div class="corner-bl"></div><div class="corner-br"></div>
+    
+    <!-- Animación de fondo de estrellas -->
+    <div class="stars" id="stars"></div>
+
+    <div class="scene">
+        <div class="card" id="myCard">
             
-            <header>
-                <!-- Logo de FEUE (Usando tu enlace original) -->
-                <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoT2jKm57Wg2c4dPAl212-EP7HIAl11JpVkdVU57loZcfYt7A8NXA2CfXPitOwGplYNQmPtdBSymr5DOCwXn4ahh4hWgc_kFBBGvZXW5TAc736Gz_NC5T4nVkNde5ZnLbRLTXkuXGbafAApPByiIQ1gnKjk5UPki__DFevYWDl6Dq8UVpElOHZl0RUTuJz/s1280/feue.jpeg" alt="FEUE ULEAM" class="logo-feue">
-                
-                <!-- Logo Uleam 41 construido con tipografía Cinzel -->
-                <div class="logo-uleam">
-                    <span class="text-uleam">Uleam</span>
-                    <span class="text-41">41</span><br>
-                    <span class="text-anos">AÑOS</span>
-                </div>
-            </header>
+            <!-- ================= FRONT ================= -->
+            <div class="card__face card__face--front">
+                <div class="inner-border">
+                    <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+                    
+                    <header>
+                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoT2jKm57Wg2c4dPAl212-EP7HIAl11JpVkdVU57loZcfYt7A8NXA2CfXPitOwGplYNQmPtdBSymr5DOCwXn4ahh4hWgc_kFBBGvZXW5TAc736Gz_NC5T4nVkNde5ZnLbRLTXkuXGbafAApPByiIQ1gnKjk5UPki__DFevYWDl6Dq8UVpElOHZl0RUTuJz/s1280/feue.jpeg" class="logo-feue">
+                        <div class="logo-uleam"><span class="text-uleam">Uleam</span><span class="text-41">41</span><br><span class="text-anos">AÑOS</span></div>
+                    </header>
 
-            <div class="titles">
-                <h3>Invitación Especial</h3>
-                <h1>MURGA<br>UNIVERSITARIA</h1>
+                    <div class="titles">
+                        <h3>Invitación Especial</h3>
+                        <h1>MURGA<br>UNIVERSITARIA</h1>
+                    </div>
+
+                    <div class="content">
+                        <p class="greeting" id="invitado-nombre">Estimada Comunidad Universitaria</p>
+                        <p class="body-text">El arte, la cultura y la tradición nos unen. Nos complace invitarle a celebrar y compartir la alegría de nuestra mayor fiesta universitaria.</p>
+                        
+                        <div class="datetime">
+                            <p class="date">Miércoles 11 de Noviembre de 2026</p>
+                            <p class="time">18:00 hrs | Plaza Centenario</p>
+                        </div>
+                    </div>
+
+                    <button class="flip-btn" onclick="flipCard()">Dar Vuelta ↻</button>
+                </div>
             </div>
 
-            <div class="content">
-                <!-- Saludo principal dinámico -->
-                <p class="greeting" id="invitado-nombre">Estimado/a Autoridad Universitaria</p>
-                <p class="body-text">El arte, la cultura y la tradición nos unen. Nos complace invitarle a celebrar y compartir la alegría de nuestra mayor fiesta universitaria.</p>
-                
-                <div class="datetime">
-                    <p class="date">Miércoles 11 de Noviembre</p>
-                    <p class="time">18:00 hrs | Calles de Manta</p>
-                </div>
-            </div>
+            <!-- ================= BACK ================= -->
+            <div class="card__face card__face--back">
+                <div class="inner-border">
+                    <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+                    
+                    <button class="flip-btn" style="border:none; border-bottom: 1px solid rgba(224,169,34,0.3); border-radius: 0; padding: 5px 0 15px 0; margin-bottom: 10px;" onclick="flipCard()">↺ Volver a la invitación</button>
 
-            <div class="map-container">
-                <div class="map-label">Ruta del Recorrido</div>
-                <!-- Aquí está incrustado exactamente tu mapa interactivo oficial de la ruta -->
-                <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" width="100%" height="200" style="border:0; display: block;" allowfullscreen="" loading="lazy"></iframe>
-            </div>
+                    <div class="map-container">
+                        <div class="map-label">Ruta Oficial</div>
+                        <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
 
-            <div class="rsvp-container">
-                <h4>CONFIRMACIÓN DE ASISTENCIA</h4>
-                <div class="options">
-                    <label class="radio-btn" id="btn-si" onclick="selectOption('yes')">
-                        <input type="radio" name="attendance" value="yes">
-                        <span>✓ Sí, asistiré</span>
-                    </label>
-                    <label class="radio-btn" id="btn-no" onclick="selectOption('no')">
-                        <input type="radio" name="attendance" value="no">
-                        <span>✗ No podré asistir</span>
-                    </label>
+                    <div class="rsvp-container content">
+                        <h4>FORMULARIO DE ASISTENCIA</h4>
+                        <div class="options">
+                            <div class="radio-btn" id="btn-si" onclick="selectOption('yes')">✓ Sí, asistiré</div>
+                            <div class="radio-btn" id="btn-no" onclick="selectOption('no')">✗ No podré</div>
+                        </div>
+                        <button class="flip-btn solid" onclick="enviarConfirmacion()">ENVIAR RESPUESTA</button>
+                    </div>
+
+                    <div style="text-align: center; color: #e0a922; font-size: 10px; font-style: italic; margin-top: auto;">Atentamente, FEUE ULEAM</div>
                 </div>
-                <button class="submit-btn" onclick="enviarConfirmacion()">ENVIAR CONFIRMACIÓN</button>
             </div>
             
-            <footer>
-                <p>Atentamente, FEUE ULEAM</p>
-            </footer>
         </div>
     </div>
 
     <script>
-        // Animación y selección de los botones
+        // Función para girar la tarjeta en 3D
+        function flipCard() {
+            const card = document.getElementById('myCard');
+            card.classList.toggle('is-flipped');
+        }
+
+        // Función para los botones del formulario
         function selectOption(option) {
             document.getElementById('btn-si').classList.remove('selected');
             document.getElementById('btn-no').classList.remove('selected');
-            
-            if(option === 'yes') {
-                document.getElementById('btn-si').classList.add('selected');
-            } else {
-                document.getElementById('btn-no').classList.add('selected');
-            }
+            if(option === 'yes') { document.getElementById('btn-si').classList.add('selected'); }
+            else { document.getElementById('btn-no').classList.add('selected'); }
         }
 
-        // Simulación del envío del formulario
         function enviarConfirmacion() {
             const si = document.getElementById('btn-si').classList.contains('selected');
             const no = document.getElementById('btn-no').classList.contains('selected');
+            if(!si && !no) { alert("Por favor, seleccione una opción."); return; }
+            alert("¡Muchas gracias! Su respuesta ha sido registrada exitosamente.");
             
-            if(!si && !no) {
-                alert("Por favor, seleccione una opción antes de confirmar.");
-                return;
-            }
-            
-            // Aquí puedes conectar a una base de datos mediante JavaScript (fetch API)
-            alert("¡Muchas gracias! Su confirmación ha sido registrada exitosamente.");
+            // Volver a girar la tarjeta tras confirmar (Opcional)
+            setTimeout(flipCard, 1000); 
         }
 
-        // PARAMETRIZACIÓN DEL NOMBRE (El Truco para personalizar)
+        // Generar partículas estelares de fondo con Javascript
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 30; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Nombre Dinámico desde URL
         const params = new URLSearchParams(window.location.search);
         const nombre = params.get("nombre");
-        if(nombre) {
-            document.getElementById("invitado-nombre").innerText = "Estimado/a " + nombre;
-        }
+        if(nombre) { document.getElementById("invitado-nombre").innerText = "Estimado/a " + nombre; }
     </script>
 </body>
 </html>
