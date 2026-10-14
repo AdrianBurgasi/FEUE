@@ -21,7 +21,7 @@
         .scene {
             width: 100%;
             max-width: 400px;
-            height: 90vh; /* Altura fija para emular una tarjeta física */
+            height: 95vh; /* Altura fija para emular una tarjeta física */
             max-height: 800px;
             perspective: 1200px; /* Crea la profundidad 3D */
             padding: 20px;
@@ -84,17 +84,17 @@
 
         /* --- DISEÑO INTERIOR --- */
         header { display: flex; justify-content: space-between; align-items: center; }
-        .logo-feue { height: 50px; width: 50px; border-radius: 50%; border: 1px solid #e0a922;}
+        .logo-feue { display: block; width: 50px; height: 50px; object-fit: contain; border: none; border-radius: 0; background: transparent; box-shadow: none; flex-shrink: 0; transform: scale(1.5); transform-origin: left center; }
         .logo-uleam { text-align: right; color: #e0a922; }
         .logo-uleam .text-uleam { font-family: 'Cinzel', serif; font-size: 20px; font-weight: bold; }
         .logo-uleam .text-41 { font-size: 22px; font-weight: 300; }
         .logo-uleam .text-anos { font-size: 7px; letter-spacing: 2px; display: block; margin-top: -3px; }
 
-        .titles { text-align: center; margin-top: 10%; }
+        .titles { text-align: center; margin-top: 7%; }
         .titles h3 { font-weight: 300; font-size: 14px; margin: 0; color: #fff; letter-spacing: 2px; text-transform: uppercase;}
         .titles h1 { font-family: 'Cinzel', serif; font-size: 32px; color: #e0a922; margin: 15px 0; line-height: 1.1; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
 
-        .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
+        .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; transform: translateY(-6px);}
         .greeting { font-weight: 600; font-size: 16px; margin-bottom: 15px; color: #e0a922;}
         .body-text { font-size: 13px; line-height: 1.6; color: #ccc; }
         
@@ -117,6 +117,14 @@
         .options { display: flex; gap: 10px; margin-bottom: 15px; }
         .radio-btn { flex: 1; border: 1px solid rgba(224, 169, 34, 0.5); padding: 12px 5px; border-radius: 5px; font-size: 12px; cursor: pointer; color: #fff; background: rgba(255,255,255,0.05); transition: 0.3s;}
         .radio-btn.selected { background: rgba(224, 169, 34, 0.9); color: #0b1f42; font-weight: bold; border-color: #e0a922; }
+        .back-footer { text-align: center; color: #e0a922; margin-top: auto; }
+        .wallet-btn { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 25px; background: #fff; color: #202124; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .wallet-btn svg { width: 18px; height: 18px; flex: none; }
+        .back-signoff { margin: 10px 0 8px; font-size: 10px; font-style: italic; }
+        .social-links { display: flex; justify-content: center; gap: 14px; }
+        .social-links a { display: inline-flex; width: 24px; height: 24px; color: #e0a922; transition: color 0.2s, transform 0.2s; }
+        .social-links a:hover { color: #f9d976; transform: translateY(-2px); }
+        .social-links svg { width: 100%; height: 100%; fill: currentColor; }
 
     </style>
 </head>
@@ -134,7 +142,7 @@
                     <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
                     
                     <header>
-                        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoT2jKm57Wg2c4dPAl212-EP7HIAl11JpVkdVU57loZcfYt7A8NXA2CfXPitOwGplYNQmPtdBSymr5DOCwXn4ahh4hWgc_kFBBGvZXW5TAc736Gz_NC5T4nVkNde5ZnLbRLTXkuXGbafAApPByiIQ1gnKjk5UPki__DFevYWDl6Dq8UVpElOHZl0RUTuJz/s1280/feue.jpeg" class="logo-feue">
+                        <img src="https://i.imgur.com/oU9jtCF.png" class="logo-feue">
                         <div class="logo-uleam"><span class="text-uleam">Uleam</span><span class="text-41">41</span><br><span class="text-anos">AÑOS</span></div>
                     </header>
 
@@ -144,7 +152,7 @@
                     </div>
 
                     <div class="content">
-                        <p class="greeting" id="invitado-nombre">Estimada Comunidad Universitaria</p>
+                        <p class="greeting" id="invitado-nombre">Estimado/a Comunidad Universitaria</p>
                         <p class="body-text">El arte, la cultura y la tradición nos unen. Nos complace invitarle a celebrar y compartir la alegría de nuestra mayor fiesta universitaria.</p>
                         
                         <div class="datetime">
@@ -165,12 +173,12 @@
                     <button class="flip-btn" style="border:none; border-bottom: 1px solid rgba(224,169,34,0.3); border-radius: 0; padding: 5px 0 15px 0; margin-bottom: 10px;" onclick="flipCard()">↺ Volver a la invitación</button>
 
                     <div class="map-container">
-                        <div class="map-label">Ruta Oficial</div>
+                        <div class="map-label">Recorrido Oficial</div>
                         <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" width="100%" height="200" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
                     </div>
 
                     <div class="rsvp-container content">
-                        <h4>FORMULARIO DE ASISTENCIA</h4>
+                        <h4>CONFIRMACIÓN DE ASISTENCIA</h4>
                         <div class="options">
                             <div class="radio-btn" id="btn-si" onclick="selectOption('yes')">✓ Sí, asistiré</div>
                             <div class="radio-btn" id="btn-no" onclick="selectOption('no')">✗ No podré</div>
@@ -178,7 +186,21 @@
                         <button class="flip-btn solid" onclick="enviarConfirmacion()">ENVIAR RESPUESTA</button>
                     </div>
 
-                    <div style="text-align: center; color: #e0a922; font-size: 10px; font-style: italic; margin-top: auto;">Atentamente, FEUE ULEAM</div>
+                    <div class="back-footer">
+                        <a class="wallet-btn" href="https://pay.google.com/gp/v/save/eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtdXJnYS1wYXNzLTIwMjZAcHJ1ZWJhLW11cmdhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiZ29vZ2xlIiwidHlwIjoic2F2ZXRvd2FsbGV0IiwiaWF0IjoxNzkxODY1MTM5LCJwYXlsb2FkIjp7ImV2ZW50VGlja2V0T2JqZWN0cyI6W3siaWQiOiIzMzg4MDAwMDAwMDIzMjE4Mzg4Lm11cmdhX2RlMjkyNDJkIiwiY2xhc3NJZCI6IjMzODgwMDAwMDAwMjMyMTgzODguQkNSMkRONkRSTFFKWFJaQyIsInN0YXRlIjoiQUNUSVZFIiwiaGV4QmFja2dyb3VuZENvbG9yIjoiIzBiMWY0MiIsImxvZ28iOnsic291cmNlVXJpIjp7InVyaSI6Imh0dHBzOi8vYmxvZ2dlci5nb29nbGV1c2VyY29udGVudC5jb20vaW1nL2IvUjI5dloyeGwvQVZ2WHNFam9UMmpLbTU3V2cyYzRkUEFsMjEyLUVQN0hJQWwxMUpwVmtkVlU1N2xvWmNmWXQ3QThOWEEyQ2ZYUGl0T3dHcGxZTlFtUHRkQlN5bXI1RE9Dd1huNGFoaDRoV2djX2tGQkJHdlpYVzVUQWM3MzZHel9OQzVUNG5Wa05kZTVabkxiUkxUWGt1WEdiYWZBQXBQQnlpSVExZ25Lams1VVBraV9fREZldllXRGw2RHE4VVZwRWxPSFpsMFJVVHVKei9zMTI4MC9mZXVlLmpwZWcifSwiY29udGVudERlc2NyaXB0aW9uIjp7ImRlZmF1bHRWYWx1ZSI6eyJsYW5ndWFnZSI6ImVzIiwidmFsdWUiOiJMb2dvIEZFVUUgVUxFQU0ifX19LCJoZXJvSW1hZ2UiOnsic291cmNlVXJpIjp7InVyaSI6Imh0dHBzOi8vYmxvZ2dlci5nb29nbGV1c2VyY29udGVudC5jb20vaW1nL2IvUjI5dloyeGwvQVZ2WHNFam9UMmpLbTU3V2cyYzRkUEFsMjEyLUVQN0hJQWwxMUpwVmtkVlU1N2xvWmNmWXQ3QThOWEEyQ2ZYUGl0T3dHcGxZTlFtUHRkQlN5bXI1RE9Dd1huNGFoaDRoV2djX2tGQkJHdlpYVzVUQWM3MzZHel9OQzVUNG5Wa05kZTVabkxiUkxUWGt1WEdiYWZBQXBQQnlpSVExZ25Lams1VVBraV9fREZldllXRGw2RHE4VVZwRWxPSFpsMFJVVHVKei9zMTI4MC9mZXVlLmpwZWcifSwiY29udGVudERlc2NyaXB0aW9uIjp7ImRlZmF1bHRWYWx1ZSI6eyJsYW5ndWFnZSI6ImVzIiwidmFsdWUiOiJNdXJnYSBVbGVhbSAyMDI2In19fSwidGlja2V0SG9sZGVyTmFtZSI6IkFuZ2VseSBEYXlhbmEgTWFjaWFzIEVuZGFyYSIsInNlYXRJbmZvIjp7InNlY3Rpb24iOnsiZGVmYXVsdFZhbHVlIjp7Imxhbmd1YWdlIjoiZXMiLCJ2YWx1ZSI6IjEwIn19LCJyb3ciOnsiZGVmYXVsdFZhbHVlIjp7Imxhbmd1YWdlIjoiZXMiLCJ2YWx1ZSI6IjIifX0sInNlYXQiOnsiZGVmYXVsdFZhbHVlIjp7Imxhbmd1YWdlIjoiZXMiLCJ2YWx1ZSI6IkIifX19LCJiYXJjb2RlIjp7InR5cGUiOiJRUl9DT0RFIiwidmFsdWUiOiJNVVJHQS0yMDI2LURFMjkyNDJEIiwiYWx0ZXJuYXRlVGV4dCI6IkNvZGlnbyBkZSBBY2Nlc28ifSwidGV4dE1vZHVsZXNEYXRhIjpbeyJpZCI6ImNhcmdvIiwiaGVhZGVyIjoiQ2FyZ28gLyBEaWduaWRhZCIsImJvZHkiOiJSZXByZXNlbnRhbnRlIGFsIE9DUyJ9LHsiaWQiOiJpbmRpY2FjaW9uZXMiLCJoZWFkZXIiOiJQdW50byBkZSBDb25jZW50cmFjaVx1MDBmM24iLCJib2R5IjoiUGxhemEgQ2VudGVuYXJpbyBVTEVBTSAtIDE4OjAwIGhycyJ9XSwibGlua3NNb2R1bGVEYXRhIjp7InVyaXMiOlt7InVyaSI6Imh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vbWFwcy9kL2VkaXQ_bWlkPTFCQnM4UG1HcHRONEx6RjZUVE1BdGhkUHRuN1ExZFRZJnVzcD1zaGFyaW5nIiwiZGVzY3JpcHRpb24iOiJcdWQ4M2NcdWRmMTAgVmVyIEl0aW5lcmFyaW8geSBSdXRhIEludGVyYWN0aXZhIn0seyJ1cmkiOiJodHRwczovL3d3dy5nb29nbGUuY29tL21hcHMvZC9lZGl0P21pZD0xQkJzOFBtR3B0TjRMekY2VFRNQXRoZFB0bjdRMWRUWSZ1c3A9c2hhcmluZyIsImRlc2NyaXB0aW9uIjoiXHVkODNkXHVkY2NkIEFicmlyIE1hcGEgZW4gR29vZ2xlIE1hcHMifV19LCJsb2NhdGlvbnMiOlt7ImxhdGl0dWRlIjotMC45NTI1MTYsImxvbmdpdHVkZSI6LTgwLjc0NTgxM31dLCJtZXNzYWdlcyI6W3siaGVhZGVyIjoiSG9sYSwgQW5nZWx5IERheWFuYSBNYWNpYXMgRW5kYXJhIiwiYm9keSI6IlF1ZSBkaXNmcnV0ZXMgZGUgdG9kbyBlbCByZWNvcnJpZG8hIiwiZGlzcGxheUludGVydmFsIjp7InN0YXJ0Ijp7ImRhdGUiOiIyMDI2LTEwLTA5VDIxOjIwOjUxLjYyNTg2NFoifX0sIm1lc3NhZ2VUeXBlIjoiVEVYVF9BTkRfTk9USUZZIn1dfV19fQ.YtF2waU5rlZjvWA8SHUNvAwnW-75KCewmcxNUXW3o4z2mG_HBCrZB7OmxCGGfLP28tDycBJRtUa9CIc0HZ_0ha5Uxp92IZHPYYpBFp3VY6Li15alCGwCLtheza39vPk0FDKssVkZhhUZ65hQYSjiKtG2EhnyTTVsJON9VgdAsqPRowTDbllBstjOb_a7Tu1v1qnzJsWAoD1LVAtzhw93IJZjHUJRKHRCZ1ylbOKLcCotoXW3hKcvdQz5tOiuuqrIn2O8Pa-AsV-U7IcT4wVAv500t5T0G7O7acFwz6FKkAp8mIz7vjgtjz9lkZ_Y3X_MNtHut00XCRo2IjdcdK6Osg" target="_blank" rel="noopener noreferrer" aria-label="Agregar pase oficial a Google Wallet">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 12H4V7h16v10zm-2-7h-4a2 2 0 0 0 0 4h4v-2h-4v-1h4v-1zm-9-1h2v6H9v-6zm-4 0h2v6H5v-6z"/></svg>
+                            Agregar a Google Wallet
+                        </a>
+                        <p class="back-signoff">Atentamente, FEUE ULEAM</p>
+                        <div class="social-links" aria-label="Redes sociales de FEUE ULEAM">
+                            <a href="https://www.facebook.com/p/Feue-Uleam-61583981630749/" target="_blank" rel="noopener noreferrer" aria-label="Facebook de FEUE ULEAM">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.4-.2-2.6-.2-2.6 0-4.4 1.6-4.4 4.5v2.1H7v3.2h2.8V21h3.7z"/></svg>
+                            </a>
+                            <a href="https://www.instagram.com/feueuleam?utm_source=ig_web_button_share_sheet&srtk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram de FEUE ULEAM">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.3-3.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+                            </a>
+                        </div>
+                    </div>
                 </div>
             </div>
             
@@ -215,12 +237,12 @@
         for (let i = 0; i < 30; i++) {
             let star = document.createElement('div');
             star.className = 'star';
-            star.style.width = Math.random() * 3 + 'px';
+            star.style.width = Math.random() * 8 + 'px';
             star.style.height = star.style.width;
             star.style.left = Math.random() * 100 + 'vw';
             star.style.top = Math.random() * 100 + 'vh';
             star.style.animationDuration = (Math.random() * 3 + 2) + 's';
-            star.style.animationDelay = Math.random() * 5 + 's';
+            star.style.animationDelay = Math.random() * 2 + 's';
             starsContainer.appendChild(star);
         }
 
