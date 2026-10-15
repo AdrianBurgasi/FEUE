@@ -6,7 +6,7 @@
     <title>Invitación 3D Murga ULEAM 2026</title>
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <style>
-        body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background-color: #111; font-family: 'Montserrat', sans-serif; min-height: 100vh; overflow: hidden; }
+        body { margin: 0; padding: 12px 0; display: flex; justify-content: center; align-items: center; background-color: #111; font-family: 'Montserrat', sans-serif; min-height: 100vh; min-height: 100svh; box-sizing: border-box; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         
         /* Fondo con animación de partículas estelares (Puro CSS) */
         .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #061124; }
@@ -19,13 +19,13 @@
 
         /* --- CONTENEDOR 3D --- */
         .scene {
-            width: 100%;
-            max-width: 400px;
-            height: 95vh; /* Altura fija para emular una tarjeta física */
-            max-height: 800px;
+            width: min(400px, calc(100vw - 24px), calc((100svh - 24px) * 0.58));
+            height: min(690px, calc((100vw - 24px) * 1.72414), calc(100svh - 24px));
+            min-height: 0;
             perspective: 1200px; /* Crea la profundidad 3D */
             padding: 20px;
             box-sizing: border-box;
+            flex: none;
         }
 
         .card {
