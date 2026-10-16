@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Invitación 3D Murga ULEAM 2026</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        body { margin: 0; padding: 12px 0; display: flex; justify-content: center; align-items: center; background-color: #4033bb; font-family: 'Montserrat', sans-serif; min-height: 100vh; min-height: 100svh; box-sizing: border-box; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        
+        /* Fondo con animación de partículas estelares (Puro CSS) */
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #061124; }
+        .star { position: absolute; background: rgba(224, 169, 34, 0.8); border-radius: 50%; animation: twinkle linear infinite; }
+        @keyframes twinkle {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            50% { opacity: 1; transform: translateY(-50vh) scale(1); box-shadow: 0 0 10px #e0a922; }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+
+        /* --- CONTENEDOR 3D --- */
+        .scene {
+            width: min(400px, calc(100vw - 24px), calc((100svh - 24px) * 0.58));
+            height: min(690px, calc((100vw - 24px) * 1.72414), calc(100svh - 24px));
+            min-height: 0;
+            perspective: 1200px; /* Crea la profundidad 3D */
+            padding: 20px;
+            box-sizing: border-box;
+            flex: none;
+        }
+
+        .card {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 1s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Transición suave con un pequeño rebote */
+            transform-style: preserve-3d; /* Permite que los hijos tengan 3D */
+        }
+
+        .card.is-flipped {
+            transform: rotateY(180deg);
+        }
+
+        /* --- CARAS DE LA TARJETA --- */
+        .card__face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden; /* Oculta la parte de atrás al girar */
+            background: linear-gradient(360deg, #11326a 0%, #030a17 100%);
+            border-radius: 15px;
+            box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(224, 169, 34, 0.3);
+            display: flex;
+            flex-direction: column;
+            padding: 15px;
+            box-sizing: border-box;
+        }
+
+        /* La cara trasera se gira 180 grados de inicio */
+        .card__face--back {
+            transform: rotateY(180deg);
+            background: linear-gradient(135deg, #030a17 0%, #0b1f42 100%);
+        }
+
+        /* Marcos Interiores */
+        .inner-border {
+            border: 1px solid rgba(224, 169, 34, 0.6);
+            border-radius: 10px;
+            padding: 20px;
+            height: 100%;
+            box-sizing: border-box;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        /* Detalles de las esquinas */
+        .corner { position: absolute; width: 12px; height: 12px; border: 2px solid #e0a922; }
+        .c-tl { top: -2px; left: -2px; border-right: none; border-bottom: none; border-top-left-radius: 10px; }
+        .c-tr { top: -2px; right: -2px; border-left: none; border-bottom: none; border-top-right-radius: 10px; }
+        .c-bl { bottom: -2px; left: -2px; border-right: none; border-top: none; border-bottom-left-radius: 10px; }
+        .c-br { bottom: -2px; right: -2px; border-left: none; border-top: none; border-bottom-right-radius: 10px; }
+
+        /* --- DISEÑO INTERIOR --- */
+        header { display: flex; justify-content: space-between; align-items: center; }
+        .logo-feue { display: block; width: 90px; height: 90px; object-fit: contain; border: none; border-radius: 0; background: transparent; box-shadow: none; flex-shrink: 0; transform: scale(1.5); transform-origin: left center; }
+        .logo-uleam-img { display: block; width: 150px; height: 90px; object-fit: contain; object-position: right center; flex-shrink: 0; }
+
+        .titles { text-align: center; margin-top: 7%; }
+        .titles h3 { font-weight: 300; font-size: 14px; margin: 0; color: #fff; letter-spacing: 2px; text-transform: uppercase;}
+        .titles h1 { font-family: 'Cinzel', serif; font-size: 32px; color: #e0a922; margin: 15px 0; line-height: 1.1; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+
+        .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; transform: translateY(-6px);}
+        .greeting { font-weight: 600; font-size: 16px; margin-bottom: 15px; color: #e0a922;}
+        .body-text { font-size: 13px; line-height: 1.6; color: #ccc; }
+        
+        .datetime { margin-top: 20px; border-top: 1px solid rgba(224, 169, 34, 0.3); border-bottom: 1px solid rgba(224, 169, 34, 0.3); padding: 15px 0; }
+        .datetime .date { font-family: 'Cinzel', serif; font-weight: bold; color: #e0a922; font-size: 17px; margin: 0 0 5px 0; }
+        .datetime .time { font-size: 13px; margin: 0; color: #dcdcdc; }
+
+        /* Botones Animados */
+        .flip-btn { background: transparent; border: 1px solid #e0a922; color: #e0a922; padding: 12px; border-radius: 25px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.3s; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; }
+        .flip-btn:hover { background: rgba(224, 169, 34, 0.1); box-shadow: 0 0 15px rgba(224,169,34,0.4); }
+        .flip-btn.solid { background: linear-gradient(90deg, #d4af37, #f9d976, #d4af37); color: #0b1f42; border: none; margin-top: 15px;}
+        .flip-btn.solid:hover { transform: scale(1.02); }
+
+        /* Cara Trasera Específica */
+        .map-container { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(224, 169, 34, 0.5); height: 240px; width: 100%; margin-top: 10px; margin-bottom: 20px;}
+        .map-container iframe { display: block; width: 100%; height: 240px; }
+        .map-label { position: absolute; top: 0; left: 0; width: 100%; height: 64px; box-sizing: border-box; display: flex; justify-content: center; align-items: center; background: #0b1f42; color: #fff; padding: 4px 15px; font-size: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10; border: 1px solid rgba(224, 169, 34, 0.8); border-top: none; font-weight: 600;}
+        
+        .rsvp-container { text-align: center; }
+        .rsvp-container h4 { margin: 0 0 15px 0; font-size: 13px; color: #fff; letter-spacing: 1px;}
+        .options { display: flex; gap: 10px; margin-bottom: 15px; }
+        .radio-btn { flex: 1; border: 1px solid rgba(224, 169, 34, 0.5); padding: 12px 5px; border-radius: 5px; font-size: 12px; cursor: pointer; color: #fff; background: rgba(255,255,255,0.05); transition: 0.3s;}
+        .radio-btn.selected { background: rgba(224, 169, 34, 0.9); color: #0b1f42; font-weight: bold; border-color: #e0a922; }
+        .back-footer { text-align: center; color: #e0a922; margin-top: auto; }
+        .wallet-btn { display: flex; justify-content: center; align-items: center; gap: 8px; width: 100%; box-sizing: border-box; padding: 10px 12px; border-radius: 25px; background: #fff; color: #202124; font-size: 12px; font-weight: 600; text-decoration: none; }
+        .wallet-btn svg { width: 18px; height: 18px; flex: none; }
+        .back-signoff { margin: 10px 0 8px; font-size: 10px; font-style: italic; }
+        .social-links { display: flex; justify-content: center; gap: 14px; }
+        .social-links a { display: inline-flex; width: 24px; height: 24px; color: #e0a922; transition: color 0.2s, transform 0.2s; }
+        .social-links a:hover { color: #f9d976; transform: translateY(-2px); }
+        .social-links svg { width: 100%; height: 100%; fill: currentColor; }
+
+    </style>
+</head>
+<body>
+    
+    <!-- Animación de fondo de estrellas -->
+    <div class="stars" id="stars"></div>
+
+    <div class="scene">
+        <div class="card" id="myCard">
+            
+            <!-- ================= FRONT ================= -->
+            <div class="card__face card__face--front">
+                <div class="inner-border">
+                    <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+                    
+                    <header>
+                        <img src="https://i.imgur.com/Snf8bZW.png" class="logo-feue">
+                        <!-- Reemplaza esta URL por el enlace directo de la imagen del logo ULEAM. -->
+                        <img src="https://i.imgur.com/0Ae2uPs.png" class="logo-uleam-img" alt="Logo ULEAM">
+                    </header>
+
+                    <div class="titles">
+                        <h3>Invitación Especial</h3>
+                        <h1>MURGA<br>UNIVERSITARIA</h1>
+                    </div>
+
+                    <div class="content">
+                        <p class="greeting" id="invitado-nombre">Estimado/a Comunidad Universitaria</p>
+                        <p class="body-text">El arte, la cultura y la tradición nos unen. Nos complace invitarle a celebrar y compartir la alegría de nuestra mayor fiesta universitaria.</p>
+                        
+                        <div class="datetime">
+                            <p class="date">Miércoles 11 de Noviembre de 2026</p>
+                            <p class="time">17:00 hrs | Plaza Centenario</p>
+                        </div>
+                    </div>
+
+                    <button class="flip-btn" onclick="flipCard()">Dar Vuelta ↻</button>
+                </div>
+            </div>
+
+            <!-- ================= BACK ================= -->
+            <div class="card__face card__face--back">
+                <div class="inner-border">
+                    <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
+                    
+                    <button class="flip-btn" style="border:none; border-bottom: 1px solid rgba(224,169,34,0.3); border-radius: 0; padding: 5px 0 15px 0; margin-bottom: 10px;" onclick="flipCard()">↺ Volver a la invitación</button>
+
+                    <div class="map-container">
+                        <div class="map-label">Recorrido Oficial</div>
+                        <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" style="border:0;" allowfullscreen="" loading="lazy"></iframe>
+                    </div>
+
+                    <div class="rsvp-container content">
+                        <h4>CONFIRMACIÓN DE ASISTENCIA</h4>
+                        <div class="options">
+                            <div class="radio-btn" id="btn-si" onclick="selectOption('yes')">✓ Sí, asistiré</div>
+                            <div class="radio-btn" id="btn-no" onclick="selectOption('no')">✗ No podré</div>
+                        </div>
+                        <button class="flip-btn solid" onclick="enviarConfirmacion()">ENVIAR RESPUESTA</button>
+                    </div>
+
+                    <div class="back-footer">
+                        <a class="wallet-btn" href="https://pay.google.com/gp/v/save/eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJtdXJnYS1wYXNzLTIwMjZAcHJ1ZWJhLW11cmdhLmlhbS5nc2VydmljZWFjY291bnQuY29tIiwiYXVkIjoiZ29vZ2xlIiwidHlwIjoic2F2ZXRvd2FsbGV0IiwiaWF0IjoxNzkxODY1MTM5LCJwYXlsb2FkIjp7ImV2ZW50VGlja2V0T2JqZWN0cyI6W3siaWQiOiIzMzg4MDAwMDAwMDIzMjE4Mzg4Lm11cmdhX2RlMjkyNDJkIiwiY2xhc3NJZCI6IjMzODgwMDAwMDAwMjMyMTgzODguQkNSMkRONkRSTFFKWFJaQyIsInN0YXRlIjoiQUNUSVZFIiwiaGV4QmFja2dyb3VuZENvbG9yIjoiIzBiMWY0MiIsImxvZ28iOnsic291cmNlVXJpIjp7InVyaSI6Imh0dHBzOi8vYmxvZ2dlci5nb29nbGV1c2VyY29udGVudC5jb20vaW1nL2IvUjI5dloyeGwvQVZ2WHNFam9UMmpLbTU3V2cyYzRkUEFsMjEyLUVQN0hJQWwxMUpwVmtkVlU1N2xvWmNmWXQ3QThOWEEyQ2ZYUGl0T3dHcGxZTlFtUHRkQlN5bXI1RE9Dd1huNGFoaDRoV2djX2tGQkJHdlpYVzVUQWM3MzZHel9OQzVUNG5Wa05kZTVabkxiUkxUWGt1WEdiYWZBQXBQQnlpSVExZ25Lams1VVBraV9fREZldllXRGw2RHE4VVZwRWxPSFpsMFJVVHVKei9zMTI4MC9mZXVlLmpwZWcifSwiY29udGVudERlc2NyaXB0aW9uIjp7ImRlZmF1bHRWYWx1ZSI6eyJsYW5ndWFnZSI6ImVzIiwidmFsdWUiOiJMb2dvIEZFVUUgVUxFQU0ifX19LCJoZXJvSW1hZ2UiOnsic291cmNlVXJpIjp7InVyaSI6Imh0dHBzOi8vYmxvZ2dlci5nb29nbGV1c2VyY29udGVudC5jb20vaW1nL2IvUjI5dloyeGwvQVZ2WHNFam9UMmpLbTU3V2cyYzRkUEFsMjEyLUVQN0hJQWwxMUpwVmtkVlU1N2xvWmNmWXQ3QThOWEEyQ2ZYUGl0T3dHcGxZTlFtUHRkQlN5bXI1RE9Dd1huNGFoaDRoV2djX2tGQkJHdlpYVzVUQWM3MzZHel9OQzVUNG5Wa05kZTVabkxiUkxUWGt1WEdiYWZBQXBQQnlpSVExZ25Lams1VVBraV9fREZldllXRGw2RHE4VVZwRWxPSFpsMFJVVHVKei9zMTI4MC9mZXVlLmpwZWcifSwiY29udGVudERlc2NyaXB0aW9uIjp7ImRlZmF1bHRWYWx1ZSI6eyJsYW5ndWFnZSI6ImVzIiwidmFsdWUiOiJNdXJnYSBVbGVhbSAyMDI2In19fSwidGlja2V0SG9sZGVyTmFtZSI6IkFuZ2VseSBEYXlhbmEgTWFjaWFzIEVuZGFyYSIsInNlYXRJbmZvIjp7InNlY3Rpb24iOnsiZGVmYXVsdFZhbHVlIjp7Imxhbmd1YWdlIjoiZXMiLCJ2YWx1ZSI6IjEwIn19LCJyb3ciOnsiZGVmYXVsdFZhbHVlIjp7Imxhbmd1YWdlIjoiZXMiLCJ2YWx1ZSI6IjIifX0sInNlYXQiOnsiZGVmYXVsdFZhbHVlIjp7Imxhbmd1YWdlIjoiZXMiLCJ2YWx1ZSI6IkIifX19LCJiYXJjb2RlIjp7InR5cGUiOiJRUl9DT0RFIiwidmFsdWUiOiJNVVJHQS0yMDI2LURFMjkyNDJEIiwiYWx0ZXJuYXRlVGV4dCI6IkNvZGlnbyBkZSBBY2Nlc28ifSwidGV4dE1vZHVsZXNEYXRhIjpbeyJpZCI6ImNhcmdvIiwiaGVhZGVyIjoiQ2FyZ28gLyBEaWduaWRhZCIsImJvZHkiOiJSZXByZXNlbnRhbnRlIGFsIE9DUyJ9LHsiaWQiOiJpbmRpY2FjaW9uZXMiLCJoZWFkZXIiOiJQdW50byBkZSBDb25jZW50cmFjaVx1MDBmM24iLCJib2R5IjoiUGxhemEgQ2VudGVuYXJpbyBVTEVBTSAtIDE4OjAwIGhycyJ9XSwibGlua3NNb2R1bGVEYXRhIjp7InVyaXMiOlt7InVyaSI6Imh0dHBzOi8vd3d3Lmdvb2dsZS5jb20vbWFwcy9kL2VkaXQ_bWlkPTFCQnM4UG1HcHRONEx6RjZUVE1BdGhkUHRuN1ExZFRZJnVzcD1zaGFyaW5nIiwiZGVzY3JpcHRpb24iOiJcdWQ4M2NcdWRmMTAgVmVyIEl0aW5lcmFyaW8geSBSdXRhIEludGVyYWN0aXZhIn0seyJ1cmkiOiJodHRwczovL3d3dy5nb29nbGUuY29tL21hcHMvZC9lZGl0P21pZD0xQkJzOFBtR3B0TjRMekY2VFRNQXRoZFB0bjdRMWRUWSZ1c3A9c2hhcmluZyIsImRlc2NyaXB0aW9uIjoiXHVkODNkXHVkY2NkIEFicmlyIE1hcGEgZW4gR29vZ2xlIE1hcHMifV19LCJsb2NhdGlvbnMiOlt7ImxhdGl0dWRlIjotMC45NTI1MTYsImxvbmdpdHVkZSI6LTgwLjc0NTgxM31dLCJtZXNzYWdlcyI6W3siaGVhZGVyIjoiSG9sYSwgQW5nZWx5IERheWFuYSBNYWNpYXMgRW5kYXJhIiwiYm9keSI6IlF1ZSBkaXNmcnV0ZXMgZGUgdG9kbyBlbCByZWNvcnJpZG8hIiwiZGlzcGxheUludGVydmFsIjp7InN0YXJ0Ijp7ImRhdGUiOiIyMDI2LTEwLTA5VDIxOjIwOjUxLjYyNTg2NFoifX0sIm1lc3NhZ2VUeXBlIjoiVEVYVF9BTkRfTk9USUZZIn1dfV19fQ.YtF2waU5rlZjvWA8SHUNvAwnW-75KCewmcxNUXW3o4z2mG_HBCrZB7OmxCGGfLP28tDycBJRtUa9CIc0HZ_0ha5Uxp92IZHPYYpBFp3VY6Li15alCGwCLtheza39vPk0FDKssVkZhhUZ65hQYSjiKtG2EhnyTTVsJON9VgdAsqPRowTDbllBstjOb_a7Tu1v1qnzJsWAoD1LVAtzhw93IJZjHUJRKHRCZ1ylbOKLcCotoXW3hKcvdQz5tOiuuqrIn2O8Pa-AsV-U7IcT4wVAv500t5T0G7O7acFwz6FKkAp8mIz7vjgtjz9lkZ_Y3X_MNtHut00XCRo2IjdcdK6Osg" target="_blank" rel="noopener noreferrer" aria-label="Agregar pase oficial a Google Wallet">
+                            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M20 5H4c-1.1 0-2 .9-2 2v10c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V7c0-1.1-.9-2-2-2zm0 12H4V7h16v10zm-2-7h-4a2 2 0 0 0 0 4h4v-2h-4v-1h4v-1zm-9-1h2v6H9v-6zm-4 0h2v6H5v-6z"/></svg>
+                            Agregar a Google Wallet
+                        </a>
+                        <p class="back-signoff">Atentamente, FEUE ULEAM</p>
+                        <div class="social-links" aria-label="Redes sociales de FEUE ULEAM">
+                            <a href="https://www.facebook.com/p/Feue-Uleam-61583981630749/" target="_blank" rel="noopener noreferrer" aria-label="Facebook de FEUE ULEAM">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M13.5 21v-8.2h2.8l.4-3.2h-3.2v-2c0-.9.3-1.5 1.6-1.5h1.7V3.2c-.3 0-1.4-.2-2.6-.2-2.6 0-4.4 1.6-4.4 4.5v2.1H7v3.2h2.8V21h3.7z"/></svg>
+                            </a>
+                            <a href="https://www.instagram.com/feueuleam?utm_source=ig_web_button_share_sheet&srtk=ZDNlZDc0MzIxNw==" target="_blank" rel="noopener noreferrer" aria-label="Instagram de FEUE ULEAM">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M7 2h10a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5H7a5 5 0 0 1-5-5V7a5 5 0 0 1 5-5zm0 2a3 3 0 0 0-3 3v10a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V7a3 3 0 0 0-3-3H7zm5 3a5 5 0 1 1 0 10 5 5 0 0 1 0-10zm0 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm5.3-3.2a1.2 1.2 0 1 1 0 2.4 1.2 1.2 0 0 1 0-2.4z"/></svg>
+                            </a>
+                            <a href="https://www.tiktok.com/@feueuleam?is_from_webapp=1&sender_device=pc" target="_blank" rel="noopener noreferrer" aria-label="TikTok de FEUE ULEAM">
+                                <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M19.59 6.69a4.83 4.83 0 0 1-3.77-4.25V2h-3.45v13.67a2.9 2.9 0 0 1-2.9 2.9 2.9 2.9 0 1 1 2.9-2.9c0-.16-.01-.32-.04-.47V11.7a6.27 6.27 0 1 0 3.49 5.62V9.83a8.22 8.22 0 0 0 4.81 1.55V7.94c-.36 0-.71-.04-1.04-.12z"/></svg>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+        </div>
+    </div>
+
+    <script>
+        // Función para girar la tarjeta en 3D
+        function flipCard() {
+            const card = document.getElementById('myCard');
+            card.classList.toggle('is-flipped');
+        }
+
+        // Función para los botones del formulario
+        function selectOption(option) {
+            document.getElementById('btn-si').classList.remove('selected');
+            document.getElementById('btn-no').classList.remove('selected');
+            if(option === 'yes') { document.getElementById('btn-si').classList.add('selected'); }
+            else { document.getElementById('btn-no').classList.add('selected'); }
+        }
+
+        function enviarConfirmacion() {
+            const si = document.getElementById('btn-si').classList.contains('selected');
+            const no = document.getElementById('btn-no').classList.contains('selected');
+            if(!si && !no) { alert("Por favor, seleccione una opción."); return; }
+            alert("¡Muchas gracias! Estamos seguros de que la experiencia superará tus expectativas!.");
+            
+            // Volver a girar la tarjeta tras confirmar (Opcional)
+            setTimeout(flipCard, 1000); 
+        }
+
+        // Generar partículas estelares de fondo con Javascript
+        const starsContainer = document.getElementById('stars');
+        for (let i = 0; i < 30; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 8 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDuration = (Math.random() * 3 + 2) + 's';
+            star.style.animationDelay = Math.random() * 2 + 's';
+            starsContainer.appendChild(star);
+        }
+
+        // Nombre Dinámico desde URL
+        const params = new URLSearchParams(window.location.search);
+        const nombre = params.get("nombre");
+        if(nombre) { document.getElementById("invitado-nombre").innerText = "Estimado/a " + nombre; }
+    </script>
+</body>
+</html>
