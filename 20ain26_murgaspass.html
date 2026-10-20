@@ -7,10 +7,10 @@
     <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
     <meta name="robots" content="noindex, nofollow">
     <style>
-        body { margin: 0; padding: 12px 0; display: flex; justify-content: center; align-items: center; background-color: #310306; font-family: 'Montserrat', sans-serif; min-height: 100vh; min-height: 100svh; box-sizing: border-box; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+        body { margin: 0; padding: 12px 0; display: flex; justify-content: center; align-items: center; background-color: #4033bb; font-family: 'Montserrat', sans-serif; min-height: 100vh; min-height: 100svh; box-sizing: border-box; overflow-x: hidden; -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
         
         /* Fondo con animación de partículas estelares (Puro CSS) */
-        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #310306; }
+        .stars { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; background: #061124; }
         .star { position: absolute; background: rgba(224, 169, 34, 0.8); border-radius: 50%; animation: twinkle linear infinite; }
         @keyframes twinkle {
             0% { transform: translateY(0) scale(0.5); opacity: 0; }
@@ -48,7 +48,11 @@
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden; /* Oculta la parte de atrás al girar */
-            background: linear-gradient(360deg, #11326a 0%, #030a17 100%);
+            background-color: #79090d;
+            background-image:
+                radial-gradient(ellipse at 50% 35%, rgba(205, 70, 15, 0.24), transparent 62%),
+                repeating-linear-gradient(135deg, rgba(255, 205, 94, 0.025) 0 1px, transparent 1px 5px),
+                linear-gradient(160deg, #9a170d 0%, #71070b 56%, #4c0309 100%);
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(224, 169, 34, 0.3);
             display: flex;
@@ -60,48 +64,24 @@
         /* La cara trasera se gira 180 grados de inicio */
         .card__face--back {
             transform: rotateY(180deg);
-            background: linear-gradient(135deg, #030a17 0%, #0b1f42 100%);
+            background: linear-gradient(135deg, #9a170d 0%, #71070b 56%);
         }
-
-        .card__face--front {
-            background-color: #79090d;
-            background-image:
-                radial-gradient(ellipse at 50% 35%, rgba(205, 70, 15, 0.24), transparent 62%),
-                repeating-linear-gradient(135deg, rgba(255, 205, 94, 0.025) 0 1px, transparent 1px 5px),
-                linear-gradient(160deg, #9a170d 0%, #71070b 56%, #4c0309 100%);
-        }
-
-        .card__face--front::before {
-            content: "";
-            position: absolute;
-            inset: 7px;
-            border: 1px solid rgba(255, 213, 112, 0.55);
-            border-radius: 11px;
-            pointer-events: none;
-        }
-
-        .card__face--front .inner-border {
-            border-color: rgba(255, 220, 145, 0.8);
-        }
-
         .background-art {
             position: absolute;
             z-index: 0;
             width: 34%;
             height: 43%;
-            object-fit: contain;
-            opacity: 0.34;
-            pointer-events: none;
+            object-fit: cover;
+            opacity: 0.40;
             filter: saturate(0.85);
         }
 
         .background-art--left { left: -10px; top: 30%; }
         .background-art--right { right: -10px; top: 27%; }
-        .card__face--front .inner-border > :not(.background-art) { position: relative; z-index: 1; }
 
         /* Marcos Interiores */
         .inner-border {
-            border: 1px solid rgba(224, 169, 34, 0.6);
+            border: 1px solid rgba(255, 220, 145, 0.8);
             border-radius: 10px;
             padding: 20px;
             height: 100%;
@@ -123,41 +103,20 @@
         header { display: flex; justify-content: space-between; align-items: center; }
         .logo-feue { display: block; width: 90px; height: 90px; object-fit: contain; border: none; border-radius: 0; background: transparent; box-shadow: none; flex-shrink: 0; transform: scale(1.5); transform-origin: left center; }
         .logo-uleam-img { display: block; width: 150px; height: 90px; object-fit: contain; object-position: right center; flex-shrink: 0; }
+        .murga-emblem { display: block; position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 190px; object-fit: contain; align-self: center; margin: 1px auto -3px; filter: drop-shadow(0 5px 10px rgba(30, 0, 0, 0.45)); }
 
-        .titles { text-align: center; margin-top: 7%; }
-        .titles h3 { font-weight: 300; font-size: 14px; margin: 0; color: #fff; letter-spacing: 2px; text-transform: uppercase;}
-        .titles h1 { font-family: 'Cinzel', serif; font-size: 32px; color: #e0a922; margin: 15px 0; line-height: 1.1; text-shadow: 0 4px 10px rgba(0,0,0,0.8); }
+        .titles { text-align: center; margin-top: 0.5%; }
+        .titles h3 { font-weight: 300; white-space: nowrap; position: absolute; top: 17%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; margin: 0; color: #ffe1a0; letter-spacing: 2px; text-transform: uppercase;}
+        .titles h1 { font-family: 'Cinzel', serif; font-size: 25px; color: #fff4d3; margin: 6px 0; line-height: 1.1; text-shadow: 0 3px 8px rgba(35, 0, 0, 0.75); }
 
-        .card__face--front header { min-height: 70px; }
-        .card__face--front .logo-feue { width: 70px; height: 70px; transform: scale(1.35); }
-        .card__face--front .logo-uleam-img { width: 122px; height: 70px; }
-        .murga-emblem { display: block; width: 86px; height: 116px; object-fit: contain; align-self: center; margin: 1px auto -3px; filter: drop-shadow(0 5px 10px rgba(30, 0, 0, 0.45)); }
-        .card__face--front .titles { margin-top: 3px; }
-        .card__face--front .titles h3 { color: #ffe1a0; font-size: 12px; letter-spacing: 2.5px; }
-        .card__face--front .titles h1 { color: #fff4d3; font-size: 23px; margin: 6px 0; text-shadow: 0 3px 8px rgba(35, 0, 0, 0.75); }
-        .card__face--front .greeting { color: #fff0c1; font-size: 15px; margin-bottom: 12px; }
-        .card__face--front .body-text { color: rgba(255, 247, 228, 0.9); font-size: 12px; line-height: 1.5; }
-        .card__face--front .datetime { margin-top: 12px; background: rgba(255, 244, 215, 0.97); border: 1px solid #e5b52c; border-radius: 10px; padding: 8px; box-shadow: inset 0 0 0 2px rgba(174, 119, 20, 0.12); }
-        .card__face--front .datetime .date { color: #71100c; font-size: 15px; }
-        .card__face--front .datetime .time { color: #51211b; }
-        .card__face--front .flip-btn { color: #fff0c1; border-color: rgba(255, 220, 145, 0.8); }
-        .card__face--front .flip-btn:hover { background: rgba(255, 220, 145, 0.12); box-shadow: 0 0 15px rgba(255, 207, 104, 0.3); }
-
-        @media (max-width: 360px) {
-            body { align-items: flex-start; }
-            .scene { width: min(400px, calc(100vw - 24px)); height: 690px; }
-            .card__face--front header { min-height: 64px; }
-            .card__face--front .logo-feue { width: 60px; height: 60px; transform: scale(1.2); }
-            .card__face--front .logo-uleam-img { width: 105px; height: 64px; }
-        }
-
-        .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center; transform: translateY(-6px);}
-        .greeting { font-weight: 600; font-size: 16px; margin-bottom: 15px; color: #e0a922;}
-        .body-text { font-size: 13px; line-height: 1.6; color: #ccc; }
+        .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
+        .card__face--front .content { transform: translateY(18%); pointer-events: none; }
+        .greeting { font-weight: 600; font-size: 15px; margin-bottom: 12px; color: #e0a922;}
+        .body-text { font-size: 12px; line-height: 1.5; color: rgba(255, 247, 228, 0.9); }
         
-        .datetime { margin-top: 20px; border-top: 1px solid rgba(224, 169, 34, 0.3); border-bottom: 1px solid rgba(224, 169, 34, 0.3); padding: 15px 0; }
-        .datetime .date { font-family: 'Cinzel', serif; font-weight: bold; color: #e0a922; font-size: 17px; margin: 0 0 5px 0; }
-        .datetime .time { font-size: 13px; margin: 0; color: #dcdcdc; }
+        .datetime { margin-top: 15px; background: rgba(255, 244, 215, 0.97);border-top: 1px solid #e5b52c; border-radius: 10px; border-bottom: 1px solid rgba(224, 169, 34, 0.3); padding: 8px 0; box-shadow: inset 0 0 0 2px rgba(174, 119, 20, 0.12); }
+        .datetime .date { font-family: 'Cinzel', serif; font-weight: bold; color: #71100c; font-size: 17px; margin: 0 0 5px 0; }
+        .datetime .time { font-size: 16px; margin: 0; color: #51211b; }
 
         /* Botones Animados */
         .flip-btn { background: transparent; border: 1px solid #e0a922; color: #e0a922; padding: 12px; border-radius: 25px; font-family: 'Montserrat', sans-serif; font-size: 12px; font-weight: bold; text-transform: uppercase; cursor: pointer; transition: all 0.3s; letter-spacing: 1px; display: flex; justify-content: center; align-items: center; gap: 10px; width: 100%; box-sizing: border-box; }
@@ -168,7 +127,7 @@
         /* Cara Trasera Específica */
         .map-container { position: relative; border-radius: 8px; overflow: hidden; border: 1px solid rgba(224, 169, 34, 0.5); height: 240px; width: 100%; margin-top: 10px; margin-bottom: 20px;}
         .map-container iframe { display: block; width: 100%; height: 240px; }
-        .map-label { position: absolute; top: 0; left: 0; width: 100%; height: 64px; box-sizing: border-box; display: flex; justify-content: center; align-items: center; background: #0b1f42; color: #fff; padding: 4px 15px; font-size: 10px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10; border: 1px solid rgba(224, 169, 34, 0.8); border-top: none; font-weight: 600;}
+        .map-label { position: absolute; top: 0; left: 0; width: 100%; height: 64px; box-sizing: border-box; display: flex; justify-content: center; align-items: center; background: #51211b; color: #fff; padding: 4px 15px; font-size: 12px; border-bottom-left-radius: 8px; border-bottom-right-radius: 8px; z-index: 10; border: 1px solid rgba(224, 169, 34, 0.8); border-top: none; font-weight: 600;}
         
         .rsvp-container { text-align: center; }
         .rsvp-container h4 { margin: 0 0 15px 0; font-size: 13px; color: #fff; letter-spacing: 1px;}
@@ -200,18 +159,17 @@
                     <div class="corner c-tl"></div><div class="corner c-tr"></div><div class="corner c-bl"></div><div class="corner c-br"></div>
                     <img class="background-art background-art--left" src="assets/murga-art-left.png" alt="" aria-hidden="true">
                     <img class="background-art background-art--right" src="assets/murga-art-right.png" alt="" aria-hidden="true">
-                    
+
                     <header>
-                        <img src="https://i.imgur.com/Snf8bZW.png" class="logo-feue" alt="Logo FEUE ULEAM">
+                        <img src="https://i.imgur.com/Snf8bZW.png" class="logo-feue">
                         <!-- Reemplaza esta URL por el enlace directo de la imagen del logo ULEAM. -->
                         <img src="https://i.imgur.com/0Ae2uPs.png" class="logo-uleam-img" alt="Logo ULEAM">
+                        <img class="murga-emblem" src="https://i.imgur.com/31NxxwK.png" alt="Emblema Murga ULEAM 2026">
                     </header>
-
-                    <img class="murga-emblem" src="assets/murga-logo.png" alt="Emblema Murga ULEAM 2026">
 
                     <div class="titles">
                         <h3>Invitación Especial</h3>
-                        <h1>MURGA<br>UNIVERSITARIA</h1>
+                        <h1><br></h1>
                     </div>
 
                     <div class="content">
