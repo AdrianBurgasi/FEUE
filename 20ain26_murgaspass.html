@@ -48,11 +48,11 @@
             height: 100%;
             -webkit-backface-visibility: hidden;
             backface-visibility: hidden; /* Oculta la parte de atrás al girar */
-            background-color: #79090d;
+            background-color: #670c0f;
             background-image:
                 radial-gradient(ellipse at 50% 35%, rgba(205, 70, 15, 0.24), transparent 62%),
                 repeating-linear-gradient(135deg, rgba(255, 205, 94, 0.025) 0 1px, transparent 1px 5px),
-                linear-gradient(160deg, #9a170d 0%, #71070b 56%, #4c0309 100%);
+                linear-gradient(160deg, #75120a 0%, #71070b 56%, #4c0309 100%);
             border-radius: 15px;
             box-shadow: 0 20px 50px rgba(0,0,0,0.8), inset 0 0 0 1px rgba(224, 169, 34, 0.3);
             display: flex;
@@ -101,12 +101,12 @@
 
         /* --- DISEÑO INTERIOR --- */
         header { display: flex; justify-content: space-between; align-items: center; }
-        .logo-feue { display: block; width: 90px; height: 90px; object-fit: contain; border: none; border-radius: 0; background: transparent; box-shadow: none; flex-shrink: 0; transform: scale(1.5); transform-origin: left center; }
-        .logo-uleam-img { display: block; width: 150px; height: 90px; object-fit: contain; object-position: right center; flex-shrink: 0; }
-        .murga-emblem { display: block; position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 190px; object-fit: contain; align-self: center; margin: 1px auto -3px; filter: drop-shadow(0 5px 10px rgba(30, 0, 0, 0.45)); }
+        .logo-feue { display: block; width: 90px; height: 90px; object-fit: contain; border: none; border-radius: 0; background: transparent; box-shadow: none; flex-shrink: 0; transform: scale(1.5); transform-origin: left center; filter: brightness(1.15) contrast(1.2) }
+        .logo-uleam-img { display: block; width: 150px; height: 90px; object-fit: contain; object-position: right center; flex-shrink: 0; filter: brightness(1.1) contrast(1.1) }
+        .murga-emblem { display: block; position: absolute; top: 35%; left: 50%; transform: translate(-50%, -50%); width: 250px; height: 220px; object-fit: contain; align-self: center; margin: 1px auto -3px; filter: drop-shadow(0 5px 10px rgba(30, 0, 0, 0.45)); }
 
         .titles { text-align: center; margin-top: 0.5%; }
-        .titles h3 { font-weight: 300; white-space: nowrap; position: absolute; top: 17%; left: 50%; transform: translate(-50%, -50%); font-size: 14px; margin: 0; color: #ffe1a0; letter-spacing: 2px; text-transform: uppercase;}
+        .titles h3 { font: times; font-weight: 520; white-space: nowrap; position: absolute; top: 17%; left: 50%; transform: translate(-50%, -50%); font-size: 15px; margin: 0; color: #f6d5b5; letter-spacing: 2px; text-transform: uppercase;}
         .titles h1 { font-family: 'Cinzel', serif; font-size: 25px; color: #fff4d3; margin: 6px 0; line-height: 1.1; text-shadow: 0 3px 8px rgba(35, 0, 0, 0.75); }
 
         .content { text-align: center; color: #fff; flex-grow: 1; display: flex; flex-direction: column; justify-content: center;}
@@ -164,7 +164,7 @@
                         <img src="https://i.imgur.com/Snf8bZW.png" class="logo-feue">
                         <!-- Reemplaza esta URL por el enlace directo de la imagen del logo ULEAM. -->
                         <img src="https://i.imgur.com/0Ae2uPs.png" class="logo-uleam-img" alt="Logo ULEAM">
-                        <img class="murga-emblem" src="https://i.imgur.com/31NxxwK.png" alt="Emblema Murga ULEAM 2026">
+                        <img class="murga-emblem" src="assets/logo_murga_2026.png" alt="Emblema Murga ULEAM 2026">
                     </header>
 
                     <div class="titles">
