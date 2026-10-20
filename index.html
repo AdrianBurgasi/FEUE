@@ -47,9 +47,9 @@
 
         /* BARRA DE NAVEGACIÓN (HEADER) */
         header {
-            position: fixed;
-            top: 0; left: 0; width: 100%;
-            padding: 15px 5vw;
+            position: relative;
+            width: 100%;
+            padding: 5px 5vw;
             box-sizing: border-box;
             display: flex;
             justify-content: space-between;
@@ -59,26 +59,24 @@
             border-bottom: 1px solid rgba(224, 169, 34, 0.2);
             z-index: 100;
         }
-        .logo-feue { height: 45px; width: 45px; border-radius: 50%; border: 1px solid var(--gold); object-fit: cover; }
-        .logo-uleam { text-align: right; color: var(--gold); line-height: 1; }
-        .logo-uleam .text-uleam { font-family: 'Cinzel', serif; font-size: 18px; font-weight: bold; }
-        .logo-uleam .text-41 { font-size: 20px; font-weight: 300; }
-        .logo-uleam .text-anos { font-size: 7px; letter-spacing: 2px; display: block; margin-top: 2px; }
+        .logo-feue { display: flex; width: 100px; height: 210px; object-fit: contain; border: none; border-radius: 0; background: transparent; box-shadow: none; flex-shrink: 0; transform: scale(1.5); transform-origin: left center; }
+        .logo-uleam-img { display: flex; width: 140px; height: 210px; object-fit: contain; object-position: right center; flex-shrink: 0; }
 
         /* SECCIÓN HERO (PORTADA) */
         .hero {
             position: relative;
             z-index: 0;
-            min-height: 100vh;
-            min-height: 100svh;
+            min-height: calc(100vh - 221px);
+            min-height: calc(100svh - 221px);
             display: flex;
             flex-direction: column;
             justify-content: center;
             align-items: center;
             text-align: center;
-            padding: 80px 5vw 40px;
+            padding: 24px 5vw 32px;
             box-sizing: border-box;
         }
+        .hero-content { transform: translateY(calc(clamp(32px, 10vh, 80px) * -1)); }
         .hero-subtitle {
             font-size: clamp(12px, 3vw, 16px);
             letter-spacing: 3px;
@@ -261,22 +259,22 @@
 
     <!-- Navegación -->
     <header>
-        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoT2jKm57Wg2c4dPAl212-EP7HIAl11JpVkdVU57loZcfYt7A8NXA2CfXPitOwGplYNQmPtdBSymr5DOCwXn4ahh4hWgc_kFBBGvZXW5TAc736Gz_NC5T4nVkNde5ZnLbRLTXkuXGbafAApPByiIQ1gnKjk5UPki__DFevYWDl6Dq8UVpElOHZl0RUTuJz/s1280/feue.jpeg" alt="Logo FEUE" class="logo-feue">
-        <div class="logo-uleam">
-            <span class="text-uleam">Uleam</span><span class="text-41">41</span><br>
-            <span class="text-anos">AÑOS</span>
-        </div>
+        <img src="https://i.imgur.com/Snf8bZW.png" class="logo-feue">
+                        <!-- Reemplaza esta URL por el enlace directo de la imagen del logo ULEAM. -->
+        <img src="https://i.imgur.com/0Ae2uPs.png" class="logo-uleam-img" alt="Logo ULEAM">
     </header>
 
     <!-- Portada Principal -->
     <section class="hero">
-        <div class="hero-subtitle" data-parallax>Tradición, Arte y Cultura</div>
-        <h1 class="hero-title" data-parallax>MURGA<br><span>UNIVERSITARIA</span></h1>
-        <p class="hero-desc" data-parallax>Únete a la celebración pública más grande de Manta. La Universidad Laica Eloy Alfaro de Manabí abre sus puertas para llenar las calles de música, carros alegóricos y alegría estudiantil.</p>
-        
-        <div class="hero-actions" data-parallax>
-            <a href="#ruta" class="btn">Ver Ruta Oficial</a>
-            <a href="#detalles" class="btn btn-outline">Conocer Más</a>
+        <div class="hero-content">
+            <div class="hero-subtitle" data-parallax>Tradición, Arte y Cultura</div>
+            <h1 class="hero-title" data-parallax>MURGA<br><span>UNIVERSITARIA</span></h1>
+            <p class="hero-desc" data-parallax>Únete a la celebración pública más grande de Manta. La Universidad Laica Eloy Alfaro de Manabí abre sus puertas para llenar las calles de música, carros alegóricos y alegría estudiantil.</p>
+            
+            <div class="hero-actions" data-parallax>
+                <a href="#ruta" class="btn">Ver Ruta Oficial</a>
+                <a href="#detalles" class="btn btn-outline">Conocer Más</a>
+            </div>
         </div>
     </section>
 
