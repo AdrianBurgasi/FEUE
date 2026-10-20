@@ -3,22 +3,282 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
-    <!-- Bloqueo de indexación vital para la raíz del sitio -->
-    <meta name="robots" content="noindex, nofollow">
-    <title>Redirigiendo...</title>
+    <title>Murga Universitaria ULEAM 2026 | FEUE</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        /* RESET Y VARIABLES */
+        :root {
+            --primary: #0b1f42;
+            --secondary: #030a17;
+            --gold: #e0a922;
+            --text-light: #f4f4f4;
+            --text-muted: #cccccc;
+        }
 
-    <!-- Método 1: Redirección nativa en HTML (el '0' indica los segundos de espera) -->
-    <meta http-equiv="refresh" content="0; url=https://www.uleam.edu.ec/">
+        html, body {
+            margin: 0;
+            padding: 0;
+            width: 100%;
+            background-color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--text-light);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
 
-    <!-- Método 2: Redirección por JavaScript (actúa como respaldo de seguridad) -->
-    <script>
-        window.location.replace("https://www.uleam.edu.ec/");
-    </script>
+        /* FONDO ESTELAR ANIMADO */
+        .stars-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background: radial-gradient(ellipse at bottom, var(--primary) 0%, var(--secondary) 100%);
+        }
+        .star {
+            position: absolute;
+            background: rgba(224, 169, 34, 0.6);
+            border-radius: 50%;
+            animation: twinkle linear infinite;
+        }
+        @keyframes twinkle {
+            0% { transform: translateY(0) scale(0.5); opacity: 0; }
+            50% { opacity: 1; transform: translateY(-50vh) scale(1.2); box-shadow: 0 0 10px var(--gold); }
+            100% { transform: translateY(-100vh) scale(0.5); opacity: 0; }
+        }
+
+        /* BARRA DE NAVEGACIÓN (HEADER) */
+        header {
+            position: fixed;
+            top: 0; left: 0; width: 100%;
+            padding: 15px 5vw;
+            box-sizing: border-box;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: rgba(3, 10, 23, 0.9);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(224, 169, 34, 0.2);
+            z-index: 100;
+        }
+        .logo-feue { height: 45px; width: 45px; border-radius: 50%; border: 1px solid var(--gold); object-fit: cover; }
+        .logo-uleam { text-align: right; color: var(--gold); line-height: 1; }
+        .logo-uleam .text-uleam { font-family: 'Cinzel', serif; font-size: 18px; font-weight: bold; }
+        .logo-uleam .text-41 { font-size: 20px; font-weight: 300; }
+        .logo-uleam .text-anos { font-size: 7px; letter-spacing: 2px; display: block; margin-top: 2px; }
+
+        /* SECCIÓN HERO (PORTADA) */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 80px 5vw 40px;
+            box-sizing: border-box;
+        }
+        .hero-subtitle {
+            font-size: clamp(12px, 3vw, 16px);
+            letter-spacing: 3px;
+            text-transform: uppercase;
+            color: var(--gold);
+            margin-bottom: 10px;
+            font-weight: 300;
+        }
+        .hero-title {
+            font-family: 'Cinzel', serif;
+            font-size: clamp(36px, 8vw, 70px);
+            line-height: 1.1;
+            margin: 0 0 20px 0;
+            color: #fff;
+            text-shadow: 0 5px 15px rgba(0,0,0,0.8);
+        }
+        .hero-title span { color: var(--gold); }
+        .hero-desc {
+            font-size: clamp(14px, 3vw, 18px);
+            max-width: 600px;
+            line-height: 1.6;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+        }
+
+        /* BOTONES */
+        .btn {
+            display: inline-block;
+            padding: 15px 30px;
+            background: linear-gradient(90deg, #d4af37, #f9d976, #d4af37);
+            color: var(--primary);
+            text-decoration: none;
+            font-weight: bold;
+            border-radius: 30px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 14px;
+            transition: all 0.3s;
+            box-shadow: 0 5px 15px rgba(224, 169, 34, 0.3);
+        }
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(224, 169, 34, 0.5);
+        }
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            box-shadow: none;
+            margin-left: 10px;
+        }
+        .btn-outline:hover {
+            background: rgba(224, 169, 34, 0.1);
+        }
+
+        /* SECCIÓN DE INFORMACIÓN (TARJETAS) */
+        .info-section {
+            padding: 60px 5vw;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
+        .section-title {
+            text-align: center;
+            font-family: 'Cinzel', serif;
+            color: var(--gold);
+            font-size: clamp(24px, 5vw, 36px);
+            margin-bottom: 40px;
+        }
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 20px;
+        }
+        .card {
+            background: rgba(11, 31, 66, 0.5);
+            border: 1px solid rgba(224, 169, 34, 0.3);
+            border-radius: 15px;
+            padding: 30px 20px;
+            text-align: center;
+            backdrop-filter: blur(5px);
+            transition: transform 0.3s;
+        }
+        .card:hover { transform: translateY(-5px); border-color: var(--gold); }
+        .card-icon { font-size: 40px; margin-bottom: 15px; }
+        .card h3 { color: var(--gold); font-family: 'Cinzel', serif; margin-top: 0; }
+        .card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin: 0; }
+
+        /* SECCIÓN DEL MAPA */
+        .map-section {
+            padding: 60px 5vw;
+            background: rgba(3, 10, 23, 0.8);
+            border-top: 1px solid rgba(224, 169, 34, 0.2);
+            border-bottom: 1px solid rgba(224, 169, 34, 0.2);
+        }
+        .map-container {
+            max-width: 900px;
+            margin: 0 auto;
+            border-radius: 15px;
+            overflow: hidden;
+            border: 2px solid rgba(224, 169, 34, 0.5);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+            height: 400px;
+            position: relative;
+        }
+        .map-container iframe { width: 100%; height: 100%; border: none; }
+
+        /* FOOTER */
+        footer {
+            text-align: center;
+            padding: 40px 20px;
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        footer span { color: var(--gold); font-family: 'Cinzel', serif; font-size: 14px; }
+
+        /* RESPONSIVE AJUSTES */
+        @media (max-width: 600px) {
+            .hero-actions { display: flex; flex-direction: column; gap: 15px; }
+            .btn-outline { margin-left: 0; }
+            .map-container { height: 300px; }
+        }
+    </style>
 </head>
-<body style="background-color: #111; color: white; font-family: sans-serif; text-align: center; padding-top: 20vh;">
-    <!-- Mensaje visible solo si la redirección falla por una conexión muy lenta -->
-    <p>Redirigiendo al sitio oficial...</p>
-    <p>Si no eres redirigido automáticamente, <a href="https://www.uleam.edu.ec/" style="color: #e0a922;">haz clic aquí</a>.</p>
+<body>
+
+    <!-- Fondo de estrellas -->
+    <div class="stars-bg" id="stars-bg"></div>
+
+    <!-- Navegación -->
+    <header>
+        <img src="https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjoT2jKm57Wg2c4dPAl212-EP7HIAl11JpVkdVU57loZcfYt7A8NXA2CfXPitOwGplYNQmPtdBSymr5DOCwXn4ahh4hWgc_kFBBGvZXW5TAc736Gz_NC5T4nVkNde5ZnLbRLTXkuXGbafAApPByiIQ1gnKjk5UPki__DFevYWDl6Dq8UVpElOHZl0RUTuJz/s1280/feue.jpeg" alt="Logo FEUE" class="logo-feue">
+        <div class="logo-uleam">
+            <span class="text-uleam">Uleam</span><span class="text-41">41</span><br>
+            <span class="text-anos">AÑOS</span>
+        </div>
+    </header>
+
+    <!-- Portada Principal -->
+    <section class="hero">
+        <div class="hero-subtitle">Tradición, Arte y Cultura</div>
+        <h1 class="hero-title">MURGA<br><span>UNIVERSITARIA</span></h1>
+        <p class="hero-desc">Únete a la celebración pública más grande de Manta. La Universidad Laica Eloy Alfaro de Manabí abre sus puertas para llenar las calles de música, carros alegóricos y alegría estudiantil.</p>
+        
+        <div class="hero-actions">
+            <a href="#ruta" class="btn">Ver Ruta Oficial</a>
+            <a href="#detalles" class="btn btn-outline">Conocer Más</a>
+        </div>
+    </section>
+
+    <!-- Detalles del Evento -->
+    <section id="detalles" class="info-section">
+        <h2 class="section-title">Detalles del Evento</h2>
+        <div class="grid-cards">
+            <div class="card">
+                <div class="card-icon">📅</div>
+                <h3>Fecha y Hora</h3>
+                <p><strong>Miércoles 11 de Noviembre de 2026</strong><br>La concentración iniciará a las 18:00 hrs. Recomendamos llegar con anticipación.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">📍</div>
+                <h3>Punto de Partida</h3>
+                <p><strong>Plaza Centenario ULEAM</strong><br>El recorrido comenzará en los predios de la universidad y avanzará por las vías principales de Manta.</p>
+            </div>
+            <div class="card">
+                <div class="card-icon">🎭</div>
+                <h3>Acceso Libre</h3>
+                <p><strong>Evento Público y Familiar</strong><br>La Murga es una manifestación cultural abierta a toda la ciudadanía mantense. ¡Ven a disfrutar!</p>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mapa Interactivo -->
+    <section id="ruta" class="map-section">
+        <h2 class="section-title">Ruta del Recorrido</h2>
+        <div class="map-container">
+            <!-- Google My Maps Embed -->
+            <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" allowfullscreen="" loading="lazy"></iframe>
+        </div>
+    </section>
+
+    <!-- Pie de página -->
+    <footer>
+        <p>Organizado por el Frente Estudiantil<br>
+        <span>FEUE ULEAM</span></p>
+        <p style="opacity: 0.5; margin-top: 20px;">© 2026 Universidad Laica Eloy Alfaro de Manabí</p>
+    </footer>
+
+    <!-- Script para generar estrellas dinámicas en el fondo -->
+    <script>
+        const starsContainer = document.getElementById('stars-bg');
+        const numStars = window.innerWidth < 600 ? 30 : 60; // Menos estrellas en móviles por rendimiento
+        
+        for (let i = 0; i < numStars; i++) {
+            let star = document.createElement('div');
+            star.className = 'star';
+            star.style.width = Math.random() * 3 + 'px';
+            star.style.height = star.style.width;
+            star.style.left = Math.random() * 100 + 'vw';
+            star.style.top = Math.random() * 100 + 'vh';
+            star.style.animationDuration = (Math.random() * 4 + 3) + 's';
+            star.style.animationDelay = Math.random() * 5 + 's';
+            starsContainer.appendChild(star);
+        }
+    </script>
 </body>
 </html>
