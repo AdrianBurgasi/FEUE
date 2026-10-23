@@ -27,7 +27,7 @@
 
         /* HEADER */
         header {
-            background:  rgb(235, 235, 235);
+            background:  rgb(182, 214, 255);
             padding: 15px 5vw;
             display: flex;
             justify-content: space-between;
@@ -36,7 +36,7 @@
             box-shadow: 0 4px 15px rgba(128, 139, 238, 0.5);
         }
         .header-left { display: flex; align-items: center; gap: 15px; }
-        .logo { display: block; height: 18%; width: 18%; border-radius: 50%; }
+        .logo { display: block; height: clamp(19%, 18vw, 18vh); width: clamp(19%, 18vw, 18vh); border-radius: 50%; }
         .title-container h1 { font-family: 'Merriweather', serif; color: rgba(170, 1, 1, 0.979); margin: 0; font-size: clamp(12px, 2vw, 20px); }
         .title-container p { margin: 0; font-weight: bold; font-size: 13px; color: #020266; letter-spacing: 1px; }
 
@@ -212,13 +212,13 @@
 
     <header>
         <div class="header-left">
-            <img class="logo" src="assets/feue_logo_horizontal.png">
+            <img class="logo" src="assets/feue_logo_horizontal.png" alt="Logo ULEAM">
             <div class="title-container">
                 <h1>SISTEMA DE GESTIÓN DE DIRECTIVAS</h1>
                 <p></p>
             </div>
         </div>
-        <div style="font-size: 12px; text-align: center; font-weight: bold; color: #0d0055;">Uso Exclusivo Miembros Estudiantil Uleam</div>
+        <div style="font-size:clamp(50%, 0.8rem, 1rem); text-align: center; font-weight: bold; color: #0d0055;">Uso Exclusivo Miembros Estudiantil Uleam</div>
     </header>
 
     <main>
