@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portal de Directivas | FEUE ULEAM</title>
+    <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700&family=Montserrat:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #0b1f42;
+            --secondary: #030a17;
+            --gold: #e0a922;
+            --light: #f4f4f4;
+            --border: rgba(224, 169, 34, 0.3);
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: var(--secondary);
+            font-family: 'Montserrat', sans-serif;
+            color: var(--light);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* HEADER */
+        header {
+            background:  rgb(235, 235, 235);
+            padding: 15px 5vw;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid var(--border);
+            box-shadow: 0 4px 15px rgba(128, 139, 238, 0.5);
+        }
+        .header-left { display: flex; align-items: center; gap: 15px; }
+        .logo { display: block; height: 18%; width: 18%; border-radius: 50%; }
+        .title-container h1 { font-family: 'Merriweather', serif; color: rgba(208, 2, 2, 0.979); margin: 0; font-size: clamp(15px, 2vw, 22px); }
+        .title-container p { margin: 0; font-weight: bold; font-size: 13px; color: #020266; letter-spacing: 1px; }
+
+        /* CONTENEDOR PRINCIPAL */
+        main {
+            flex: 1;
+            padding: 40px 5vw;
+            max-width: 1200px;
+            margin: 0 auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 30px;
+            flex-wrap: wrap;
+            gap: 15px;
+        }
+        .dashboard-header h2 { font-family: 'Cinzel', serif; margin: 0; font-size: 24px; color: #d0cfcf; text-align: center; flex: 1; }
+        
+        /* TABLA DE DIRECTIVAS */
+        .table-container {
+            background: rgba(8, 1, 49, 0.979);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            overflow-x: auto;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+        }
+        .directory-status { margin-bottom: 18px; }
+        .table-status { min-height: 1.4em; margin: 0; color: #ccc; font-size: 13px; }
+        .table-status.error { color: #ff9c9c; }
+        .directory-section { margin-top: 32px; }
+        .directory-section-title {
+            margin: 0 0 14px;
+            padding: 0 0 10px;
+            border-bottom: 1px solid var(--border);
+            color: rgb(240, 201, 105);
+            font-family: 'Cinzel', serif;
+            font-size: 21px;
+            text-align: center;
+        }
+        .directory-subgroup { margin: 0 0 14px; }
+        .directory-subgroup > summary {
+            padding: 14px 18px;
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            background: rgba(11, 31, 66, 0.7);
+            color: #d0d8ff;
+            cursor: pointer;
+            font-weight: 600;
+            list-style-position: inside;
+            text-align: left;
+        }
+        .directory-subgroup[open] > summary { border-radius: 10px 10px 0 0; color: var(--gold); }
+        .directory-subgroup .table-container { border-radius: 0 0 10px 10px; }
+        .directory-subgroup table { min-width: 800px; }
+        @media (max-width: 600px) {
+            .directory-section-title { font-size: 18px; }
+            .directory-subgroup > summary { padding: 12px; }
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+            min-width: 800px;
+        }
+        th, td {
+            padding: 15px 20px;
+            border-bottom: 1px solid rgba(224, 169, 34, 0.15);
+        }
+        th {
+            background: rgba(224, 169, 34, 0.1);
+            color: var(--gold);
+            font-weight: 600;
+            text-transform: uppercase;
+            font-size: 12px;
+            letter-spacing: 1px;
+        }
+        td { font-size: 14px; color: #e2e0e0; }
+        tr:hover { background: rgba(224, 169, 34, 0.05); }
+        
+        .status {
+            padding: 4px 10px;
+            white-space: nowrap;
+            border-radius: 10px;
+            font-size: 11px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .status.active { background: rgba(46, 204, 113, 0.2); color: #2ecc71; border: 1px solid #2ecc71; }
+        .status.pending { background: rgba(241, 196, 15, 0.2); color: #f1c40f; border: 1px solid #f1c40f; }
+
+        .btn-update {
+            background: transparent;
+            border: 1px solid var(--gold);
+            color: var(--gold);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .btn-update:hover { background: var(--gold); color: var(--secondary); }
+
+        /* MODAL (POPUP PARA EDITAR) */
+        .modal-overlay {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(3, 10, 23, 0.8);
+            backdrop-filter: blur(5px);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        .modal {
+            background: linear-gradient(135deg, #0b1f42 0%, #030a17 100%);
+            border: 1px solid var(--gold);
+            border-radius: 10px;
+            width: 100%;
+            max-width: 500px;
+            padding: 30px;
+            box-shadow: 0 15px 50px rgba(0,0,0,0.8);
+            position: relative;
+        }
+        .modal h3 { font-family: 'Cinzel', serif; color: var(--gold); margin-top: 0; margin-bottom: 20px; }
+        .close-btn {
+            position: absolute; top: 15px; right: 20px;
+            background: transparent; border: none; color: #fff; font-size: 20px; cursor: pointer;
+        }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 12px; color: #aaa; margin-bottom: 8px; text-transform: uppercase; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 12px;
+            background: rgba(255,255,255,0.05);
+            border: 1px solid rgba(224, 169, 34, 0.3);
+            border-radius: 5px; color: #fff;
+            font-family: 'Montserrat', sans-serif;
+            box-sizing: border-box;
+        }
+        .form-group input:focus, .form-group textarea:focus { outline: none; border-color: var(--gold); }
+        
+        .btn-submit {
+            width: 100%; padding: 15px;
+            background: linear-gradient(90deg, #d4af37, #f9d976, #d4af37);
+            border: none; border-radius: 5px;
+            color: var(--primary); font-weight: bold; font-size: 14px;
+            cursor: pointer; text-transform: uppercase; transition: 0.3s;
+        }
+        .btn-submit:hover { transform: translateY(-2px); box-shadow: 0 5px 15px rgba(224,169,34,0.4); }
+        /* FOOTER */
+        footer {
+            position: relative;
+            z-index: 3;
+            text-align: center;
+            padding: 40px 20px;
+            background: var(--secondary);
+            color: var(--text-muted);
+            font-size: 12px;
+        }
+        footer span { color: var(--gold); font-family: 'Cinzel', serif; font-size: 14px; }
+
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="header-left">
+            <img class="logo" src="assets/feue_logo_horizontal.png">
+            <div class="title-container">
+                <h1>GESTIÓN DE DIRECTIVAS</h1>
+                <p></p>
+            </div>
+        </div>
+        <div style="font-size: 12px; text-align: center; font-weight: bold; color: #0d0055;">Uso Exclusivo de Presidentes</div>
+    </header>
+
+    <main>
+        <div class="dashboard-header">
+            <h2>MIEMBROS DE GOBIERNO ULEAM 2025 - 2027</h2>
+            <input type="text" id="searchInput" placeholder="Buscar por facultad o nombre..." style="padding: 10px 15px; border-radius: 20px; border: 1px solid var(--border); background: transparent; color: rgb(169, 196, 255); width: 250px; outline: none;">
+        </div>
+
+        <div class="directory-status">
+            <p id="table-status" class="table-status" role="status" aria-live="polite">Cargando directiva...</p>
+        </div>
+        <div id="directiva-groups" class="directory-groups"></div>
+    </main>
+
+    <!-- Modal para proponer actualización -->
+    <div class="modal-overlay" id="modalOverlay">
+        <div class="modal">
+            <button class="close-btn" onclick="cerrarModal()">×</button>
+            <h3>Proponer Actualización</h3>
+            <p style="font-size: 13px; color: #ccc; margin-bottom: 20px;">
+                Actualizando el registro de: <strong id="modal-cargo-facultad" style="color: var(--gold);"></strong>
+            </p>
+            
+            <form id="updateForm">
+                <input type="hidden" id="registro-id">
+                
+                <div class="form-group">
+                    <label>Nuevo Representante (Nombres Completos)</label>
+                    <input type="text" id="nuevo-nombre" required placeholder="Ej. Juan Pérez">
+                </div>
+                
+                <div class="form-group">
+                    <label>Justificación del Cambio (Acta/Resolución)</label>
+                    <textarea id="justificacion" rows="3" required placeholder="Mencione el motivo o número de acta de la nueva elección..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label>Sugerencias y o comentarios adicionales</label>
+                    <input type="text" id="link-evidencia" placeholder="... Opcional">
+                </div>
+                
+                <button type="button" class="btn-submit" onclick="enviarAprobacion()">Enviar para Aprobación Oficial</button>
+            </form>
+        </div>
+    </div>
+    <!-- Pie de página -->
+    <footer>
+        <p>Creado por el Frente Estudiantil<br>
+        <span>FEUE ULEAM</span></p>
+        <p style="opacity: 0.5; margin-top: 20px;">© Coordinador General de la FEUE ULEAM</p>
+    </footer>
+
+
+    <script src="dashboard.js"></script>
+
+</body>
+</html>
