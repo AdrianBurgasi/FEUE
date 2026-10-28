@@ -122,6 +122,14 @@
             letter-spacing: 0.3px;
         }
         .main-nav .nav-cta:hover { background: var(--gold); color: var(--navy); }
+        .main-nav .nav-member {
+            padding: 10px 12px;
+            border: 1px solid rgba(216, 222, 234, 0.3);
+            border-radius: 3px;
+            color: #d8deea;
+            font-size: 10px;
+        }
+        .main-nav .nav-member:hover { border-color: var(--gold-light); color: var(--gold-light); }
 
         .hero {
             position: relative;
@@ -588,7 +596,7 @@
         @keyframes ticker { to { transform: translateX(-50%); } }
 
         @media (max-width: 850px) {
-            .main-nav a:not(.nav-cta) { display: none; }
+            .main-nav a:not(.nav-cta):not(.nav-member) { display: none; }
             .hero { grid-template-columns: 1fr 0.75fr; padding-right: 5vw; padding-left: 5vw; }
             .hero-visual { min-height: 290px; }
             .about-layout, .community-layout { grid-template-columns: 1fr; }
@@ -602,8 +610,10 @@
             .header-inner { width: calc(100% - 28px); min-height: 68px; gap: 10px; }
             .brand img { width: 36px; height: 36px; }
             .brand-name strong { font-size: 13px; }
-            .brand-name span { font-size: 8px; }
+            .brand-name span { display: none; }
+            .main-nav { gap: 6px; }
             .main-nav .nav-cta { padding: 10px; font-size: 9px; }
+            .main-nav .nav-member { padding: 9px 8px; font-size: 8px; white-space: nowrap; }
             .hero {
                 min-height: auto;
                 grid-template-columns: 1fr;
@@ -656,6 +666,7 @@
                 <a href="#equipo">Nuestro equipo</a>
                 <a href="#comunidad">Comunidad</a>
                 <a class="nav-cta" href="murga/murgamain.html">Murga Universitaria ↗</a>
+                <a class="nav-member" href="pagina_gobierno/login.html">Acceso miembros</a>
             </nav>
         </div>
     </header>
