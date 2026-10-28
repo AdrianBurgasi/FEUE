@@ -469,11 +469,11 @@
             content: "";
         }
         .member-image img {
-            width: 108px;
-            height: 108px;
+            width: 233.4px;
+            height: 275px;
             padding: 15px;
             border: 1px solid rgba(18, 61, 114, 0.22);
-            border-radius: 50%;
+            border-radius: 0%;
             background: rgba(243, 239, 229, 0.82);
             object-fit: contain;
         }
@@ -826,14 +826,22 @@
     </footer>
 
     <script>
-        const integrantes = Array.from({ length: 13 }, (_, index) => {
-            const numero = String(index + 1).padStart(2, "0");
-            return {
-                numero,
-                nombre: `Eddie Velasquez ${numero}`,
-                cargo: "Presidente"
-            };
-        });
+        const integrantes = [
+            { numero: "1", nombre: "Eddie Velasquez", cargo: "Presidente", foto: "assets/eddie.jpeg" },
+            { numero: "2", nombre: "Emily Ferrin", cargo: "Primer Vicepresidente", foto: "assets/emily.jpeg" },
+            { numero: "3", nombre: "Alex Parraga", cargo: "Segundo Vicepresidente", foto: "assets/alex.jpeg" },
+            { numero: "4", nombre: "Melanie Paredes", cargo: "Secretaria General", foto: "assets/melanie.jpeg" },
+            { numero: "5", nombre: "Genesis Andrango", cargo: "Tesorero", foto: "assets/genesis.jpeg" },
+            { numero: "6", nombre: "Adrian Burgasi", cargo: "Coordinador General", foto: "assets/adrian.jpeg" },
+            { numero: "7", nombre: "George Holguin", cargo: "Secretario Academico", foto: "assets/george.jpeg" },
+            { numero: "8", nombre: "Scarlett Torres", cargo: "Secretario de Investigación y Vinculación", foto: "assets/scarlett.jpeg" },
+            { numero: "9", nombre: "Ambar Lagos", cargo: "Secretario de Comunicación", foto: "assets/ambar.jpeg" },
+            { numero: "10", nombre: "William Chancay", cargo: "Secretario de Relaciones Nacionales e Internacionales", foto: "assets/william.jpeg" },
+            { numero: "11", nombre: "Aleida Rodriguez", cargo: "Secretario Juridico", foto: "assets/aleida.jpeg" },
+            { numero: "12", nombre: "Mateo Bermudez", cargo: "Primer Comité Ejecutivo Principal FEUE", foto: "assets/mateo.jpeg" },
+            { numero: "13", nombre: "Melanie Lopez", cargo: "Primer Comité Ejecutivo Alterno FEUE", foto: "assets/melanie.jpeg" },
+            // Agrega aquí los objetos 04 al 13 siguiendo el mismo formato.
+        ];
 
         const equipo = document.getElementById("teamTrack");
         integrantes.forEach((integrante) => {
@@ -841,7 +849,7 @@
             tarjeta.className = "member-card";
             tarjeta.innerHTML = `
                 <div class="member-image">
-                    <img src="assets/feue_favicon.png" alt="Imagen temporal del integrante ${integrante.numero}">
+                    <img src="${integrante.foto}" alt="Fotografía de ${integrante.nombre}">
                     <span class="member-index">${integrante.numero}</span>
                 </div>
                 <div class="member-info">
