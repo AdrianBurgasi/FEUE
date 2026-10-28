@@ -145,7 +145,7 @@ function crearTablaGrupo(registrosGrupo) {
     const tabla = document.createElement("table");
     const thead = tabla.createTHead();
     const filaEncabezados = thead.insertRow();
-    ["Facultad / Asociación", "Cargo", "Nombre Registrado", "Estado", "Acción"].forEach(texto => {
+    ["Cargo", "Nombre Registrado", "Estado", "Acción"].forEach(texto => {
         const encabezado = document.createElement("th");
         encabezado.scope = "col";
         encabezado.textContent = texto;
@@ -155,10 +155,9 @@ function crearTablaGrupo(registrosGrupo) {
     const tbody = tabla.createTBody();
     registrosGrupo.forEach(reg => {
         const tr = document.createElement('tr');
-        [reg.facultad, reg.cargo].forEach(valor => {
-            const celda = tr.insertCell();
-            celda.textContent = valor;
-        });
+        tr.dataset.searchText = `${reg.facultad} ${reg.cargo} ${reg.nombre}`.toLocaleLowerCase("es");
+        const celdaCargo = tr.insertCell();
+        celdaCargo.textContent = reg.cargo;
 
         const celdaNombre = tr.insertCell();
         const nombre = document.createElement("strong");
@@ -176,7 +175,7 @@ function crearTablaGrupo(registrosGrupo) {
         boton.className = "btn-update";
         boton.type = "button";
         boton.textContent = "✎ Proponer Cambio";
-        boton.addEventListener("click", () => abrirModal(reg.id, reg.facultad, reg.cargo));
+        boton.addEventListener("click", () => abrirModal(reg.id, reg.cargo));
         celdaAccion.appendChild(boton);
 
         tbody.appendChild(tr);
@@ -250,9 +249,9 @@ async function cargarDirectivaDesdeGoogleSheets() {
 }
 
 // Control del Modal (Ventana emergente)
-function abrirModal(id, facultad, cargo) {
+function abrirModal(id, cargo) {
     document.getElementById('modalOverlay').style.display = 'flex';
-    document.getElementById('modal-cargo-facultad').innerText = `${cargo} - ${facultad}`;
+    document.getElementById('modal-cargo-facultad').innerText = cargo;
     document.getElementById('registro-id').value = id;
 }
 
@@ -333,7 +332,7 @@ document.getElementById("searchInput").addEventListener("input", function(event)
 
             grupo.querySelectorAll("tbody tr").forEach(fila => {
                 const coincide = !texto || coincideSubgrupo
-                    || fila.textContent.toLocaleLowerCase("es").includes(texto);
+                    || fila.dataset.searchText.includes(texto);
                 fila.hidden = !coincide;
                 if (coincide) registrosVisibles++;
             });
