@@ -36,10 +36,12 @@
             border-bottom: 1px solid var(--border);
             box-shadow: 0 4px 15px rgba(128, 139, 238, 0.5);
         }
+        
         .header-left { display: flex; align-items: center; gap: 15px; }
         .logo { display: block; height: clamp(19%, 18vw, 18vh); width: clamp(19%, 18vw, 18vh); border-radius: 50%; }
         .title-container h1 { font-family: 'Merriweather', serif; color: rgba(170, 1, 1, 0.979); margin: 0; font-size: clamp(12px, 2vw, 20px); }
         .title-container p { margin: 0; font-weight: bold; font-size: 13px; color: #020266; letter-spacing: 1px; }
+        
 
         /* CONTENEDOR PRINCIPAL */
         main {
@@ -60,7 +62,21 @@
             gap: 15px;
         }
         .dashboard-header h2 { font-family: 'Cinzel', serif; margin: 0; font-size: 24px; color: #d0cfcf; text-align: center; flex: 1; }
-        
+        #logoutBtn {
+            background: transparent;
+            position: absolute; top: 125px; right: 55px;
+            border: 1px solid rgba(1, 41, 220, 0.964);
+            color: rgba(1, 41, 220, 0.964);
+            padding: 8px 15px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        body.auth-pending main,
+        body.auth-pending #logoutBtn { visibility: hidden; }
         /* TABLA DE DIRECTIVAS */
         .table-container {
             background: rgba(8, 1, 49, 0.979);
@@ -209,9 +225,10 @@
 
     </style>
 </head>
-<body>
+<body class="auth-pending">
 
     <header>
+        <button id="logoutBtn">Cerrar Sesión</button>
         <div class="header-left">
             <img class="logo" src="assets/feue_logo_horizontal.png" alt="Logo ULEAM">
             <div class="title-container">
@@ -274,6 +291,49 @@
 
 
     <script src="dashboard.js"></script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCexqyV6YOJ8BdIVKKH743XBJyHRIqYRPs",
+            authDomain: "murga-invitations.firebaseapp.com",
+            projectId: "murga-invitations",
+            storageBucket: "murga-invitations.firebasestorage.app",
+            messagingSenderId: "484487993547",
+            appId: "1:484487993547:web:c96aa399f71d614b1a634e",
+            measurementId: "G-XG2HNRTE5C"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+
+        // EL GUARDIÁN: Verifica instantáneamente si hay alguien logueado
+        onAuthStateChanged(auth, (user) => {
+            if (user) {
+                console.log("Usuario autorizado:", user.email);
+                document.body.classList.remove("auth-pending");
+            } else {
+                window.location.replace("login.html");
+            }
+        }, (error) => {
+            console.error("No se pudo verificar la sesión de Firebase:", error);
+            window.location.replace("login.html");
+        });
+
+        document.getElementById('logoutBtn').addEventListener('click', async () => {
+            const boton = document.getElementById('logoutBtn');
+            boton.disabled = true;
+            try {
+                await signOut(auth);
+                window.location.replace("login.html");
+            } catch (error) {
+                console.error("No se pudo cerrar sesión:", error);
+                alert("No se pudo cerrar sesión. Inténtalo nuevamente.");
+                boton.disabled = false;
+            }
+        });
+    </script>
 
 </body>
 </html>
