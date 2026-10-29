@@ -284,6 +284,52 @@
         }
         .hero-scroll::after { width: 42px; height: 1px; background: var(--gold); content: ""; }
 
+        /* PROMOCION TEMPORAL DE VOLUNTARIOS: quitar este bloque para retirarla. */
+        .volunteer-promo {
+            display: flex;
+            width: min(calc(100% - 40px), var(--content-width));
+            min-height: 76px;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
+            margin: 18px auto 0;
+            padding: 14px 18px;
+            border: 1px solid rgba(224, 169, 34, 0.32);
+            background: linear-gradient(105deg, rgba(18, 61, 114, 0.42), rgba(7, 21, 45, 0.72));
+        }
+        .volunteer-promo-copy { display: grid; gap: 5px; }
+        .volunteer-promo-label {
+            margin: 0;
+            color: var(--gold-light);
+            font-size: 9px;
+            font-weight: 700;
+            letter-spacing: 1.8px;
+            text-transform: uppercase;
+        }
+        .volunteer-promo-message {
+            margin: 0;
+            color: #e2e6ed;
+            font-family: 'Cinzel', Georgia, serif;
+            font-size: clamp(13px, 1.5vw, 16px);
+            transition: opacity 180ms ease;
+        }
+        .volunteer-promo-message.is-changing { opacity: 0; }
+        .volunteer-promo-link {
+            flex: 0 0 auto;
+            padding: 11px 15px;
+            border: 1px solid rgba(249, 217, 118, 0.65);
+            border-radius: 3px;
+            color: var(--gold-light);
+            font-size: 10px;
+            font-weight: 700;
+            letter-spacing: 0.7px;
+            text-decoration: none;
+            text-transform: uppercase;
+            transition: background 160ms ease, color 160ms ease;
+        }
+        .volunteer-promo-link:hover,
+        .volunteer-promo-link:focus-visible { background: var(--gold-light); color: var(--navy); }
+
         .ticker {
             overflow: hidden;
             border-top: 1px solid rgba(255,255,255,.12);
@@ -359,14 +405,14 @@
         }
         .about-mark::before {
             position: absolute;
-            width: 270px;
+            width: 738px;
             height: 270px;
             border: 1px solid rgba(249, 217, 118, 0.45);
-            border-radius: 50%;
+            border-radius: 0%;
             box-shadow: 0 0 0 32px rgba(249, 217, 118, 0.04), 0 0 0 68px rgba(249, 217, 118, 0.035);
             content: "";
         }
-        .about-mark img { position: relative; width: 120px; height: 120px; object-fit: contain; }
+        .about-mark img { position: relative; width: 738px; height: 270px; object-fit: contain; }
         .about-mark span {
             position: absolute;
             right: 18px;
@@ -627,6 +673,8 @@
             .hero-stamp { right: 12%; bottom: 1%; width: 78px; height: 78px; font-size: 8px; }
             .hero-stamp strong { font-size: 19px; }
             .hero-scroll { right: 22px; bottom: 24px; font-size: 8px; }
+            .volunteer-promo { width: calc(100% - 28px); align-items: flex-start; flex-direction: column; gap: 12px; margin-top: 12px; padding: 15px; }
+            .volunteer-promo-link { align-self: flex-start; }
             .section { padding: 70px 20px; }
             .values-heading, .team-heading { align-items: start; flex-direction: column; }
             .value-grid { grid-template-columns: 1fr; }
@@ -666,12 +714,22 @@
                 <a href="#equipo">Nuestro equipo</a>
                 <a href="#comunidad">Comunidad</a>
                 <a class="nav-cta" href="murga/murgamain.html">Murga Universitaria ↗</a>
-                <a class="nav-member" href="admin/login.html">Acceso miembros</a>
+                <a class="nav-member" href="pagina_gobierno/login.html">Acceso miembros</a>
             </nav>
         </div>
     </header>
 
     <main id="contenido">
+        <!-- Inicio de la PROMOCION TEMPORAL de voluntarios. -->
+        <aside class="volunteer-promo" aria-labelledby="volunteer-promo-label">
+            <div class="volunteer-promo-copy">
+                <p class="volunteer-promo-label" id="volunteer-promo-label">Voluntarios Murga Uleam 2026</p>
+                <p class="volunteer-promo-message" id="volunteer-promo-message" aria-live="off">Tu compromiso fortalece nuestra comunidad universitaria.</p>
+            </div>
+            <a class="volunteer-promo-link" href="voluntarios.html">Ir a voluntarios <span aria-hidden="true">↗</span></a>
+        </aside>
+        <!-- Fin de la PROMOCION TEMPORAL de voluntarios. -->
+
         <section class="hero" id="inicio" aria-labelledby="hero-title">
             <div class="hero-copy" data-reveal>
                 <p class="kicker">Universidad · Participación · Comunidad</p>
@@ -707,7 +765,7 @@
                     <p class="section-intro">Creemos en una vida universitaria con más diálogo, colaboración y oportunidades para que las voces estudiantiles formen parte de las conversaciones que importan.</p>
                 </div>
                 <div class="about-mark" data-reveal>
-                    <img src="assets/feue_favicon.png" alt="" aria-hidden="true">
+                    <img src="assets/foto_gente.png" alt="" aria-hidden="true">
                     <span>Frente estudiantil · ULEAM</span>
                 </div>
             </div>
@@ -811,12 +869,14 @@
                 </nav>
                 <div class="footer-column" id="redes">
                     <h2>Redes y contacto</h2>
-                    <div class="social-list" aria-label="Redes sociales oficiales pendientes de agregar">
-                        <span>Instagram</span><span>Facebook</span><span>TikTok</span>
+                    <div class="social-list" aria-label="Visita nuestras redes sociales oficiales">
+                        <span><a href="https://www.instagram.com/feueuleam/" target="_blank">Instagram</a></span>
+                        <span><a href="https://www.facebook.com/feueuleam/" target="_blank">Facebook</a></span>
+                        <span><a href="https://www.tiktok.com/@feueuleam" target="_blank">TikTok</a></span>
                     </div>
                     <div class="footer-links" style="margin-top: 15px;">
                         <a href="#contacto">Contacto institucional</a>
-                        <span>Los enlaces oficiales se agregarán aquí.</span>
+                        <span>feue@uleam.edu.ec</span>
                     </div>
                 </div>
             </div>
@@ -881,7 +941,24 @@
         document.getElementById("teamPrev").addEventListener("click", () => moverEquipo(-1));
         document.getElementById("teamNext").addEventListener("click", () => moverEquipo(1));
         document.getElementById("currentYear").textContent = new Date().getFullYear();
-
+        // Mensajes rotativos para la sección de voluntariado.
+        const mensajesVoluntariado = [
+            "Tu compromiso fortalece nuestra comunidad universitaria.",
+            "Sé parte de una experiencia que une a la comunidad.",
+            "Cada aporte suma a la vida universitaria.",
+            "Participa y construyamos juntos."
+        ];
+        const mensajeVoluntariado = document.getElementById("volunteer-promo-message");
+        let indiceMensajeVoluntariado = 0;
+        window.setInterval(() => {
+            mensajeVoluntariado.classList.add("is-changing");
+            window.setTimeout(() => {
+                indiceMensajeVoluntariado = (indiceMensajeVoluntariado + 1) % mensajesVoluntariado.length;
+                mensajeVoluntariado.textContent = mensajesVoluntariado[indiceMensajeVoluntariado];
+                mensajeVoluntariado.classList.remove("is-changing");
+            }, 180);
+        }, 2000);
+        // Animación de revelado de elementos al hacer scroll.
         const elementosRevelar = document.querySelectorAll("[data-reveal]");
         if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
             const observador = new IntersectionObserver((entradas, observer) => {
