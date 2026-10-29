@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" type="image/png" href="../assets/feue_favicon.png">
+    <link rel="icon" type="image/png" href="assets/feue_favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Invitación 3D Murga ULEAM 2026</title>
@@ -89,7 +89,7 @@
         .background-art--left { left: 50%; top: 40%; width: 100%; height: 35%; object-fit: block; opacity: 0.25; transform: translate(-50%, -50%); pointer-events: none; }
         .background-art--laterales { right: -24%; top: 0%;height: 100%; }
         .background-art--laterales2 { right: 80%; top: 0%;height: 100%; }
-        .background-art--arriba { right: 00%; top: -26.5%;height: 56%; width: 100%; rotate: 90deg;}
+        .background-art--arriba { right: 00%; top: -26%;height: 55%; width: 100%; rotate: 90deg;}
         .background-art--abajo { right: 80%;left: -5%; top: 85%;height: 20%; width: 30%;}
         .background-art--abajo2 { right: 80%;left: 78%; top: 85%;height: 20%; width: 30%; transform: scaleX(-1); }
 
@@ -173,10 +173,170 @@
         .social-links a:hover { color: #f9d976; transform: translateY(-2px); }
         .social-links svg { width: 100%; height: 100%; fill: currentColor; }
 
+        /* Presentación temporal de entrada; la invitación original permanece intacta. */
+        .stars,
+        .scene {
+            transition: opacity 850ms ease, visibility 850ms ease;
+        }
+        body.intro-active .stars,
+        body.intro-active .scene {
+            opacity: 0;
+            visibility: hidden;
+        }
+        .invitation-intro {
+            position: fixed;
+            z-index: 20;
+            inset: 0;
+            display: grid;
+            overflow: hidden;
+            place-items: center;
+            background:
+                radial-gradient(ellipse at 50% 52%, rgba(86, 24, 21, 0.62), transparent 34%),
+                radial-gradient(ellipse at 50% 100%, rgba(20, 50, 93, 0.42), transparent 58%),
+                #02050c;
+            opacity: 1;
+            transition: opacity 850ms ease, visibility 850ms ease;
+        }
+        .invitation-intro.is-leaving {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+        .intro-light {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: min(120vw, 1100px);
+            height: min(120vw, 1100px);
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, transparent 0deg 32deg, rgba(224, 169, 34, 0.13) 39deg, transparent 48deg 110deg, rgba(45, 114, 190, 0.2) 119deg, transparent 130deg 210deg, rgba(224, 169, 34, 0.1) 220deg, transparent 232deg 360deg);
+            filter: blur(18px);
+            opacity: 0;
+            transform: translate(-50%, -50%) scale(0.35);
+            animation: intro-light-arrive 2.4s ease-out 0.15s forwards, intro-light-turn 18s linear 2.55s infinite;
+        }
+        .intro-light::after {
+            position: absolute;
+            inset: 25%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(255, 202, 92, 0.2), transparent 68%);
+            content: "";
+        }
+        .intro-content {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            justify-items: center;
+            gap: 18px;
+            padding: 24px;
+            text-align: center;
+            animation: intro-content-arrive 2.5s cubic-bezier(0.2, 0.75, 0.25, 1) both;
+        }
+        .intro-emblem {
+            width: clamp(190px, 45vw, 310px);
+            max-height: 38vh;
+            object-fit: contain;
+            filter: drop-shadow(0 0 20px rgba(249, 217, 118, 0.38)) drop-shadow(0 15px 40px rgba(0, 0, 0, 0.85));
+            animation: intro-emblem-arrive 1s cubic-bezier(0.2, 0.75, 0.25, 1) 0.25s both;
+        }
+        .intro-caption {
+            margin: 0;
+            color: #f9d976;
+            font-family: 'Cinzel', Georgia, serif;
+            font-size: clamp(10px, 2.4vw, 14px);
+            letter-spacing: clamp(2px, 0.8vw, 5px);
+            text-shadow: 0 2px 12px rgba(0, 0, 0, 0.9);
+        }
+        .intro-firework {
+            position: absolute;
+            width: clamp(90px, 18vw, 170px);
+            aspect-ratio: 1;
+            border-radius: 50%;
+            background: repeating-conic-gradient(from 2deg, transparent 0deg 13deg, rgba(249, 217, 118, 0.95) 14deg 15deg, transparent 16deg 30deg);
+            -webkit-mask: radial-gradient(circle, transparent 0 7%, #000 10% 12%, transparent 15% 100%);
+            mask: radial-gradient(circle, transparent 0 7%, #000 10% 12%, transparent 15% 100%);
+            opacity: 0;
+            animation: intro-firework-burst 1.45s ease-out infinite;
+        }
+        .intro-firework--one { top: 14%; left: 13%; }
+        .intro-firework--two {
+            top: 20%;
+            right: 12%;
+            width: clamp(75px, 15vw, 135px);
+            background: repeating-conic-gradient(from 9deg, transparent 0deg 13deg, rgba(151, 203, 255, 0.95) 14deg 15deg, transparent 16deg 30deg);
+            animation-delay: 0.55s;
+        }
+        .intro-firework--three {
+            right: 21%;
+            bottom: 11%;
+            width: clamp(65px, 13vw, 115px);
+            animation-delay: 1.05s;
+        }
+        .intro-continue {
+            position: absolute;
+            z-index: 2;
+            right: 20px;
+            bottom: 20px;
+            padding: 10px 14px;
+            border: 1px solid rgba(249, 217, 118, 0.58);
+            border-radius: 3px;
+            background: rgba(2, 5, 12, 0.45);
+            color: #f9d976;
+            font: 600 10px 'Montserrat', sans-serif;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: background 160ms ease, color 160ms ease;
+        }
+        .intro-continue:hover,
+        .intro-continue:focus-visible { background: #f9d976; color: #061124; }
+
+        @keyframes intro-light-arrive {
+            0% { opacity: 0; transform: translate(-50%, -50%) scale(0.35) rotate(-35deg); }
+            55% { opacity: 0.9; }
+            100% { opacity: 0.58; transform: translate(-50%, -50%) scale(1) rotate(0); }
+        }
+        @keyframes intro-light-turn { to { transform: translate(-50%, -50%) scale(1) rotate(360deg); } }
+        @keyframes intro-content-arrive {
+            0% { opacity: 0; transform: scale(0.62); filter: blur(12px); }
+            65% { opacity: 1; filter: blur(0); }
+            100% { opacity: 1; transform: scale(1); filter: blur(0); }
+        }
+        @keyframes intro-emblem-arrive {
+            from { opacity: 0; transform: translateX(-32px); filter: blur(7px) drop-shadow(0 0 20px rgba(249, 217, 118, 0.38)); }
+            to { opacity: 1; transform: translateX(0); filter: drop-shadow(0 0 20px rgba(249, 217, 118, 0.38)) drop-shadow(0 15px 40px rgba(0, 0, 0, 0.85)); }
+        }
+        @keyframes intro-firework-burst {
+            0%, 12% { opacity: 0; transform: scale(0.12) rotate(0); }
+            28% { opacity: 0.9; }
+            78% { opacity: 0.35; }
+            100% { opacity: 0; transform: scale(1.45) rotate(24deg); }
+        }
+        @media (prefers-reduced-motion: reduce) {
+            .invitation-intro { transition-duration: 180ms; }
+            .intro-light,
+            .intro-content,
+            .intro-emblem,
+            .intro-firework { animation-duration: 0.02ms !important; animation-iteration-count: 1 !important; }
+            .intro-emblem { animation-delay: 0s !important; }
+        }
+
     </style>
 </head>
-<body>
-    
+<body class="intro-active">
+    <!-- Presentación de entrada temporal, independiente de la invitación interactiva. -->
+    <div class="invitation-intro" id="invitationIntro" role="dialog" aria-modal="true" aria-label="Presentación de la Murga ULEAM">
+        <div class="intro-light" aria-hidden="true"></div>
+        <div class="intro-firework intro-firework--one" aria-hidden="true"></div>
+        <div class="intro-firework intro-firework--two" aria-hidden="true"></div>
+        <div class="intro-firework intro-firework--three" aria-hidden="true"></div>
+        <div class="intro-content">
+            <img class="intro-emblem" src="../assets/logo_murga_2026.png" alt="Emblema Murga ULEAM 2026">
+            <p class="intro-caption">Murga Universitaria · ULEAM 2026</p>
+        </div>
+        <button class="intro-continue" id="introContinue" type="button">Ingresar a la invitación</button>
+    </div>
+
     <!-- Animación de fondo de estrellas -->
     <div class="stars" id="stars"></div>
 
@@ -307,6 +467,18 @@
         const params = new URLSearchParams(window.location.search);
         const nombre = params.get("nombre");
         if(nombre) { document.getElementById("invitado-nombre").innerText = "Estimado/a " + nombre; }
+
+        const presentacion = document.getElementById("invitationIntro");
+        const duracionPresentacion = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? 1500 : 3800;
+        let temporizadorPresentacion;
+        function cerrarPresentacion() {
+            window.clearTimeout(temporizadorPresentacion);
+            presentacion.classList.add("is-leaving");
+            document.body.classList.remove("intro-active");
+            window.setTimeout(() => presentacion.remove(), 900);
+        }
+        temporizadorPresentacion = window.setTimeout(cerrarPresentacion, duracionPresentacion);
+        document.getElementById("introContinue").addEventListener("click", cerrarPresentacion);
     </script>
 </body>
 </html>
