@@ -268,7 +268,7 @@
             loginBtn.disabled = true;
             try {
                 await signInWithEmailAndPassword(auth, email, password);
-                window.location.replace("pag_gobierno.html");
+                window.location.replace("gobierno.html");
             } catch (error) {
                 console.error("No se pudo iniciar sesión:", error);
                 mensajeError.innerText = "Credenciales incorrectas o usuario no existe.";
