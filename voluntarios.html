@@ -646,7 +646,7 @@
 
             try {
                 if (!URL_GOOGLE_SCRIPT.startsWith("https://script.google.com/macros/s/")) {
-                    throw new Error("Primero configura la URL de implementación del script de voluntarios.");
+                    throw new Error("error url.");
                 }
 
                 const response = await fetch(URL_GOOGLE_SCRIPT, {
