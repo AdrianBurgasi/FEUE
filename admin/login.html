@@ -251,7 +251,7 @@
         const auth = getAuth(app);
 
         onAuthStateChanged(auth, (user) => {
-            if (user) window.location.replace("pag_gobierno.html");
+            if (user) window.location.replace("gobierno.html");
         }, (error) => {
             console.error("No se pudo verificar la sesión de Firebase:", error);
             document.getElementById('mensajeError').innerText = "No se pudo verificar la sesión. Inténtalo nuevamente.";
