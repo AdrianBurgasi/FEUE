@@ -294,6 +294,19 @@
             text-underline-offset: 3px;
         }
         .terms-details p { max-width: 590px; margin: 8px 0 0; color: #aeb8c8; font-size: 10px; line-height: 1.7; }
+        .privacy-details { margin-top: 9px; }
+        .privacy-details summary {
+            width: fit-content;
+            color: #d5dbe5;
+            cursor: pointer;
+            font-size: 10px;
+            text-decoration: underline;
+            text-underline-offset: 3px;
+        }
+        .privacy-details-content { margin-top: 10px; color: #aeb8c8; font-size: 10px; line-height: 1.7; }
+        .privacy-details-content p { margin: 0 0 8px; }
+        .privacy-details-content ul { display: grid; gap: 7px; margin: 0; padding-left: 18px; }
+        .privacy-details-content strong { color: #e4e6eb; }
 
         .form-actions {
             display: flex;
@@ -539,8 +552,28 @@
                         </div>
                     </div>
 
+                    <div class="consent">
+                        <input id="aviso-privacidad" name="aviso_privacidad" type="checkbox" value="aceptado" required>
+                        <div>
+                            <label for="aviso-privacidad"><strong>He leído y acepto el Aviso de Privacidad y Tratamiento de Datos Personales</strong>. Mi consentimiento es necesario para enviar el registro.</label>
+                            <details class="privacy-details">
+                                <summary>Leer aviso de privacidad</summary>
+                                <div class="privacy-details-content">
+                                    <p><strong>Aviso de Privacidad y Tratamiento de Datos Personales</strong></p>
+                                    <p>De conformidad con la Ley Orgánica de Protección de Datos Personales (LOPDP) del Ecuador, la Federación de Estudiantes Universitarios del Ecuador (FEUE) filial ULEAM actúa como responsable del tratamiento de sus datos personales.</p>
+                                    <ul>
+                                        <li><strong>Finalidad:</strong> La información recolectada se utilizará exclusivamente para el registro, organización, coordinación logística y comunicación oficial con los voluntarios de la murga universitaria.</li>
+                                        <li><strong>Legitimación:</strong> El tratamiento se legitima mediante su consentimiento libre, específico, informado e inequívoco al aceptar estos términos y enviar el formulario.</li>
+                                        <li><strong>Conservación:</strong> Los datos se conservarán únicamente durante el tiempo necesario para el desarrollo y cierre logístico del evento, o hasta que el titular revoque su consentimiento.</li>
+                                        <li><strong>Derechos:</strong> Puede ejercer en cualquier momento sus derechos de acceso, rectificación, actualización, eliminación y oposición comunicándose con la directiva a través de los canales oficiales de la FEUE.</li>
+                                    </ul>
+                                </div>
+                            </details>
+                        </div>
+                    </div>
+
                     <div class="form-actions">
-                        <p class="form-note">Tus datos se usarán para la organización de este evento. La aceptación de los términos es obligatoria para enviar el registro.</p>
+                        <p class="form-note">Tus datos se usarán para la organización de este evento. Aceptar los términos y el aviso de privacidad es obligatorio para enviar el registro.</p>
                         <button class="submit-button" id="submit-button" type="submit">Confirmar registro</button>
                     </div>
                     <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
@@ -559,7 +592,7 @@
                     <p>Gracias por sumarte al protocolo de la Murga Universitaria. Registra tu información para que el equipo organizador pueda coordinar contigo.</p>
                     <ol class="steps">
                         <li><span class="step-number">1</span>Completa tus datos de contacto.</li>
-                        <li><span class="step-number">2</span>Lee y acepta los términos.</li>
+                        <li><span class="step-number">2</span>Lee y acepta los términos y el aviso de privacidad.</li>
                         <li><span class="step-number">3</span>Confirma tu registro.</li>
                     </ol>
                     <p class="privacy-note">La confirmación se mostrará cuando hayas realizado el registro de forma exitosa.</p>
@@ -621,7 +654,7 @@
 
             if (!form.checkValidity()) {
                 form.reportValidity();
-                mostrarEstado("Revisa los campos obligatorios y acepta los términos para continuar.", "error");
+                mostrarEstado("Revisa los campos obligatorios y acepta los términos y el aviso de privacidad para continuar.", "error");
                 return;
             }
 
@@ -636,6 +669,7 @@
                 celular: datosFormulario.get("celular").trim(),
                 telefono_secundario: datosFormulario.get("telefono_secundario").trim(),
                 contrato: "Acepto los términos y condiciones",
+                aviso_privacidad: "Acepto el Aviso de Privacidad y Tratamiento de Datos Personales",
                 fechaRegistro: new Date().toISOString(),
                 evento: "Protocolo de la Murga ULEAM - 11 de noviembre de 2026"
             };
@@ -646,7 +680,7 @@
 
             try {
                 if (!URL_GOOGLE_SCRIPT.startsWith("https://script.google.com/macros/s/")) {
-                    throw new Error("error url.");
+                    throw new Error("Primero configura la URL de implementación del script de voluntarios.");
                 }
 
                 const response = await fetch(URL_GOOGLE_SCRIPT, {
