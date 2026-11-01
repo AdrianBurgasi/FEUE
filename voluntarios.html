@@ -198,6 +198,38 @@
             box-shadow: 0 22px 65px rgba(0, 0, 0, 0.3);
         }
         .registration-card { padding: clamp(22px, 4vw, 38px); }
+        .registration-closed {
+            display: grid;
+            justify-items: center;
+            gap: 12px;
+            padding: clamp(28px, 6vw, 48px) 18px;
+            text-align: center;
+        }
+        .registration-closed-icon {
+            display: grid;
+            width: 48px;
+            height: 48px;
+            place-items: center;
+            border: 1px solid rgba(249, 217, 118, 0.55);
+            border-radius: 50%;
+            color: var(--gold-light);
+            font-size: 22px;
+        }
+        .registration-closed h3 {
+            margin: 4px 0 0;
+            color: var(--gold-light);
+            font-family: 'Cinzel', Georgia, serif;
+            font-size: clamp(18px, 3vw, 24px);
+            font-weight: 600;
+            line-height: 1.4;
+        }
+        .registration-closed p {
+            max-width: 500px;
+            margin: 0;
+            color: #c4ccda;
+            font-size: 12px;
+            line-height: 1.8;
+        }
         .form-heading {
             display: flex;
             align-items: flex-start;
@@ -491,9 +523,9 @@
 
     <main id="registro">
         <section class="intro" aria-labelledby="page-title">
-            <p class="eyebrow">Forma Parte del</p>
+            <p class="eyebrow">Inscripciones cerradas</p>
             <h1 id="page-title">Protocolo de la<br><span>Murga ULEAM 2026</span></h1>
-            <p class="intro-copy">Sé parte del equipo de voluntarios que hará posible esta celebración universitaria. Completa tus datos para registrar tu participación y obtener los beneficios exclusivos.</p>
+            <p class="intro-copy">Ya contamos con todos nuestros voluntarios. Muchas gracias por tu interés en formar parte de esta celebración universitaria.</p>
             <div class="event-ribbon" aria-label="Información del evento">
                 <span>📅 <b>Miércoles, 11 de noviembre de 2026</b></span>
                 <i class="ribbon-divider" aria-hidden="true"></i>
@@ -505,79 +537,17 @@
             <section class="registration-card" aria-labelledby="form-title">
                 <div class="form-heading">
                     <div>
-                        <h2 id="form-title">Registro Oficial</h2>
-                        <p>Ingresa tus datos tal como aparecen en tus documentos.</p>
+                        <h2 id="form-title">Inscripciones cerradas</h2>
+                        <p>El equipo de voluntariado ya está completo.</p>
                     </div>
-                    <div class="required-note"><span>*</span> Campos obligatorios</div>
                 </div>
 
-                <form id="volunteer-form" novalidate>
-                    <div class="campo-oculto" aria-hidden="true">
-                        <label for="telefono-secundario">Teléfono secundario</label>
-                        <input id="telefono-secundario" name="telefono_secundario" type="text" tabindex="-1" autocomplete="off">
-                    </div>
-                    <div class="form-grid">
-                        <div class="field field-full">
-                            <label for="nombre">Nombre completo <span aria-hidden="true">*</span></label>
-                            <input id="nombre" name="nombre" type="text" autocomplete="name" maxlength="120" placeholder="Nombres y apellidos" required>
-                        </div>
-                        <div class="field">
-                            <label for="cedula">Cédula <span aria-hidden="true">*</span></label>
-                            <input id="cedula" name="cedula" type="text" inputmode="numeric" autocomplete="off" maxlength="10" pattern="[0-9]{10}" placeholder="10 dígitos" aria-describedby="cedula-hint" required>
-                            <small class="field-hint" id="cedula-hint">Escribe los 10 dígitos, sin espacios ni guiones.</small>
-                        </div>
-                        <div class="field">
-                            <label for="carrera">Carrera <span aria-hidden="true">*</span></label>
-                            <input id="carrera" name="carrera" type="text" autocomplete="organization-title" maxlength="120" placeholder="Nombre de tu carrera" required>
-                        </div>
-                        <div class="field">
-                            <label for="correo">Correo electrónico Institucional <span aria-hidden="true">*</span></label>
-                            <input id="correo" name="correo" type="email" autocomplete="email" maxlength="160" placeholder="ecedula@live.uleam.edu.ec" required>
-                        </div>
-                        <div class="field">
-                            <label for="celular">Celular <span aria-hidden="true">*</span></label>
-                            <input id="celular" name="celular" type="tel" inputmode="tel" autocomplete="tel" maxlength="10" placeholder="09 9999 9999" aria-describedby="celular-hint" required>
-                            <small class="field-hint" id="celular-hint">Sin el codigo del pais, unicamente con 09.</small>
-                        </div>
-                    </div>
-
-                    <div class="consent">
-                        <input id="contrato" name="contrato" type="checkbox" required>
-                        <div>
-                            <label for="contrato"><strong>Acepto los términos y condiciones</strong> y confirmo que mis datos son correctos.</label>
-                            <details class="terms-details">
-                                <summary>Leer términos y condiciones</summary>
-                                <p>Autorizo el uso de los datos proporcionados para gestionar mi inscripción, coordinar mi participación como voluntario y comunicar información relacionada con el protocolo de la Murga ULEAM 2026. Mi aceptación se registrará como un contrato para recibir el pago unico correspondiente de $10 (diez Dolares americanos) por unica vez al finalizar el evento en caso de ser aceptado, de ser aceptado se me unira al grupo de voluntarios y se me entregará una camiseta exclusiva de la Feue uleam la cual deberé usar durante todo el evento asi como tendré acceso a hidratacion unica durante el mismo, entiendo que cualquier acto que vaya en contra del evento, no se cumpla con lo establecido durante el periodo de capacitacion, abandono de puesto o lesione a alguna persona acarrarea sanciones institucionales, la perdida del valor a recibir y consecuencias civiles o penales según corresponda.</p>
-                            </details>
-                        </div>
-                    </div>
-
-                    <div class="consent">
-                        <input id="aviso-privacidad" name="aviso_privacidad" type="checkbox" value="aceptado" required>
-                        <div>
-                            <label for="aviso-privacidad"><strong>He leído y acepto el Aviso de Privacidad y Tratamiento de Datos Personales</strong>. Mi consentimiento es necesario para enviar el registro.</label>
-                            <details class="privacy-details">
-                                <summary>Leer aviso de privacidad</summary>
-                                <div class="privacy-details-content">
-                                    <p><strong>Aviso de Privacidad y Tratamiento de Datos Personales</strong></p>
-                                    <p>De conformidad con la Ley Orgánica de Protección de Datos Personales (LOPDP) del Ecuador, la Federación de Estudiantes Universitarios del Ecuador (FEUE) filial ULEAM actúa como responsable del tratamiento de sus datos personales.</p>
-                                    <ul>
-                                        <li><strong>Finalidad:</strong> La información recolectada se utilizará exclusivamente para el registro, organización, coordinación logística y comunicación oficial con los voluntarios de la murga universitaria.</li>
-                                        <li><strong>Legitimación:</strong> El tratamiento se legitima mediante su consentimiento libre, específico, informado e inequívoco al aceptar estos términos y enviar el formulario.</li>
-                                        <li><strong>Conservación:</strong> Los datos se conservarán únicamente durante el tiempo necesario para el desarrollo y cierre logístico del evento, o hasta que el titular revoque su consentimiento.</li>
-                                        <li><strong>Derechos:</strong> Puede ejercer en cualquier momento sus derechos de acceso, rectificación, actualización, eliminación y oposición comunicándose con la directiva a través de los canales oficiales de la FEUE.</li>
-                                    </ul>
-                                </div>
-                            </details>
-                        </div>
-                    </div>
-
-                    <div class="form-actions">
-                        <p class="form-note">Tus datos se usarán para la organización de este evento. Aceptar los términos y el aviso de privacidad es obligatorio para enviar el registro.</p>
-                        <button class="submit-button" id="submit-button" type="submit">Confirmar registro</button>
-                    </div>
-                    <p class="form-status" id="form-status" role="status" aria-live="polite"></p>
-                </form>
+                <div class="registration-closed" role="status" aria-labelledby="closed-title">
+                    <span class="registration-closed-icon" aria-hidden="true">✓</span>
+                    <h3 id="closed-title">¡Ya tenemos a todos nuestros voluntarios!</h3>
+                    <p>Muchas gracias por formar parte de este equipo y por sumar tu entusiasmo a la Murga ULEAM 2026.</p>
+                    <p>El próximo año esperamos contar nuevamente con tu ayuda.</p>
+                </div>
             </section>
 
             <aside class="aside-card" aria-label="Información de la actividad">
@@ -589,13 +559,8 @@
                 <div class="aside-content">
                     <p class="aside-label">Tu participación cuenta</p>
                     <h2>Una celebración hecha en equipo.</h2>
-                    <p>Gracias por sumarte al protocolo de la Murga Universitaria. Registra tu información para que el equipo organizador pueda coordinar contigo.</p>
-                    <ol class="steps">
-                        <li><span class="step-number">1</span>Completa tus datos de contacto.</li>
-                        <li><span class="step-number">2</span>Lee y acepta los términos y el aviso de privacidad.</li>
-                        <li><span class="step-number">3</span>Confirma tu registro.</li>
-                    </ol>
-                    <p class="privacy-note">La confirmación se mostrará cuando hayas realizado el registro de forma exitosa.</p>
+                    <p>Gracias a todas las personas que se sumaron al protocolo de la Murga Universitaria. Su apoyo hace posible esta celebración.</p>
+                    <p class="privacy-note">Las inscripciones para voluntarios ya están cerradas.</p>
                 </div>
             </aside>
         </div>
@@ -604,14 +569,6 @@
     <footer><strong>FEUE ULEAM</strong> · Murga Universitaria 2026</footer>
 
     <script>
-        const URL_GOOGLE_SCRIPT = "https://script.google.com/macros/s/AKfycbwgai7y6dc4DQDwO25nVT0jDasJHIARzOI_L4PQUyXWZOD_yHJoKc1AmlhLa07iSrcs/exec";
-        const form = document.getElementById("volunteer-form");
-        const statusMessage = document.getElementById("form-status");
-        const submitButton = document.getElementById("submit-button");
-        const cedulaInput = document.getElementById("cedula");
-        const celularInput = document.getElementById("celular");
-        const nombreInput = document.getElementById("nombre");
-        const carreraInput = document.getElementById("carrera");
         const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
 
         if (!reducedMotion) {
@@ -627,86 +584,6 @@
             }
         }
 
-        cedulaInput.addEventListener("input", () => {
-            cedulaInput.value = cedulaInput.value.replace(/\D/g, "").slice(0, 10);
-        });
-        [nombreInput, carreraInput, celularInput].forEach(input => {
-            input.addEventListener("input", () => input.setCustomValidity(""));
-        });
-
-        function mostrarEstado(mensaje, tipo = "") {
-            statusMessage.textContent = mensaje;
-            statusMessage.className = `form-status${tipo ? ` ${tipo}` : ""}`;
-        }
-
-        form.addEventListener("submit", async event => {
-            event.preventDefault();
-            mostrarEstado("");
-
-            [nombreInput, carreraInput].forEach(input => {
-                input.setCustomValidity(input.value.trim() ? "" : "Este campo es obligatorio.");
-            });
-            celularInput.setCustomValidity(
-                /^[0-9+() .-]{7,20}$/.test(celularInput.value.trim())
-                    ? ""
-                    : "Ingresa un número de celular válido."
-            );
-
-            if (!form.checkValidity()) {
-                form.reportValidity();
-                mostrarEstado("Revisa los campos obligatorios y acepta los términos y el aviso de privacidad para continuar.", "error");
-                return;
-            }
-
-            const datosFormulario = new FormData(form);
-            const datos = {
-                action: "registrarVoluntario",
-                hoja: "voluntarios",
-                nombre: datosFormulario.get("nombre").trim(),
-                cedula: datosFormulario.get("cedula").trim(),
-                carrera: datosFormulario.get("carrera").trim(),
-                correo: datosFormulario.get("correo").trim(),
-                celular: datosFormulario.get("celular").trim(),
-                telefono_secundario: datosFormulario.get("telefono_secundario").trim(),
-                contrato: "Acepto los términos y condiciones",
-                aviso_privacidad: "Acepto el Aviso de Privacidad y Tratamiento de Datos Personales",
-                fechaRegistro: new Date().toISOString(),
-                evento: "Protocolo de la Murga ULEAM - 11 de noviembre de 2026"
-            };
-
-            submitButton.disabled = true;
-            submitButton.textContent = "Enviando registro...";
-            mostrarEstado("Enviando tus datos de forma segura...");
-
-            try {
-                if (!URL_GOOGLE_SCRIPT.startsWith("https://script.google.com/macros/s/")) {
-                    throw new Error("Primero configura la URL de implementación del script de voluntarios.");
-                }
-
-                const response = await fetch(URL_GOOGLE_SCRIPT, {
-                    method: "POST",
-                    headers: { "Content-Type": "text/plain;charset=utf-8" },
-                    body: JSON.stringify(datos)
-                });
-                if (!response.ok) {
-                    throw new Error(`El servicio respondió con estado ${response.status}.`);
-                }
-
-                const resultado = await response.json();
-                if (resultado.status !== "éxito" && resultado.status !== "success") {
-                    throw new Error(resultado.mensaje || "El servicio no confirmó el registro.");
-                }
-
-                form.reset();
-                mostrarEstado("¡Registro enviado correctamente! Gracias por sumarte al equipo.", "success");
-            } catch (error) {
-                console.error("No se pudo confirmar el registro de voluntario:", error);
-                mostrarEstado(`No se pudo confirmar el envío. ${error.message} Inténtalo nuevamente o contacta al equipo organizador.`, "error");
-            } finally {
-                submitButton.disabled = false;
-                submitButton.textContent = "Confirmar registro";
-            }
-        });
     </script>
 </body>
 </html>
