@@ -177,6 +177,131 @@
         .card h3 { color: var(--gold); font-family: 'Cinzel', serif; margin-top: 0; }
         .card p { font-size: 14px; line-height: 1.6; color: var(--text-muted); margin: 0; }
 
+        /* SECCIONES DE PARTICIPACIÓN */
+        .community-section {
+            position: relative;
+            z-index: 1;
+            padding: 60px 5vw;
+            background: linear-gradient(160deg, #0b1f42 0%, #07152d 100%);
+            border-top: 1px solid rgba(224, 169, 34, 0.2);
+            border-bottom: 1px solid rgba(224, 169, 34, 0.2);
+        }
+        .community-content { width: min(100%, 1000px); margin: 0 auto; }
+        .community-intro {
+            max-width: 720px;
+            margin: -20px auto 32px;
+            color: var(--text-muted);
+            text-align: center;
+            line-height: 1.7;
+        }
+        .community-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr));
+            gap: 20px;
+        }
+        .community-card {
+            padding: 30px;
+            background: rgba(3, 10, 23, 0.65);
+            border: 1px solid rgba(224, 169, 34, 0.3);
+            border-radius: 15px;
+        }
+        .community-card h3 {
+            margin: 0 0 12px;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+        }
+        .community-card p, .community-card li {
+            color: var(--text-muted);
+            font-size: 14px;
+            line-height: 1.7;
+        }
+        .community-card ul { padding-left: 20px; margin-bottom: 20px; }
+        .upload-form { display: grid; gap: 12px; }
+        .upload-form label, .report-dialog label {
+            color: var(--text-light);
+            font-size: 13px;
+            font-weight: 600;
+        }
+        .upload-form input[type="file"], .report-dialog input, .report-dialog textarea {
+            width: 100%;
+            box-sizing: border-box;
+            padding: 12px;
+            border: 1px solid rgba(224, 169, 34, 0.4);
+            border-radius: 8px;
+            background: rgba(3, 10, 23, 0.8);
+            color: var(--text-light);
+            font: inherit;
+        }
+        .report-dialog textarea { min-height: 120px; resize: vertical; }
+        .upload-form .btn, .report-dialog .btn { border: 0; cursor: pointer; }
+        .upload-form .btn:disabled, .report-dialog .btn:disabled {
+            opacity: 0.65;
+            cursor: wait;
+            transform: none;
+        }
+        .upload-status {
+            min-height: 1.5em;
+            margin: 0 !important;
+            color: var(--text-muted);
+            font-size: 13px !important;
+        }
+        .privacy-notice {
+            padding: 14px 16px;
+            border-left: 3px solid var(--gold);
+            background: rgba(224, 169, 34, 0.08);
+            color: var(--text-muted);
+            font-size: 13px;
+            line-height: 1.6;
+        }
+        .report-cta {
+            max-width: 900px;
+            margin: 28px auto 0;
+            padding: 22px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 16px;
+            border: 1px solid rgba(224, 169, 34, 0.24);
+            border-radius: 14px;
+            background: rgba(3, 10, 23, 0.55);
+            text-align: center;
+        }
+        .report-cta p { margin: 0; color: var(--text-muted); font-size: 13px; }
+        .report-dialog {
+            width: min(620px, calc(100% - 32px));
+            max-height: min(85vh, 760px);
+            overflow-y: auto;
+            padding: 0;
+            border: 1px solid rgba(224, 169, 34, 0.5);
+            border-radius: 16px;
+            background: linear-gradient(155deg, #0b1f42, #030a17 85%);
+            color: var(--text-light);
+            box-shadow: 0 24px 70px rgba(0, 0, 0, 0.7);
+        }
+        .report-dialog::backdrop { background: rgba(0, 0, 0, 0.78); backdrop-filter: blur(4px); }
+        .report-dialog-content { padding: clamp(22px, 5vw, 36px); }
+        .report-dialog h2 {
+            margin: 0 42px 10px 0;
+            color: var(--gold);
+            font-family: 'Cinzel', serif;
+            font-size: clamp(21px, 5vw, 28px);
+        }
+        .report-dialog p { color: var(--text-muted); font-size: 13px; line-height: 1.7; }
+        .report-dialog form { display: grid; gap: 14px; margin-top: 22px; }
+        .report-dialog label { display: grid; gap: 7px; }
+        .dialog-close {
+            float: right;
+            width: 38px;
+            height: 38px;
+            border: 1px solid rgba(224, 169, 34, 0.4);
+            border-radius: 50%;
+            background: transparent;
+            color: var(--gold);
+            font-size: 22px;
+            cursor: pointer;
+        }
+        .community-card .privacy-notice { margin-top: 18px; }
         /* SECCIÓN DEL MAPA */
         .map-section {
             position: relative;
@@ -243,9 +368,11 @@
             .hero-actions { display: flex; flex-direction: column; gap: 15px; }
             .btn-outline { margin-left: 0; }
             .map-container { height: 300px; }
-            .info-section, .map-section { padding-top: 48px; }
+            .info-section, .community-section, .map-section { padding-top: 48px; }
             .info-section { margin-top: -44px; }
             .map-section { margin-top: -44px; }
+            .community-card { padding: 24px 20px; }
+            .report-cta { flex-direction: column; }
             
         }
         @media (prefers-reduced-motion: reduce) {
@@ -276,7 +403,7 @@
             <div class="hero-actions" data-parallax>
                 <a href="#ruta" class="btn">Ver Ruta Oficial</a>
                 <a href="#detalles" class="btn btn-outline">Conocer Más</a>
-                <a href="https://feue.uleam.edu.ec" class="btn btn-outline">Portal FEUE ULEAM</a>
+                <a href="../feueuleam.html" class="btn btn-outline">Portal FEUE ULEAM</a>
             </div>
         </div>
     </section>
@@ -303,6 +430,31 @@
         </div>
     </section>
 
+    <!-- Carga de recuerdos del evento -->
+    <section class="community-section" aria-labelledby="comunidad-title">
+        <div class="community-content">
+            <h2 id="comunidad-title" class="section-title">La Murga también la compartes tú</h2>
+            <p class="community-intro">Comparte tus recuerdos de la Murga Universitaria. Tus archivos se guardan de forma privada y no se muestran en esta página.</p>
+            <div class="community-grid">
+                <article class="community-card" aria-labelledby="galeria-title">
+                    <div class="card-icon" aria-hidden="true">📸</div>
+                    <h3 id="galeria-title">Sube tus momentos</h3>
+                    <p>Elige fotos y videos para compartir con el equipo organizador. Los visitantes no podrán consultar ni modificar los archivos.</p>
+                    <ul>
+                        <li>Comparte solo contenido relacionado con el evento.</li>
+                        <li>Respeta la privacidad y solicita autorización antes de compartir primeros planos de otras personas.</li>
+                    </ul>
+                    <form id="momentsForm" class="upload-form">
+                        <label for="momentsFiles">Fotos o videos (máximo 5 archivos, 100 MB por archivo y 300 MB en total)</label>
+                        <input id="momentsFiles" name="files" type="file" accept="image/*,video/*" multiple required>
+                        <button class="btn" type="submit">Subir mis momentos</button>
+                        <p id="momentsStatus" class="upload-status" role="status" aria-live="polite"></p>
+                    </form>
+                </article>
+            </div>
+        </div>
+    </section>
+
     <!-- Mapa Interactivo -->
     <section id="ruta" class="map-section">
         <h2 class="section-title" data-parallax>Ruta del Recorrido</h2>
@@ -313,13 +465,39 @@
             <!-- Google My Maps Embed -->
             <iframe src="https://www.google.com/maps/d/embed?mid=1BBs8PmGptN4LzF6TTMAthdPtn7Q1dTY" title="Mapa de la ruta oficial de la Murga ULEAM 2026" allowfullscreen="" loading="lazy"></iframe>
         </div>
+        <div class="report-cta">
+            <p>¿Necesitas informar sobre un incidente? La denuncia se envía de manera privada y anonima.</p>
+            <button id="openReportDialog" class="btn btn-outline" type="button" aria-haspopup="dialog">Denuncia</button>
+        </div>
     </section>
+
+    <dialog id="reportDialog" class="report-dialog" aria-labelledby="reportTitle">
+        <div class="report-dialog-content">
+            <button id="closeReportDialog" class="dialog-close" type="button" aria-label="Cerrar formulario de denuncia">×</button>
+            <h2 id="reportTitle">Denuncia un incidente</h2>
+            <p>Describe lo ocurrido y el artículo del reglamento relacionado. La denuncia y sus evidencias se recopilan de forma privada; no se publicarán en esta página.</p>
+            <p class="privacy-notice">No incluyas información personal innecesaria. Las denuncias serán revisadas por la FEUE ULEAM, y serán tomadas en cuenta para el evento en general, y posterior a este.</p>
+            <form id="reportForm">
+                <label for="reportReason">Motivos del reporte
+                    <textarea id="reportReason" name="reason" maxlength="1200" required></textarea>
+                </label>
+                <label for="reportArticle">Artículo del reglamento relacionado con el incidente
+                    <input id="reportArticle" name="article" type="text" maxlength="120" placeholder="Ej.: Artículo 12" required>
+                </label>
+                <label for="reportFiles">Evidencia (1 a 5 imágenes o videos, 100 MB por archivo y 200 MB en total)
+                    <input id="reportFiles" name="files" type="file" accept="image/*,video/*" multiple required>
+                </label>
+                <button class="btn" type="submit">Enviar denuncia de forma anonima</button>
+                <p id="reportStatus" class="upload-status" role="status" aria-live="polite"></p>
+            </form>
+        </div>
+    </dialog>
 
     <!-- Pie de página -->
     <footer>
         <p>Organizado por el Frente Estudiantil<br>
         <span>FEUE ULEAM</span></p>
-        <p><a href="feueuleam.html" style="color: var(--gold); text-decoration: none;">Volver al portal de FEUE ULEAM</a></p>
+        <p><a href="../feueuleam.html" style="color: var(--gold); text-decoration: none;">Volver al portal de FEUE ULEAM</a></p>
         <p style="opacity: 0.5; margin-top: 20px;">© Coordinador de la FEUE ULEAM</p>
     </footer>
 
@@ -366,6 +544,169 @@
             star.style.animationDelay = Math.random() * 5 + 's';
             starsContainer.appendChild(star);
         }
+    </script>
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCexqyV6YOJ8BdIVKKH743XBJyHRIqYRPs",
+            authDomain: "murga-invitations.firebaseapp.com",
+            projectId: "murga-invitations",
+            storageBucket: "murga-invitations.firebasestorage.app",
+            messagingSenderId: "484487993547",
+            appId: "1:484487993547:web:c96aa399f71d614b1a634e",
+            measurementId: "G-XG2HNRTE5C"
+        };
+        const storage = getStorage(initializeApp(firebaseConfig));
+        const maxFileSize = 100 * 1024 * 1024;
+        const maxBatchSizes = { Memorables: 300 * 1024 * 1024, Denuncias: 200 * 1024 * 1024 };
+        const allowedMimeType = /^(image\/(jpeg|png|webp|gif|heic|heif)|video\/(mp4|quicktime|webm|3gpp|x-m4v))$/;
+        const reportDialog = document.getElementById('reportDialog');
+        const openReportDialog = document.getElementById('openReportDialog');
+        const closeReportDialog = document.getElementById('closeReportDialog');
+
+        function validateFiles(files, maxCount, maxTotalSize) {
+            if (!files.length) throw new Error('Selecciona al menos un archivo.');
+            if (files.length > maxCount) throw new Error(`Puedes seleccionar hasta ${maxCount} archivos.`);
+            const totalSize = files.reduce((total, file) => total + file.size, 0);
+            if (totalSize > maxTotalSize) {
+                throw new Error(`El tamaño total de los archivos no puede superar ${Math.floor(maxTotalSize / (1024 * 1024))} MB.`);
+            }
+            for (const file of files) {
+                if (!file.size) throw new Error(`"${file.name}" está vacío.`);
+                if (!allowedMimeType.test(file.type)) {
+                    throw new Error(`El formato de "${file.name}" no es compatible. Usa una imagen o video común.`);
+                }
+                if (file.size > maxFileSize) {
+                    throw new Error(`"${file.name}" supera el límite de 100 MB.`);
+                }
+            }
+        }
+
+        function uploadFile(file, path, metadata, onProgress) {
+            return new Promise((resolve, reject) => {
+                const task = uploadBytesResumable(ref(storage, path), file, {
+                    contentType: file.type,
+                    customMetadata: metadata
+                });
+                task.on('state_changed', snapshot => {
+                    onProgress(Math.round((snapshot.bytesTransferred / snapshot.totalBytes) * 100));
+                }, reject, () => resolve());
+            });
+        }
+
+        function showUploadError(status, error) {
+            console.error('No se pudo completar la carga del archivo:', error);
+            if (error.code === 'storage/unauthorized') {
+                status.textContent = 'Firebase Storage rechazó la carga. Verifica las reglas de permisos y vuelve a intentarlo.';
+            } else if (error.code === 'storage/canceled') {
+                status.textContent = 'La carga fue cancelada.';
+            } else {
+                status.textContent = 'No se pudo completar la carga. Verifica tu conexión e inténtalo de nuevo.';
+            }
+        }
+
+        async function uploadFiles(files, folder, status, maxCount, metadataForFirstFile) {
+            validateFiles(files, maxCount, maxBatchSizes[folder]);
+            const batchId = crypto.randomUUID();
+            for (let index = 0; index < files.length; index++) {
+                const file = files[index];
+                const extension = file.name.includes('.') ? file.name.split('.').pop().toLowerCase().replace(/[^a-z0-9]/g, '') : '';
+                const objectName = `${String(index + 1).padStart(2, '0')}-${crypto.randomUUID()}${extension ? `.${extension}` : ''}`;
+                const customMetadata = index === 0 && metadataForFirstFile
+                    ? { batchId, ...metadataForFirstFile }
+                    : { batchId };
+                await uploadFile(file, `${folder}/${batchId}/${objectName}`, customMetadata, percent => {
+                    status.textContent = `Subiendo archivo ${index + 1} de ${files.length}: ${percent}%.`;
+                });
+            }
+            return batchId;
+        }
+
+        function setFormBusy(form, busy) {
+            form.querySelector('button[type="submit"]').disabled = busy;
+            form.querySelectorAll('input, textarea').forEach(input => { input.disabled = busy; });
+            if (form.id === 'reportForm') closeReportDialog.disabled = busy;
+        }
+
+        document.getElementById('momentsForm').addEventListener('submit', async event => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            if (form.querySelector('button[type="submit"]').disabled) return;
+            const files = Array.from(document.getElementById('momentsFiles').files);
+            const status = document.getElementById('momentsStatus');
+            status.textContent = '';
+            try {
+                validateFiles(files, 20, maxBatchSizes.Memorables);
+            } catch (error) {
+                status.textContent = error.message;
+                return;
+            }
+            setFormBusy(form, true);
+            try {
+                await uploadFiles(files, 'Memorables', status, 20);
+                status.textContent = '¡Gracias! Tus momentos se cargaron correctamente.';
+                form.reset();
+            } catch (error) {
+                showUploadError(status, error);
+            } finally {
+                setFormBusy(form, false);
+            }
+        });
+
+        document.getElementById('reportForm').addEventListener('submit', async event => {
+            event.preventDefault();
+            const form = event.currentTarget;
+            if (form.querySelector('button[type="submit"]').disabled) return;
+            const files = Array.from(document.getElementById('reportFiles').files);
+            const status = document.getElementById('reportStatus');
+            const reason = document.getElementById('reportReason').value.trim();
+            const article = document.getElementById('reportArticle').value.trim();
+            status.textContent = '';
+            if (!reason) {
+                status.textContent = 'Describe brevemente los motivos de la denuncia.';
+                return;
+            }
+            try {
+                validateFiles(files, 5, maxBatchSizes.Denuncias);
+            } catch (error) {
+                status.textContent = error.message;
+                return;
+            }
+            setFormBusy(form, true);
+            try {
+                await uploadFiles(files, 'Denuncias', status, 5, {
+                    tipo: 'denuncia',
+                    motivo: reason,
+                    articulo: article,
+                    fechaRecepcion: new Date().toISOString()
+                });
+                status.textContent = 'La denuncia se envió de forma privada. Gracias por informar.';
+                form.reset();
+            } catch (error) {
+                showUploadError(status, error);
+            } finally {
+                setFormBusy(form, false);
+            }
+        });
+
+        openReportDialog.addEventListener('click', () => reportDialog.showModal());
+        closeReportDialog.addEventListener('click', () => {
+            if (!document.getElementById('reportForm').querySelector('button[type="submit"]').disabled) {
+                reportDialog.close();
+            }
+        });
+        reportDialog.addEventListener('click', event => {
+            if (event.target === reportDialog && !document.getElementById('reportForm').querySelector('button[type="submit"]').disabled) {
+                reportDialog.close();
+            }
+        });
+        reportDialog.addEventListener('cancel', event => {
+            if (document.getElementById('reportForm').querySelector('button[type="submit"]').disabled) {
+                event.preventDefault();
+            }
+        });
     </script>
 </body>
 </html>
