@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" type="image/png" href="../assets/feue_favicon.png">
+    <link rel="icon" type="image/png" href="assets/feue_favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Murga Universitaria ULEAM 2026 | FEUE</title>
@@ -547,6 +547,7 @@
     </script>
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { initializeAppCheck, ReCaptchaEnterpriseProvider } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app-check.js";
         import { getStorage, ref, uploadBytesResumable } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-storage.js";
 
         const firebaseConfig = {
@@ -558,7 +559,33 @@
             appId: "1:484487993547:web:c96aa399f71d614b1a634e",
             measurementId: "G-XG2HNRTE5C"
         };
-        const storage = getStorage(initializeApp(firebaseConfig));
+        const recaptchaEnterpriseSiteKey = "6Lc7Lg0uAAAAAP86yJWC3LCrYsGZjUWW8yG5HWnI";
+        const app = initializeApp(firebaseConfig);
+        const momentsForm = document.getElementById('momentsForm');
+        const reportForm = document.getElementById('reportForm');
+        const momentsStatus = document.getElementById('momentsStatus');
+        const reportStatus = document.getElementById('reportStatus');
+        let storage;
+
+        try {
+            if (window.location.protocol === 'file:') {
+                throw new Error('App Check requiere abrir la página desde el dominio web HTTPS, no desde un archivo local.');
+            }
+            initializeAppCheck(app, {
+                provider: new ReCaptchaEnterpriseProvider(recaptchaEnterpriseSiteKey),
+                isTokenAutoRefreshEnabled: true
+            });
+            storage = getStorage(app);
+        } catch (error) {
+            console.error('No se pudo inicializar Firebase App Check:', error);
+            const message = error.message.includes('archivo local')
+                ? error.message
+                : 'No se pudo iniciar la protección App Check. Verifica la site key y el dominio autorizado.';
+            momentsStatus.textContent = message;
+            reportStatus.textContent = message;
+            momentsForm.querySelector('button[type="submit"]').disabled = true;
+            reportForm.querySelector('button[type="submit"]').disabled = true;
+        }
         const maxFileSize = 100 * 1024 * 1024;
         const maxBatchSizes = { Memorables: 300 * 1024 * 1024, Denuncias: 200 * 1024 * 1024 };
         const allowedMimeType = /^(image\/(jpeg|png|webp|gif|heic|heif)|video\/(mp4|quicktime|webm|3gpp|x-m4v))$/;
@@ -586,6 +613,10 @@
 
         function uploadFile(file, path, metadata, onProgress) {
             return new Promise((resolve, reject) => {
+                if (!storage) {
+                    reject(new Error('Firebase Storage no está disponible porque App Check no se inicializó.'));
+                    return;
+                }
                 const task = uploadBytesResumable(ref(storage, path), file, {
                     contentType: file.type,
                     customMetadata: metadata
@@ -599,7 +630,7 @@
         function showUploadError(status, error) {
             console.error('No se pudo completar la carga del archivo:', error);
             if (error.code === 'storage/unauthorized') {
-                status.textContent = 'Firebase Storage rechazó la carga. Verifica las reglas de permisos y vuelve a intentarlo.';
+                status.textContent = 'Firebase Storage rechazó la carga. Verifica que App Check esté registrado para esta web, que el dominio feue.uleam.edu.ec esté autorizado y que las reglas permitan la carga.';
             } else if (error.code === 'storage/canceled') {
                 status.textContent = 'La carga fue cancelada.';
             } else {
@@ -638,14 +669,14 @@
             const status = document.getElementById('momentsStatus');
             status.textContent = '';
             try {
-                validateFiles(files, 20, maxBatchSizes.Memorables);
+                validateFiles(files, 5, maxBatchSizes.Memorables);
             } catch (error) {
                 status.textContent = error.message;
                 return;
             }
             setFormBusy(form, true);
             try {
-                await uploadFiles(files, 'Memorables', status, 20);
+                await uploadFiles(files, 'Memorables', status, 5);
                 status.textContent = '¡Gracias! Tus momentos se cargaron correctamente.';
                 form.reset();
             } catch (error) {
