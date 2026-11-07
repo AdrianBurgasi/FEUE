@@ -114,7 +114,6 @@ function leerRegistrosCSV(texto) {
             ? "activo"
             : normalizarEncabezado(fila[columnas.estado] || "");
         const registro = {
-            id: resultado.length + 1,
             facultad: (fila[columnas.facultad] || "").trim(),
             cargo: (fila[columnas.cargo] || "").trim(),
             nombre: (fila[columnas.nombre] || "").trim(),
@@ -122,6 +121,13 @@ function leerRegistrosCSV(texto) {
             seccion: seccionActual,
             subseccion: subseccionActual || "General"
         };
+        registro.id = [
+            registro.seccion,
+            registro.subseccion,
+            registro.facultad,
+            registro.cargo,
+            registro.nombre
+        ].filter(Boolean).join(" | ");
 
         if (registro.facultad && registro.cargo && registro.nombre) {
             resultado.push(registro);
@@ -175,7 +181,7 @@ function crearTablaGrupo(registrosGrupo) {
         boton.className = "btn-update";
         boton.type = "button";
         boton.textContent = "✎ Proponer Cambio";
-        boton.addEventListener("click", () => abrirModal(reg.id, reg.cargo));
+        boton.addEventListener("click", () => abrirModal(reg));
         celdaAccion.appendChild(boton);
 
         tbody.appendChild(tr);
@@ -249,10 +255,11 @@ async function cargarDirectivaDesdeGoogleSheets() {
 }
 
 // Control del Modal (Ventana emergente)
-function abrirModal(id, cargo) {
+function abrirModal(registro) {
     document.getElementById('modalOverlay').style.display = 'flex';
-    document.getElementById('modal-cargo-facultad').innerText = cargo;
-    document.getElementById('registro-id').value = id;
+    document.getElementById('modal-cargo-facultad').textContent =
+        `${registro.facultad} · ${registro.cargo} · ${registro.nombre}`;
+    document.getElementById('registro-id').value = registro.id;
 }
 
 function cerrarModal() {
