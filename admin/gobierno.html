@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <link rel="icon" type="image/png" href="../assets/feue_favicon.png">
+    <link rel="icon" type="image/png" href="assets/feue_favicon.png">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Portal de Directivas | FEUE ULEAM</title>
@@ -33,14 +33,65 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
+            gap: 20px;
             border-bottom: 1px solid var(--border);
             box-shadow: 0 4px 15px rgba(128, 139, 238, 0.5);
         }
         
         .header-left { display: flex; align-items: center; gap: 15px; }
+        .header-actions {
+            display: flex;
+            align-items: center;
+            justify-content: flex-end;
+            gap: 18px;
+        }
+        .header-notice {
+            margin: 0;
+            color: #0d0055;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-align: right;
+        }
         .logo { display: block; height: clamp(19%, 18vw, 18vh); width: clamp(19%, 18vw, 18vh); border-radius: 50%; }
         .title-container h1 { font-family: 'Merriweather', serif; color: rgba(170, 1, 1, 0.979); margin: 0; font-size: clamp(12px, 2vw, 20px); }
         .title-container p { margin: 0; font-weight: bold; font-size: 13px; color: #020266; letter-spacing: 1px; }
+        #logoutBtn {
+            flex: 0 0 auto;
+            padding: 10px 16px;
+            border: 1px solid var(--primary);
+            border-radius: 5px;
+            background: var(--primary);
+            color: #fff;
+            cursor: pointer;
+            font-family: 'Montserrat', sans-serif;
+            font-size: 12px;
+            font-weight: 600;
+            white-space: nowrap;
+            transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+        }
+        #logoutBtn:hover:not(:disabled) {
+            transform: translateY(-1px);
+            background: #153665;
+        }
+        #logoutBtn:focus-visible {
+            outline: 3px solid var(--gold);
+            outline-offset: 3px;
+        }
+        #logoutBtn:disabled { cursor: wait; opacity: 0.7; }
+        @media (max-width: 700px) {
+            header {
+                align-items: stretch;
+                flex-direction: column;
+                gap: 12px;
+                padding: 12px 5vw;
+            }
+            .header-actions {
+                justify-content: space-between;
+                gap: 12px;
+            }
+            .header-notice { font-size: 0.75rem; text-align: left; }
+            #logoutBtn { padding: 9px 13px; font-size: 11px; }
+        }
         
 
         /* CONTENEDOR PRINCIPAL */
@@ -62,19 +113,6 @@
             gap: 15px;
         }
         .dashboard-header h2 { font-family: 'Cinzel', serif; margin: 0; font-size: 24px; color: #d0cfcf; text-align: center; flex: 1; }
-        #logoutBtn {
-            background: transparent;
-            position: absolute; top: 120px; right: 60px;
-            border: 1px solid rgba(1, 41, 220, 0.964);
-            color: rgba(1, 41, 220, 0.964);
-            padding: 8px 15px;
-            border-radius: 5px;
-            cursor: pointer;
-            font-family: 'Montserrat', sans-serif;
-            font-size: 12px;
-            font-weight: 600;
-            transition: 0.3s;
-        }
         body.auth-pending main,
         body.auth-pending #logoutBtn { visibility: hidden; }
         /* TABLA DE DIRECTIVAS */
@@ -228,16 +266,18 @@
 <body class="auth-pending">
 
     <header>
-        <button id="logoutBtn">Cerrar Sesión</button>
-        <div class="header-left">
-            <img class="logo" src="../assets/feue_logo_horizontal.png" alt="Logo ULEAM">
-            <div class="title-container">
-                <h1>SISTEMA DE GESTIÓN DE DIRECTIVAS</h1>
-                <p></p>
-            </div>
+    <div class="header-left">
+        <img class="logo" src="../assets/feue_logo_horizontal.png" alt="Logo ULEAM">
+        <div class="title-container">
+            <h1>SISTEMA DE GESTIÓN DE DIRECTIVAS</h1>
+            <p></p>
         </div>
-        <div style="font-size:clamp(50%, 0.8rem, 1rem); text-align: center; font-weight: bold; color: #0d0055;">Uso Exclusivo Miembros Estudiantil Uleam</div>
-    </header>
+    </div>
+    <div class="header-actions">
+        <p class="header-notice">Uso Exclusivo Miembros Estudiantil Uleam</p>
+        <button id="logoutBtn" type="button">Cerrar Sesión</button>
+    </div>
+</header>
 
     <main>
         <div class="dashboard-header">
@@ -257,7 +297,7 @@
             <button class="close-btn" onclick="cerrarModal()">×</button>
             <h3>Proponer Actualización</h3>
             <p style="font-size: 13px; color: #ccc; margin-bottom: 20px;">
-                Actualizando el registro de: <strong id="modal-cargo-facultad" style="color: var(--gold);"></strong>
+                Registro al que corresponde la propuesta: <strong id="modal-cargo-facultad" style="color: var(--gold);"></strong>
             </p>
             
             <form id="updateForm">
