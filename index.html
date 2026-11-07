@@ -284,7 +284,7 @@
         }
         .hero-scroll::after { width: 42px; height: 1px; background: var(--gold); content: ""; }
 
-        /* PROMOCION TEMPORAL DE VOLUNTARIOS: quitar este bloque para retirarla. */
+        /* SECCION TEMPORAL DE CUENTA REGRESIVA: quitar este bloque para retirarla. */
         .volunteer-promo {
             display: flex;
             width: min(calc(100% - 40px), var(--content-width));
@@ -306,20 +306,48 @@
             letter-spacing: 1.8px;
             text-transform: uppercase;
         }
-        .volunteer-promo-message {
+        .volunteer-promo-date {
             margin: 0;
             color: #e2e6ed;
-            font-family: 'Cinzel', Georgia, serif;
-            font-size: clamp(13px, 1.5vw, 16px);
-            transition: opacity 180ms ease;
+            font-size: 10px;
+            letter-spacing: 0.3px;
         }
-        .volunteer-promo-message.is-changing { opacity: 0; }
+        .countdown-clock {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .countdown-unit {
+            display: grid;
+            min-width: 52px;
+            gap: 2px;
+            padding: 6px 8px;
+            border: 1px solid rgba(249, 217, 118, 0.45);
+            border-top: 2px solid var(--red);
+            background: rgba(3, 10, 23, 0.58);
+            text-align: center;
+        }
+        .countdown-unit strong {
+            color: var(--gold-light);
+            font-family: 'Cinzel', Georgia, serif;
+            font-size: 18px;
+            line-height: 1;
+            font-variant-numeric: tabular-nums;
+        }
+        .countdown-unit span {
+            color: #c4ccda;
+            font-size: 8px;
+            letter-spacing: 0.7px;
+            text-transform: uppercase;
+        }
+        .countdown-unit:last-child strong { color: #ff746c; }
         .volunteer-promo-link {
             flex: 0 0 auto;
             padding: 11px 15px;
-            border: 1px solid rgba(249, 217, 118, 0.65);
+            border: 1px solid var(--red);
             border-radius: 3px;
-            color: var(--gold-light);
+            background: rgba(227, 66, 58, 0.14);
+            color: #ffaaa5;
             font-size: 10px;
             font-weight: 700;
             letter-spacing: 0.7px;
@@ -328,7 +356,7 @@
             transition: background 160ms ease, color 160ms ease;
         }
         .volunteer-promo-link:hover,
-        .volunteer-promo-link:focus-visible { background: var(--gold-light); color: var(--navy); }
+        .volunteer-promo-link:focus-visible { background: var(--red); color: white; }
 
         .ticker {
             overflow: hidden;
@@ -692,7 +720,9 @@
             .hero-stamp { right: 12%; bottom: 1%; width: 78px; height: 78px; font-size: 8px; }
             .hero-stamp strong { font-size: 19px; }
             .hero-scroll { right: 22px; bottom: 24px; font-size: 8px; }
-            .volunteer-promo { width: calc(100% - 28px); align-items: flex-start; flex-direction: column; gap: 12px; margin-top: 12px; padding: 15px; }
+            .volunteer-promo { width: calc(100% - 28px); align-items: flex-start; flex-direction: column; gap: 10px; margin-top: 12px; padding: 15px; }
+            .countdown-clock { width: 100%; gap: 6px; }
+            .countdown-unit { min-width: 0; flex: 1; padding: 6px 4px; }
             .volunteer-promo-link { align-self: flex-start; }
             .section { padding: 70px 20px; }
             .values-heading, .team-heading { align-items: start; flex-direction: column; }
@@ -739,15 +769,21 @@
     </header>
 
     <main id="contenido">
-        <!-- Inicio de la PROMOCION TEMPORAL de voluntarios. -->
+        <!-- Inicio de la SECCION TEMPORAL de cuenta regresiva. -->
         <aside class="volunteer-promo" aria-labelledby="volunteer-promo-label">
             <div class="volunteer-promo-copy">
-                <p class="volunteer-promo-label" id="volunteer-promo-label">Voluntarios Murga Uleam 2026</p>
-                <p class="volunteer-promo-message" id="volunteer-promo-message" aria-live="off">Tu compromiso fortalece nuestra comunidad universitaria.</p>
+                <p class="volunteer-promo-label" id="volunteer-promo-label">Murga ULEAM 2026</p>
+                <p class="volunteer-promo-date">11 de noviembre · 17h00 (Ecuador)</p>
             </div>
-            <a class="volunteer-promo-link" href="voluntarios">Ir a voluntarios <span aria-hidden="true">↗</span></a>
+            <div class="countdown-clock" role="timer" aria-label="Tiempo restante para la Murga ULEAM 2026" aria-live="off">
+                <div class="countdown-unit"><strong id="countdown-days">0</strong><span>Días</span></div>
+                <div class="countdown-unit"><strong id="countdown-hours">00</strong><span>Horas</span></div>
+                <div class="countdown-unit"><strong id="countdown-minutes">00</strong><span>Min</span></div>
+                <div class="countdown-unit"><strong id="countdown-seconds">00</strong><span>Seg</span></div>
+            </div>
+            <a class="volunteer-promo-link" href="murga/murgamain">Ir a la Murga <span aria-hidden="true">↗</span></a>
         </aside>
-        <!-- Fin de la PROMOCION TEMPORAL de voluntarios. -->
+        <!-- Fin de la SECCION TEMPORAL de cuenta regresiva. -->
 
         <section class="hero" id="inicio" aria-labelledby="hero-title">
             <div class="hero-copy" data-reveal>
@@ -1001,23 +1037,23 @@
             }
         });
 
-        // Mensajes rotativos para la sección de voluntariado.
-        const mensajesVoluntariado = [
-            "Tu compromiso fortalece la universidad.",
-            "Vive la experiencia que nos une.",
-            "Cada aporte suma la vida universitaria.",
-            "Participa y construyamos juntos."
-        ];
-        const mensajeVoluntariado = document.getElementById("volunteer-promo-message");
-        let indiceMensajeVoluntariado = 0;
-        window.setInterval(() => {
-            mensajeVoluntariado.classList.add("is-changing");
-            window.setTimeout(() => {
-                indiceMensajeVoluntariado = (indiceMensajeVoluntariado + 1) % mensajesVoluntariado.length;
-                mensajeVoluntariado.textContent = mensajesVoluntariado[indiceMensajeVoluntariado];
-                mensajeVoluntariado.classList.remove("is-changing");
-            }, 180);
-        }, 2000);
+        const fechaMurga2026 = new Date("2026-11-11T17:00:00-05:00").getTime();
+        function actualizarCuentaRegresivaMurga() {
+            let tiempoRestante = Math.max(0, fechaMurga2026 - Date.now());
+            const dias = Math.floor(tiempoRestante / 86400000);
+            tiempoRestante %= 86400000;
+            const horas = Math.floor(tiempoRestante / 3600000);
+            tiempoRestante %= 3600000;
+            const minutos = Math.floor(tiempoRestante / 60000);
+            const segundos = Math.floor((tiempoRestante % 60000) / 1000);
+
+            document.getElementById("countdown-days").textContent = String(dias);
+            document.getElementById("countdown-hours").textContent = String(horas).padStart(2, "0");
+            document.getElementById("countdown-minutes").textContent = String(minutos).padStart(2, "0");
+            document.getElementById("countdown-seconds").textContent = String(segundos).padStart(2, "0");
+        }
+        actualizarCuentaRegresivaMurga();
+        window.setInterval(actualizarCuentaRegresivaMurga, 1000);
         // Animación de revelado de elementos al hacer scroll.
         const elementosRevelar = document.querySelectorAll("[data-reveal]");
         if ("IntersectionObserver" in window && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
