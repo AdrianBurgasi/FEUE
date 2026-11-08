@@ -633,8 +633,8 @@
         }
         .contact-band p { margin: 0; font-family: 'Cinzel', serif; font-size: clamp(21px, 3.2vw, 34px); }
         .contact-band span { display: block; margin-top: 8px; font-family: 'Montserrat', sans-serif; font-size: 11px; line-height: 1.7; }
+        .contact-band-actions { display: grid; flex-shrink: 0; gap: 10px; }
         .contact-band a {
-            flex-shrink: 0;
             padding: 13px 18px;
             border: 1px solid rgba(255,255,255,.7);
             border-radius: 3px;
@@ -642,6 +642,7 @@
             font-size: 10px;
             font-weight: 700;
             letter-spacing: 1px;
+            text-align: center;
             text-decoration: none;
             text-transform: uppercase;
         }
@@ -904,7 +905,10 @@
 
         <section class="contact-band" id="contacto" aria-label="Contacto y redes oficiales">
             <p>La vida universitaria<br>se vive en comunidad.<span>Encuentra aquí los espacios oficiales de FEUE ULEAM.</span></p>
-            <a href="#redes">Redes oficiales ↓</a>
+            <div class="contact-band-actions">
+                <a href="#redes">Redes oficiales ↓</a>
+                <a href="assets/estatuto-feue.pdf" target="_blank" rel="noopener">Normativa interna ↗</a>
+            </div>
         </section>
     </main>
 
