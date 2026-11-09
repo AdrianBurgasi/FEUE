@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="theme-color" content="#07152d">
+    <title>Control de incidencias | Murga ULEAM 2026</title>
+    <style>
+        :root {
+            color-scheme: dark;
+            --navy: #07152d;
+            --navy-light: #102649;
+            --gold: #e0a922;
+            --gold-light: #f9d976;
+            --red: #a51620;
+            --paper: #f5f2eb;
+            --muted: #aeb9ca;
+            --line: rgba(224, 169, 34, .24);
+            --green: #64d5a0;
+        }
+
+        * { box-sizing: border-box; }
+        body {
+            margin: 0;
+            min-height: 100vh;
+            background: radial-gradient(ellipse at top, #15335e 0, var(--navy) 55%, #030a17 100%);
+            color: var(--paper);
+            font-family: "Segoe UI", Arial, sans-serif;
+        }
+        button, input, select { font: inherit; }
+        button { cursor: pointer; }
+        .shell { width: min(1180px, calc(100% - 32px)); margin: 0 auto; padding: 28px 0 48px; }
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            padding: 16px 0 22px;
+            border-bottom: 1px solid var(--line);
+        }
+        .eyebrow { margin: 0 0 8px; color: var(--gold-light); font-size: 12px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+        h1 { margin: 0; font-size: clamp(24px, 4vw, 38px); }
+        .subtitle { margin: 8px 0 0; color: var(--muted); }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .sync-status { display: inline-flex; align-items: center; gap: 8px; color: var(--muted); font-size: 13px; white-space: nowrap; }
+        .sync-dot { width: 9px; height: 9px; border-radius: 50%; background: #e2a62d; }
+        .sync-status.connected .sync-dot { background: var(--green); box-shadow: 0 0 10px rgba(100, 213, 160, .7); }
+        .sync-status.error .sync-dot { background: #ff7777; }
+        .button {
+            min-height: 42px;
+            padding: 10px 15px;
+            border: 1px solid var(--line);
+            border-radius: 7px;
+            background: rgba(255,255,255,.07);
+            color: var(--paper);
+            font-weight: 700;
+        }
+        .button:hover { border-color: var(--gold); }
+        .button-primary { border-color: var(--gold); background: linear-gradient(105deg, #d5a01b, var(--gold-light)); color: #17233a; }
+        .button:disabled { cursor: wait; opacity: .6; }
+        .panel {
+            border: 1px solid var(--line);
+            border-radius: 12px;
+            background: rgba(8, 21, 42, .83);
+            box-shadow: 0 14px 36px rgba(0,0,0,.2);
+        }
+        .login-wrap { width: min(450px, 100%); margin: 48px auto; padding: 28px; }
+        .login-wrap h2, .section-title { margin: 0 0 8px; }
+        .login-wrap p { color: var(--muted); line-height: 1.55; }
+        .form-grid { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 14px; align-items: end; }
+        label { display: grid; gap: 7px; color: #dce3ee; font-size: 13px; font-weight: 650; }
+        input, select {
+            width: 100%;
+            min-height: 44px;
+            padding: 10px 12px;
+            border: 1px solid rgba(220,227,238,.2);
+            border-radius: 6px;
+            outline: none;
+            background: #0c1d38;
+            color: var(--paper);
+        }
+        input:focus, select:focus { border-color: var(--gold); box-shadow: 0 0 0 3px rgba(224,169,34,.13); }
+        input::placeholder { color: #8190a7; }
+        .field-wide { grid-column: span 2; }
+        .form-help { margin: 12px 0 0; color: var(--muted); font-size: 12px; line-height: 1.5; }
+        .form-actions { display: flex; align-items: end; }
+        .message { min-height: 20px; margin: 12px 0 0; color: #ff9a9a; font-size: 13px; }
+        .success-message { color: var(--green); }
+        .stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; margin: 22px 0; }
+        .stat { padding: 18px 20px; }
+        .stat-label { color: var(--muted); font-size: 12px; letter-spacing: .5px; text-transform: uppercase; }
+        .stat-value { display: block; margin-top: 8px; color: var(--gold-light); font-size: clamp(24px, 4vw, 32px); font-weight: 750; }
+        .stat-note { display: block; margin-top: 5px; color: var(--muted); font-size: 12px; }
+        .section { margin-top: 22px; padding: 20px; }
+        .section-heading { display: flex; justify-content: space-between; align-items: end; gap: 16px; margin-bottom: 14px; }
+        .section-heading p { margin: 4px 0 0; color: var(--muted); font-size: 13px; }
+        .table-wrap { overflow-x: auto; }
+        table { width: 100%; border-collapse: collapse; min-width: 700px; }
+        th, td { padding: 12px 11px; border-bottom: 1px solid rgba(220,227,238,.12); text-align: left; }
+        th { color: var(--gold-light); font-size: 11px; letter-spacing: .6px; text-transform: uppercase; }
+        td { color: #e5e9f0; font-size: 14px; }
+        tbody tr:last-child td { border-bottom: 0; }
+        .number-cell { color: var(--gold-light); font-weight: 750; }
+        .negative { color: #ff9393; font-weight: 750; }
+        .empty-row { padding: 24px; color: var(--muted); text-align: center; }
+        .log-table { min-width: 760px; }
+        .code-pill { display: inline-block; padding: 4px 8px; border: 1px solid var(--line); border-radius: 99px; color: var(--gold-light); font-weight: 700; }
+        .notice { margin-top: 18px; color: var(--muted); font-size: 12px; line-height: 1.55; }
+        [hidden] { display: none !important; }
+        @media (max-width: 760px) {
+            .shell { width: min(100% - 22px, 620px); padding-top: 16px; }
+            header { align-items: flex-start; flex-direction: column; }
+            .header-actions { width: 100%; justify-content: space-between; }
+            .form-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+            .field-wide { grid-column: span 2; }
+            .stats { grid-template-columns: 1fr; gap: 9px; }
+            .stat { padding: 14px 16px; }
+            .section { padding: 15px; }
+            .section-heading { align-items: flex-start; flex-direction: column; }
+        }
+        @media (max-width: 420px) {
+            .form-grid { grid-template-columns: 1fr; }
+            .field-wide { grid-column: auto; }
+            .form-actions .button { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <main class="shell">
+        <header>
+            <div>
+                <p class="eyebrow">FEUE ULEAM · Evento 2026</p>
+                <h1>Control de incidencias</h1>
+                <p class="subtitle">Registro acumulado y seguimiento en tiempo real de los carros.</p>
+            </div>
+            <div class="header-actions" id="headerActions" hidden>
+                <span class="sync-status" id="syncStatus" role="status"><span class="sync-dot"></span><span id="syncText">Conectando…</span></span>
+                <button class="button" id="logoutButton" type="button">Cerrar sesión</button>
+            </div>
+        </header>
+
+        <section class="panel login-wrap" id="loginPanel">
+            <h2>Acceso del equipo</h2>
+            <p>Inicia sesión con una de las cuentas autorizadas para registrar y consultar las incidencias.</p>
+            <form id="loginForm">
+                <label>Correo electrónico
+                    <input id="emailInput" type="email" autocomplete="username" required>
+                </label>
+                <label style="margin-top:14px">Contraseña
+                    <input id="passwordInput" type="password" autocomplete="current-password" required>
+                </label>
+                <button class="button button-primary" id="loginButton" style="width:100%;margin-top:18px" type="submit">Iniciar sesión</button>
+                <p class="message" id="loginMessage" role="alert" aria-live="polite"></p>
+            </form>
+        </section>
+
+        <section id="dashboard" hidden>
+            <section class="panel section">
+                <div class="section-heading">
+                    <div>
+                        <h2 class="section-title">Registrar incidencia</h2>
+                        <p>Registra cada novedad; el puntaje se descuenta automáticamente del carro.</p>
+                    </div>
+                </div>
+                <form id="incidentForm">
+                    <div class="form-grid">
+                        <label>Carro
+                            <select id="carSelect" required></select>
+                        </label>
+                        <label>Código de incidencia
+                            <input id="codeInput" type="text" maxlength="24" placeholder="Ej.: FCVT" autocomplete="off" required>
+                        </label>
+                        <label>Número de incidencias
+                            <input id="countInput" type="number" min="1" max="999" step="1" value="1" required>
+                        </label>
+                        <label>Puntos que resta cada una
+                            <input id="pointsInput" type="number" min="1" max="10000" step="1" value="10" required>
+                        </label>
+                        <label class="field-wide">Detalle (opcional)
+                            <input id="detailInput" type="text" maxlength="200" placeholder="Descripción breve para el equipo">
+                        </label>
+                        <div class="form-actions">
+                            <button class="button button-primary" id="saveButton" type="submit" disabled>Guardar incidencia</button>
+                        </div>
+                    </div>
+                    <p class="form-help">Ejemplo: código FCVT, 2 incidencias y 10 puntos cada una = −20 puntos. Al guardar, el registro queda en el historial compartido.</p>
+                    <p class="message" id="formMessage" role="status" aria-live="polite"></p>
+                </form>
+            </section>
+
+            <section class="stats" aria-label="Resumen general">
+                <article class="panel stat">
+                    <span class="stat-label">Incidencias registradas</span>
+                    <strong class="stat-value" id="totalIncidents">0</strong>
+                    <span class="stat-note">Suma de cantidades reportadas</span>
+                </article>
+                <article class="panel stat">
+                    <span class="stat-label">Puntos descontados</span>
+                    <strong class="stat-value" id="totalPenalty">0</strong>
+                    <span class="stat-note">Acumulado de todos los carros</span>
+                </article>
+                <article class="panel stat">
+                    <span class="stat-label">Últimos 30 minutos</span>
+                    <strong class="stat-value" id="recentIncidents">0</strong>
+                    <span class="stat-note" id="recentPenalty">0 puntos descontados en este intervalo</span>
+                </article>
+            </section>
+
+            <section class="panel section">
+                <div class="section-heading">
+                    <div>
+                        <h2 class="section-title">Acumulado por carro</h2>
+                        <p>En el mismo orden de la página de resultados de Murga 2026.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table>
+                        <thead><tr><th>#</th><th>Carro</th><th>Incidencias</th><th>Puntos descontados</th><th>Últimos 30 min</th><th>Puntos últimos 30 min</th></tr></thead>
+                        <tbody id="totalsBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <section class="panel section">
+                <div class="section-heading">
+                    <div>
+                        <h2 class="section-title">Historial compartido</h2>
+                        <p>Los registros nuevos aparecen automáticamente para todo el equipo.</p>
+                    </div>
+                </div>
+                <div class="table-wrap">
+                    <table class="log-table">
+                        <thead><tr><th>Fecha y hora</th><th>Carro</th><th>Código</th><th>Cantidad</th><th>Puntos por incidencia</th><th>Descuento</th><th>Detalle</th><th>Reportado por</th></tr></thead>
+                        <tbody id="historyBody"></tbody>
+                    </table>
+                </div>
+                <p class="notice">El control de 30 minutos se calcula automáticamente según la hora de cada registro. Los datos se sincronizan mediante Firebase/Firestore.</p>
+            </section>
+        </section>
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-app.js";
+        import { getAuth, onAuthStateChanged, signInWithEmailAndPassword, signOut } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-auth.js";
+        import { getFirestore, collection, addDoc, onSnapshot, orderBy, query, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.8.1/firebase-firestore.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyCexqyV6YOJ8BdIVKKH743XBJyHRIqYRPs",
+            authDomain: "murga-invitations.firebaseapp.com",
+            projectId: "murga-invitations",
+            storageBucket: "murga-invitations.firebasestorage.app",
+            messagingSenderId: "484487993547",
+            appId: "1:484487993547:web:c96aa399f71d614b1a634e",
+            measurementId: "G-XG2HNRTE5C"
+        };
+        const authorizedEmails = new Set(["emily@feue.ec", "sabando@feue.ec", "adrian@feue.ec"]);
+        const cars = [
+            "FCTV", "FAHP", "FCS", "FCACC", "SEDE SANTO DOMINGO", "FET", "EXT. PEDERNALES",
+            "FCSDB", "CAMPUS TOSAGUA", "EXT. SUCRE", "FIIA", "EXT. CHONE", "EXT. EL CARMEN", "CAMPUS PICHINCHA"
+        ];
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+        const incidentsRef = collection(db, "murga2026_incidencias");
+        const loginPanel = document.getElementById("loginPanel");
+        const dashboard = document.getElementById("dashboard");
+        const loginMessage = document.getElementById("loginMessage");
+        const formMessage = document.getElementById("formMessage");
+        const saveButton = document.getElementById("saveButton");
+        const syncStatus = document.getElementById("syncStatus");
+        let incidents = [];
+        let unsubscribeIncidents = null;
+        let currentUser = null;
+        let nextLoginMessage = "";
+
+        const numberFormat = new Intl.NumberFormat("es-EC", { maximumFractionDigits: 0 });
+        const dateFormat = new Intl.DateTimeFormat("es-EC", {
+            dateStyle: "short",
+            timeStyle: "short"
+        });
+
+        function escapeEmail(email) {
+            return email || "Equipo";
+        }
+
+        function showLogin(message = "") {
+            loginPanel.hidden = false;
+            dashboard.hidden = true;
+            document.getElementById("headerActions").hidden = true;
+            loginMessage.textContent = message;
+        }
+
+        function setSyncState(state, message) {
+            syncStatus.className = `sync-status ${state}`;
+            document.getElementById("syncText").textContent = message;
+        }
+
+        function populateCars() {
+            const select = document.getElementById("carSelect");
+            cars.forEach((car, index) => {
+                const option = document.createElement("option");
+                option.value = String(index + 1);
+                option.textContent = `${index + 1}. ${car}`;
+                select.append(option);
+            });
+        }
+
+        function incidentDate(incident) {
+            return incident.createdAt?.toDate ? incident.createdAt.toDate() : null;
+        }
+
+        function getRecentIncidents() {
+            const cutoff = Date.now() - 30 * 60 * 1000;
+            return incidents.filter((incident) => {
+                const date = incidentDate(incident);
+                return date && date.getTime() >= cutoff;
+            });
+        }
+
+        function renderTotals() {
+            const recent = getRecentIncidents();
+            const totals = cars.map((name, index) => ({
+                name,
+                carId: index + 1,
+                count: 0,
+                penalty: 0,
+                recentCount: 0,
+                recentPenalty: 0
+            }));
+
+            incidents.forEach((incident) => {
+                const total = totals[incident.carId - 1];
+                if (!total) return;
+                total.count += incident.count;
+                total.penalty += incident.count * incident.pointsEach;
+            });
+            recent.forEach((incident) => {
+                const total = totals[incident.carId - 1];
+                if (!total) return;
+                total.recentCount += incident.count;
+                total.recentPenalty += incident.count * incident.pointsEach;
+            });
+
+            document.getElementById("totalIncidents").textContent = numberFormat.format(
+                incidents.reduce((sum, item) => sum + item.count, 0)
+            );
+            document.getElementById("totalPenalty").textContent = `−${numberFormat.format(
+                incidents.reduce((sum, item) => sum + item.count * item.pointsEach, 0)
+            )}`;
+            document.getElementById("recentIncidents").textContent = numberFormat.format(
+                recent.reduce((sum, item) => sum + item.count, 0)
+            );
+            document.getElementById("recentPenalty").textContent = `−${numberFormat.format(
+                recent.reduce((sum, item) => sum + item.count * item.pointsEach, 0)
+            )} puntos descontados en este intervalo`;
+
+            const body = document.getElementById("totalsBody");
+            body.replaceChildren();
+            totals.forEach((total) => {
+                const row = document.createElement("tr");
+                [
+                    String(total.carId),
+                    total.name,
+                    numberFormat.format(total.count),
+                    `−${numberFormat.format(total.penalty)}`,
+                    numberFormat.format(total.recentCount),
+                    `−${numberFormat.format(total.recentPenalty)}`
+                ].forEach((value, index) => {
+                    const cell = document.createElement("td");
+                    cell.textContent = value;
+                    if (index === 0) cell.className = "number-cell";
+                    if (index === 3 || index === 5) cell.className = "negative";
+                    row.append(cell);
+                });
+                body.append(row);
+            });
+        }
+
+        function renderHistory() {
+            const body = document.getElementById("historyBody");
+            body.replaceChildren();
+            if (incidents.length === 0) {
+                const row = document.createElement("tr");
+                const cell = document.createElement("td");
+                cell.colSpan = 8;
+                cell.className = "empty-row";
+                cell.textContent = "Todavía no se han registrado incidencias.";
+                row.append(cell);
+                body.append(row);
+                return;
+            }
+
+            incidents.forEach((incident) => {
+                const row = document.createElement("tr");
+                const date = incidentDate(incident);
+                const values = [
+                    date ? dateFormat.format(date) : "Guardando…",
+                    `${incident.carId}. ${cars[incident.carId - 1] || "Carro"}`,
+                    incident.code,
+                    numberFormat.format(incident.count),
+                    `−${numberFormat.format(incident.pointsEach)}`,
+                    `−${numberFormat.format(incident.count * incident.pointsEach)}`,
+                    incident.detail || "—",
+                    escapeEmail(incident.email)
+                ];
+                values.forEach((value, index) => {
+                    const cell = document.createElement("td");
+                    if (index === 2) {
+                        const pill = document.createElement("span");
+                        pill.className = "code-pill";
+                        pill.textContent = value;
+                        cell.append(pill);
+                    } else {
+                        cell.textContent = value;
+                    }
+                    if (index === 5) cell.className = "negative";
+                    row.append(cell);
+                });
+                body.append(row);
+            });
+        }
+
+        function subscribeToIncidents() {
+            if (unsubscribeIncidents) unsubscribeIncidents();
+            setSyncState("", "Conectando…");
+            saveButton.disabled = true;
+            const incidentsQuery = query(incidentsRef, orderBy("createdAt", "desc"));
+            unsubscribeIncidents = onSnapshot(incidentsQuery, (snapshot) => {
+                incidents = snapshot.docs.map((document) => ({ id: document.id, ...document.data() }));
+                renderTotals();
+                renderHistory();
+                setSyncState("connected", "En vivo");
+                saveButton.disabled = false;
+            }, (error) => {
+                console.error("No se pudieron sincronizar las incidencias:", error);
+                setSyncState("error", "Error de sincronización");
+                formMessage.textContent = error.code === "permission-denied"
+                    ? "Firestore denegó el acceso. Verifica que las reglas firestore.rules estén publicadas y que esta cuenta esté autorizada."
+                    : "No se pudo cargar el historial. Revisa la conexión y la configuración de Firestore.";
+            });
+        }
+
+        populateCars();
+        window.setInterval(renderTotals, 60 * 1000);
+
+        document.getElementById("loginForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            const button = document.getElementById("loginButton");
+            button.disabled = true;
+            loginMessage.textContent = "";
+            try {
+                const email = document.getElementById("emailInput").value.trim().toLowerCase();
+                await signInWithEmailAndPassword(auth, email, document.getElementById("passwordInput").value);
+            } catch (error) {
+                console.error("No se pudo iniciar sesión:", error);
+                loginMessage.textContent = "No se pudo iniciar sesión. Revisa el correo, la contraseña y que la cuenta exista.";
+                button.disabled = false;
+            }
+        });
+
+        document.getElementById("logoutButton").addEventListener("click", async () => {
+            try {
+                await signOut(auth);
+            } catch (error) {
+                console.error("No se pudo cerrar sesión:", error);
+                window.alert("No se pudo cerrar sesión. Inténtalo nuevamente.");
+            }
+        });
+
+        document.getElementById("incidentForm").addEventListener("submit", async (event) => {
+            event.preventDefault();
+            if (!currentUser || saveButton.disabled) return;
+            const carId = Number(document.getElementById("carSelect").value);
+            const count = Number(document.getElementById("countInput").value);
+            const pointsEach = Number(document.getElementById("pointsInput").value);
+            const code = document.getElementById("codeInput").value.trim().toUpperCase();
+            const detail = document.getElementById("detailInput").value.trim();
+            if (!Number.isInteger(carId) || carId < 1 || carId > cars.length ||
+                !Number.isInteger(count) || count < 1 || count > 999 ||
+                !Number.isInteger(pointsEach) || pointsEach < 1 || pointsEach > 10000 ||
+                !/^[A-Z0-9_-]{1,24}$/.test(code) || detail.length > 200) {
+                formMessage.className = "message";
+                formMessage.textContent = "Verifica el carro, el código y los valores numéricos.";
+                return;
+            }
+
+            saveButton.disabled = true;
+            formMessage.className = "message";
+            formMessage.textContent = "Guardando y sincronizando…";
+            try {
+                await addDoc(incidentsRef, {
+                    carId,
+                    code,
+                    count,
+                    pointsEach,
+                    detail,
+                    email: currentUser.email,
+                    uid: currentUser.uid,
+                    createdAt: serverTimestamp()
+                });
+                document.getElementById("codeInput").value = "";
+                document.getElementById("countInput").value = "1";
+                document.getElementById("detailInput").value = "";
+                formMessage.className = "message success-message";
+                formMessage.textContent = "Incidencia guardada. El acumulado ya está actualizado para el equipo.";
+                document.getElementById("codeInput").focus();
+            } catch (error) {
+                console.error("No se pudo guardar la incidencia:", error);
+                formMessage.className = "message";
+                formMessage.textContent = error.code === "permission-denied"
+                    ? "Firestore denegó el registro. Revisa que firestore.rules esté publicada y que tengas permiso."
+                    : "No se pudo guardar la incidencia. Comprueba la conexión e inténtalo otra vez.";
+            } finally {
+                saveButton.disabled = false;
+            }
+        });
+
+        onAuthStateChanged(auth, (user) => {
+            if (!user) {
+                currentUser = null;
+                if (unsubscribeIncidents) unsubscribeIncidents();
+                unsubscribeIncidents = null;
+                incidents = [];
+                showLogin(nextLoginMessage);
+                nextLoginMessage = "";
+                return;
+            }
+
+            const email = (user.email || "").toLowerCase();
+            if (!authorizedEmails.has(email)) {
+                nextLoginMessage = "Esta cuenta no está autorizada para acceder al panel.";
+                signOut(auth).catch((error) => console.error("No se pudo cerrar la sesión no autorizada:", error));
+                showLogin(nextLoginMessage);
+                return;
+            }
+
+            currentUser = user;
+            loginPanel.hidden = true;
+            dashboard.hidden = false;
+            document.getElementById("headerActions").hidden = false;
+            document.getElementById("loginButton").disabled = false;
+            subscribeToIncidents();
+        }, (error) => {
+            console.error("No se pudo verificar la sesión:", error);
+            showLogin("No se pudo verificar la sesión. Recarga la página e inténtalo nuevamente.");
+        });
+    </script>
+</body>
+</html>
