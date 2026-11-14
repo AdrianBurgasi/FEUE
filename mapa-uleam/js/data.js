@@ -58,8 +58,8 @@ const CAMPUS_DATA = [
     nombre: "Bloque 02",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
-    facultad: "Unidad Académica • Sector Puerta 1 y Plaza Cultural",
-    referencia: "Junto al Punto de Encuentro, C.A.C. e Ingreso Puerta 1.",
+    facultad: "Edificio de Eduación • Sector Puerta 1 y Plaza Cultural",
+    referencia: "Frente al Paraninfo, Ingreso Puerta 1.",
     zoomScale: 3.2,
     polygon: [
       [696, 514], [730, 472], [762, 502], [728, 554]
@@ -217,8 +217,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-jmn",
-    codigo: "JMN",
-    nombre: "Juan Montalvo Bloque Nuevo",
+    codigo: "FCSDB",
+    nombre: "Derecho-Criminologia-Relaciones Internacionales",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Complejo Académico • Sector Sur Central",
@@ -237,7 +237,7 @@ const CAMPUS_DATA = [
     nombre: "Centro de Atención Ciudadana",
     categoria: "servicio",
     etiquetaCategoria: "SERVICIO INSTITUCIONAL",
-    facultad: "Atención al Estudiante y Ciudadanía • Trámites ULEAM",
+    facultad: "Atención al Estudiante y Ciudadanía • Psicologia y Guarderia",
     referencia: "Entre Plaza Cultural, Bloque 02 y Estadio Universitario.",
     zoomScale: 3.1,
     polygon: [
@@ -267,11 +267,11 @@ const CAMPUS_DATA = [
   {
     id: "plaza-cultural",
     codigo: "PLAZA",
-    nombre: "Plaza Cultural ULEAM",
+    nombre: "Plaza Centenario ULEAM",
     categoria: "deporte",
     etiquetaCategoria: "ESPACIO CULTURAL Y CÍVICO",
     facultad: "Explanada de Eventos, Actos Solemnes y Encuentro Estudiantil",
-    referencia: "Frente al Ingreso Puerta 1 y junto al C.A.C.",
+    referencia: "Frente al Ingreso Puerta 1 y junto DBU",
     zoomScale: 2.8,
     polygon: [
       [708, 362], [768, 318], [826, 392], [764, 436]
@@ -302,7 +302,7 @@ const CAMPUS_DATA = [
     nombre: "Monumento Eloy Alfaro",
     categoria: "deporte",
     etiquetaCategoria: "HITO HISTÓRICO",
-    facultad: "Plaza Cívica de Bienvenida • General Eloy Alfaro Delgado",
+    facultad: "Paraninfo Aguilar de Bienvenida • General Eloy Alfaro Delgado",
     referencia: "A la derecha del Ingreso Puerta 1.",
     zoomScale: 3.3,
     polygon: [
