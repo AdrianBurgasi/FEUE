@@ -404,7 +404,7 @@ body {
 .search-wrapper {
   position: relative;
   width: min(200px, 50vw);
-  right: -70%;
+  right: 28px;
 }
 
 .search-box {
@@ -507,11 +507,11 @@ body {
 
 .info-card {
   position: fixed;
-  top: 35%;
+  top: 50%;
   right: 28px;
   transform: translateY(-50%);
-  width: 150px;
-  max-width: calc(35vw - 10px);
+  width: 200px;
+  max-width: calc(40vw - 20px);
   padding: 18px;
   opacity: 90%;
   z-index: 18;
@@ -959,13 +959,31 @@ body {
     left: 12px;
     right: 12px;
     grid-template-columns: minmax(0, 1fr) auto;
-    grid-template-rows: auto auto;
+    grid-template-rows: auto;
+    gap: 6px;
   }
 
-  .hud-left { grid-column: 1; grid-row: 1; }
-  .hud-center { grid-column: 1 / -1; grid-row: 2; width: 100%; min-width: 0; gap: 8px; }
+  .hud-left {
+    position: absolute;
+    top: calc(100% + 6px);
+    left: 0;
+  }
+  .hud-center {
+    grid-column: 1;
+    grid-row: 1;
+    width: 100%;
+    min-width: 0;
+    align-items: flex-start;
+    gap: 6px;
+  }
   .hud-right { grid-column: 2; grid-row: 1; gap: 6px; min-width: 0; }
-  .search-wrapper { right: 0; width: min(200px, 50vw); }
+  .search-wrapper { right: 0; width: 100%; }
+
+  .brand-header {
+    align-items: flex-start;
+    padding: 3px 8px;
+    border-radius: 12px;
+  }
 
   .music-toggle {
     width: 36px;
@@ -976,10 +994,24 @@ body {
   }
 
   .brand-title {
-    font-size: 13px;
+    font-size: 9px;
+    letter-spacing: 0.24em;
   }
 
   .brand-subtitle {
+    display: none;
+  }
+
+  .search-box {
+    gap: 7px;
+    padding: 7px 10px;
+  }
+
+  .search-box input {
+    font-size: 12px;
+  }
+
+  .search-kbd {
     display: none;
   }
 
