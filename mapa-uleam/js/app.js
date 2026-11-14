@@ -484,10 +484,138 @@
   }
 
   // =========================================================
-  // 5. ARRASTRE MANUAL, RUEDA DE ZOOM Y ENLACES PROFUNDOS
+  // 5. ARRASTRE, GESTOS TÁCTILES, RUEDA DE ZOOM Y ENLACES PROFUNDOS
   // =========================================================
+  const touchPointers = new Map();
+  let touchGesture = null;
+  let suppressMapClickUntil = 0;
+
+  function getTouchGesturePoints(pointerIds) {
+    const first = touchPointers.get(pointerIds[0]);
+    const second = touchPointers.get(pointerIds[1]);
+    if (!first || !second) return null;
+
+    const rect = viewport.getBoundingClientRect();
+    const firstX = first.x - rect.left;
+    const firstY = first.y - rect.top;
+    const secondX = second.x - rect.left;
+    const secondY = second.y - rect.top;
+
+    return {
+      center: { x: (firstX + secondX) / 2, y: (firstY + secondY) / 2 },
+      distance: Math.hypot(secondX - firstX, secondY - firstY)
+    };
+  }
+
+  function startTouchGesture() {
+    const pointerIds = Array.from(touchPointers.keys()).slice(0, 2);
+    const points = getTouchGesturePoints(pointerIds);
+    if (!points) return;
+
+    const scale = state.camera.scale;
+    touchGesture = {
+      pointerIds,
+      startCenter: points.center,
+      startDistance: Math.max(points.distance, 1),
+      worldCenter: {
+        x: (points.center.x - state.camera.x) / scale,
+        y: (points.center.y - state.camera.y) / scale
+      },
+      startCamera: { ...state.camera },
+      moved: false
+    };
+    mapStage.classList.add('no-transition');
+  }
+
+  function constrainTouchCamera() {
+    const width = viewport.clientWidth;
+    const height = viewport.clientHeight;
+    const scaledWidth = state.stageWidth * state.camera.scale;
+    const scaledHeight = state.stageHeight * state.camera.scale;
+    const minX = width - scaledWidth;
+    const minY = height - scaledHeight;
+
+    state.camera.x = minX < 0
+      ? Math.min(0, Math.max(minX, state.camera.x))
+      : minX / 2;
+    state.camera.y = minY < 0
+      ? Math.min(0, Math.max(minY, state.camera.y))
+      : minY / 2;
+  }
+
+  viewport.addEventListener('pointerdown', (e) => {
+    if (e.pointerType !== 'touch' || !window.matchMedia('(max-width: 768px)').matches) return;
+    if (state.calibratorOpen || e.target.closest('.top-hud, .bottom-hud, .info-card, #directory-drawer, .calibrator-panel, input, a')) return;
+
+    touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (touchPointers.size >= 2) {
+      startTouchGesture();
+      e.preventDefault();
+    }
+  });
+
+  viewport.addEventListener('pointermove', (e) => {
+    if (e.pointerType !== 'touch' || !touchPointers.has(e.pointerId)) return;
+    touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
+    if (!touchGesture) return;
+
+    const points = getTouchGesturePoints(touchGesture.pointerIds);
+    if (!points) return;
+
+    const nextScale = Math.min(
+      Math.max(
+        touchGesture.startCamera.scale * (points.distance / touchGesture.startDistance),
+        0.85
+      ),
+      5.5
+    );
+    state.camera.scale = nextScale;
+    state.camera.x = points.center.x - touchGesture.worldCenter.x * nextScale;
+    state.camera.y = points.center.y - touchGesture.worldCenter.y * nextScale;
+    constrainTouchCamera();
+
+    if (
+      Math.hypot(
+        points.center.x - touchGesture.startCenter.x,
+        points.center.y - touchGesture.startCenter.y
+      ) > 5 ||
+      Math.abs(nextScale - touchGesture.startCamera.scale) > 0.02
+    ) {
+      touchGesture.moved = true;
+    }
+
+    mapStage.style.transform = `translate3d(${state.camera.x}px, ${state.camera.y}px, 0) scale(${state.camera.scale})`;
+    e.preventDefault();
+  });
+
+  function finishTouchPointer(e) {
+    if (e.pointerType !== 'touch' || !touchPointers.has(e.pointerId)) return;
+
+    touchPointers.delete(e.pointerId);
+    if (touchGesture?.moved) {
+      suppressMapClickUntil = performance.now() + 350;
+    }
+
+    touchGesture = null;
+    mapStage.classList.remove('no-transition');
+    if (touchPointers.size >= 2) startTouchGesture();
+  }
+
+  viewport.addEventListener('pointerup', finishTouchPointer);
+  viewport.addEventListener('pointercancel', finishTouchPointer);
+
+  document.addEventListener('click', (e) => {
+    if (performance.now() > suppressMapClickUntil || !(e.target instanceof Element)) return;
+    if (!e.target.closest('#map-stage')) return;
+
+    e.preventDefault();
+    e.stopImmediatePropagation();
+    suppressMapClickUntil = 0;
+  }, true);
+
   viewport.addEventListener('mousedown', (e) => {
     if (state.calibratorOpen) return;
+    if (window.matchMedia('(max-width: 768px)').matches) return;
     if (e.button !== 0) return;
     state.isDragging = true;
     state.dragStart.x = e.clientX - state.camera.x;
