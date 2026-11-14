@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
+  <title>ULEAM • Mapa Interactivo 2.5D — Campus Manta</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@500;600;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <!-- Lienzo Interactivo Principal (Pantalla Completa) -->
+  <main id="viewport" class="viewport" aria-label="Mapa Interactivo Campus ULEAM Manta">
+    <div id="map-stage" class="map-stage">
+      <!-- Imagen Isométrica 2.5D Base -->
+      <img
+        id="campus-image"
+        src="assets/isometric_uleam.png"
+        alt="Mapa Isométrico 2.5D Campus Matriz ULEAM Manta"
+        draggable="false"
+      />
+
+      <!-- Capa Vectorial Interactiva Sincronizada (0 - 1000) -->
+      <svg
+        id="campus-svg"
+        class="campus-svg"
+        viewBox="0 0 1000 1000"
+        preserveAspectRatio="none"
+        aria-hidden="true"
+      >
+        <defs>
+          <filter id="glow-blue" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+          <filter id="glow-crimson" x="-20%" y="-20%" width="140%" height="140%">
+            <feGaussianBlur stdDeviation="4" result="blur" />
+            <feMerge>
+              <feMergeNode in="blur" />
+              <feMergeNode in="SourceGraphic" />
+            </feMerge>
+          </filter>
+        </defs>
+        <g id="polygons-layer"></g>
+      </svg>
+
+      <!-- Capa de Marcadores Flotantes (Nivel 1 pines opcionales / Nivel 2 hotspots de Salas) -->
+      <div id="hotspots-layer" class="hotspots-layer"></div>
+    </div>
+
+    <!-- Viñeta sutil para enfoque cinematográfico en Nivel 2 y 3 -->
+    <div id="focus-vignette" class="focus-vignette"></div>
+  </main>
+
+  <!-- HUD SUPERIOR FLOTANTE (Estilo Arquitectónico) -->
+  <header class="top-hud">
+    <!-- Botón Píldora Izquierdo: Volver -->
+    <div class="hud-left">
+      <button id="btn-back" class="pill-btn pill-white hidden" type="button">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        <span id="btn-back-label">Volver al Campus</span>
+      </button>
+    </div>
+
+    <!-- Identidad Central + Buscador Instantáneo -->
+    <div class="hud-center">
+      <div class="brand-header">
+        <span class="brand-title">U L E A M</span>
+        <span class="brand-subtitle"></span>
+      </div>
+
+      <div class="search-wrapper">
+        <div class="search-box">
+          <svg class="search-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+            <circle cx="11" cy="11" r="8" />
+            <path d="m21 21-4.3-4.3" />
+          </svg>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Buscar bloque, sala (03–22), facultad o lugar..."
+            autocomplete="off"
+          />
+          <kbd class="search-kbd">/</kbd>
+        </div>
+        <div id="search-results" class="search-results hidden" role="listbox"></div>
+      </div>
+    </div>
+
+    <!-- Botón Píldora Derecho: Directorio / Etiquetas -->
+    <div class="hud-right">
+      <button id="music-toggle" class="pill-btn pill-white icon-only-mobile music-toggle" type="button" aria-label="Activar música ambiental" aria-pressed="false" title="Activar música ambiental">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+          <path d="M9 18V5l12-2v13" />
+          <circle cx="6" cy="18" r="3" />
+          <circle cx="18" cy="16" r="3" />
+        </svg>
+        <span>Música</span>
+      </button>
+      <button id="btn-toggle-pins" class="pill-btn pill-white icon-only-mobile" type="button" aria-label="Mostrar u ocultar etiquetas" title="Mostrar u ocultar etiquetas">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+          <path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0 1 18 0z" />
+          <circle cx="12" cy="10" r="3" />
+        </svg>
+        <span>Etiquetas</span>
+      </button>
+      <button id="btn-directory" class="pill-btn pill-primary" type="button" aria-label="Abrir directorio">
+        <svg class="directory-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true">
+          <path d="M4 6h16M4 12h16M4 18h16" />
+        </svg>
+        <span>Directorio</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- TARJETA FLOTANTE DERECHA (Glassmorphism Preview Card - Nivel 1 y Nivel 3) -->
+  <aside id="info-card" class="glass-card info-card hidden" aria-live="polite">
+    <div class="card-header">
+      <span id="card-badge" class="card-badge">BLOQUE ACADÉMICO</span>
+      <button id="btn-close-card" class="card-close" type="button" aria-label="Cerrar tarjeta">✕</button>
+    </div>
+
+    <div class="card-body">
+      <div class="card-code-row">
+        <h2 id="card-title" class="card-title">Bloque 16</h2>
+        <span id="card-code" class="card-code-pill">B-16</span>
+      </div>
+      <p id="card-faculty" class="card-faculty">Facultad / Unidad Académica asignada</p>
+
+      <div class="card-divider"></div>
+
+      <div class="card-meta">
+        <div class="meta-item">
+          <span class="meta-label">Salas / Ambientes</span>
+          <div id="card-salas-list" class="salas-chips"></div>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Ubicación y Referencia</span>
+          <p id="card-reference" class="meta-value">Sector Estadio Universitario y Av. Circunvalación</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="card-footer">
+      <button id="btn-zoom-action" class="btn-cta-full" type="button">
+        <span id="btn-zoom-text">Acercar al Bloque</span>
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </button>
+      <button id="btn-copy-link" class="btn-secondary-full hidden" type="button">
+        Copiar enlace de esta sala
+      </button>
+    </div>
+  </aside>
+
+  <!-- PANEL DIRECTORIO DESPLEGABLE -->
+  <aside id="directory-drawer" class="glass-card directory-drawer hidden">
+    <div class="drawer-header">
+      <div>
+        <span class="card-badge">EXPLORADOR CAMPUS MANTA</span>
+        <h3 class="drawer-title">Bloques y Unidades</h3>
+      </div>
+      <button id="btn-close-directory" class="card-close" type="button">✕</button>
+    </div>
+    <div id="directory-list" class="directory-list"></div>
+  </aside>
+
+  <!-- TÍTULO ARQUITECTÓNICO INFERIOR IZQUIERDO (Aparece al hacer Zoom - Nivel 2 y 3) -->
+  <div id="level-caption" class="level-caption hidden">
+    <span id="caption-eyebrow" class="caption-eyebrow">BLOQUE ACADÉMICO • ULEAM</span>
+    <h1 id="caption-title" class="caption-title">Bloque 16</h1>
+    <p id="caption-sub" class="caption-sub">Haz clic en una sala para acercar el detalle</p>
+  </div>
+
+  <!-- BARRA INFERIOR DE FILTROS Y CONTROLES DE CÁMARA -->
+  <footer class="bottom-hud">
+    <div id="category-filters" class="filter-pills" role="tablist">
+      <button class="filter-pill active" data-filter="all" type="button">Todos</button>
+      <button class="filter-pill" data-filter="bloque" type="button">Bloques y Salas</button>
+      <button class="filter-pill" data-filter="deporte" type="button">Deporte y Plazas</button>
+      <button class="filter-pill" data-filter="servicio" type="button">Servicios y Accesos</button>
+    </div>
+
+    <div class="zoom-controls">
+      <button id="btn-zoom-in" class="zoom-btn" type="button" title="Acercar (+)">+</button>
+      <button id="btn-zoom-out" class="zoom-btn" type="button" title="Alejar (-)">−</button>
+      <button id="btn-reset-view" class="zoom-btn" type="button" title="Restablecer vista (Esc)">⌂</button>
+    </div>
+  </footer>
+
+  <!-- HERRAMIENTA OCULTA DE CALIBRACIÓN VISUAL (Presiona Shift + E para ajustar polígonos) -->
+  <div id="calibrator-panel" class="glass-card calibrator-panel hidden">
+    <div class="cal-header">
+      <strong>Calibrador Visual 2.5D</strong>
+      <button id="btn-close-cal" type="button">✕</button>
+    </div>
+    <p class="cal-hint">Selecciona un bloque y haz clic sobre el mapa para trazar su contorno. Usa clic derecho para colocar salas.</p>
+    <select id="cal-zone-select"></select>
+    <div class="cal-actions">
+      <button id="btn-cal-clear" type="button">Limpiar puntos</button>
+      <button id="btn-cal-copy" class="pill-primary" type="button">Copiar Coordenadas</button>
+    </div>
+    <pre id="cal-output"></pre>
+  </div>
+
+  <!-- Tooltip rápido al pasar el cursor -->
+  <div id="hover-tooltip" class="hover-tooltip hidden"></div>
+
+  <audio id="background-music" src="assets/audio/fondo-relajante.mp3" preload="none" loop></audio>
+  <span id="music-status" class="music-status" role="status" aria-live="polite"></span>
+
+  <script src="js/data.js"></script>
+  <script src="js/app.js"></script>
+  <script src="js/music.js"></script>
+</body>
+</html>
