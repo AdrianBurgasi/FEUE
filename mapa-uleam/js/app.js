@@ -493,11 +493,18 @@
   function getTouchGesturePoints(pointerIds) {
     const first = touchPointers.get(pointerIds[0]);
     const second = touchPointers.get(pointerIds[1]);
-    if (!first || !second) return null;
+    if (!first) return null;
 
     const rect = viewport.getBoundingClientRect();
     const firstX = first.x - rect.left;
     const firstY = first.y - rect.top;
+    if (!second) {
+      return {
+        center: { x: firstX, y: firstY },
+        distance: 0
+      };
+    }
+
     const secondX = second.x - rect.left;
     const secondY = second.y - rect.top;
 
@@ -509,6 +516,7 @@
 
   function startTouchGesture() {
     const pointerIds = Array.from(touchPointers.keys()).slice(0, 2);
+    if (pointerIds.length === 0) return;
     const points = getTouchGesturePoints(pointerIds);
     if (!points) return;
 
@@ -548,10 +556,8 @@
     if (state.calibratorOpen || e.target.closest('.top-hud, .bottom-hud, .info-card, #directory-drawer, .calibrator-panel, input, a')) return;
 
     touchPointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
-    if (touchPointers.size >= 2) {
-      startTouchGesture();
-      e.preventDefault();
-    }
+    startTouchGesture();
+    if (touchPointers.size >= 2) e.preventDefault();
   });
 
   viewport.addEventListener('pointermove', (e) => {
@@ -562,13 +568,15 @@
     const points = getTouchGesturePoints(touchGesture.pointerIds);
     if (!points) return;
 
-    const nextScale = Math.min(
-      Math.max(
-        touchGesture.startCamera.scale * (points.distance / touchGesture.startDistance),
-        0.85
-      ),
-      5.5
-    );
+    const nextScale = touchGesture.pointerIds.length === 1
+      ? touchGesture.startCamera.scale
+      : Math.min(
+        Math.max(
+          touchGesture.startCamera.scale * (points.distance / touchGesture.startDistance),
+          0.85
+        ),
+        5.5
+      );
     state.camera.scale = nextScale;
     state.camera.x = points.center.x - touchGesture.worldCenter.x * nextScale;
     state.camera.y = points.center.y - touchGesture.worldCenter.y * nextScale;
@@ -598,7 +606,7 @@
 
     touchGesture = null;
     mapStage.classList.remove('no-transition');
-    if (touchPointers.size >= 2) startTouchGesture();
+    if (touchPointers.size > 0) startTouchGesture();
   }
 
   viewport.addEventListener('pointerup', finishTouchPointer);
