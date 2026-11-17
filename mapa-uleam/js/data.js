@@ -22,8 +22,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-016-norte",
-    codigo: "0-16",
-    nombre: "Pabellón 0-16 (Acceso Norte)",
+    codigo: "FCS",
+    nombre: "Fisioterapia",
     categoria: "bloque",
     etiquetaCategoria: "UNIDAD ACADÉMICA",
     facultad: "Anexo Norte • Cercano a Cancha de Césped Sintético y Calle S/N",
@@ -38,11 +38,11 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-17",
-    codigo: "B-17",
-    nombre: "FCSDB",
+    codigo: "FCSDB",
+    nombre: "Comunicación",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
-    facultad: "Comunicación",
+    facultad: "Unidad Académica • Sector Norte (Techo Rojo)",
     referencia: "Entre Calle S/N y el sector norte del Estadio Universitario.",
     zoomScale: 3.1,
     polygon: [
@@ -55,7 +55,7 @@ const CAMPUS_DATA = [
   {
     id: "bloque-02",
     codigo: "B-02",
-    nombre: "Bloque 02",
+    nombre: "Economia",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Edificio de Eduación • Sector Puerta 1 y Plaza Cultural",
@@ -70,8 +70,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-05",
-    codigo: "B-05",
-    nombre: "Bloque 05",
+    codigo: "FAHP",
+    nombre: "*Artes Pláticas, Arqueología, Artes escénicas, Diseño Textil e Indumentaria, Sociologia",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Unidad Académica • Sector Sureste (Calle La Iglesia)",
@@ -86,8 +86,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-07",
-    codigo: "BO-7",
-    nombre: "Bloque 07",
+    codigo: "FIIA",
+    nombre: "Arquitectura",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Unidad Académica • Sector Sur del Estadio",
@@ -136,8 +136,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-10",
-    codigo: "B-10",
-    nombre: "Bloque 10",
+    codigo: "FCVT",
+    nombre: "Ingeniería  Agropecuaria, Agronegocios, Agroindustrial, Ambiental, Tecnologías de la Información, Software, Sistema, Biología, Alimentos",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Unidad Académica y Administrativa • Sector Suroeste",
@@ -168,8 +168,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-13",
-    codigo: "B-13",
-    nombre: "Bloque 13",
+    codigo: "FCACC",
+    nombre: "Contabilidad y Auditoria",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Unidad Académica • Sector Suroeste",
@@ -185,8 +185,8 @@ const CAMPUS_DATA = [
   },
   {
     id: "bloque-14",
-    codigo: "B-14",
-    nombre: "Bloque 14",
+    codigo: "FCSDB",
+    nombre: "Trabajo Social",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
     facultad: "Unidad Académica • Sector Oeste (Techo Rojo)",
@@ -202,7 +202,7 @@ const CAMPUS_DATA = [
   {
     id: "bloque-jma",
     codigo: "JMA",
-    nombre: "Juan Montalvo Bloque Antiguo",
+    nombre: "Unidad Educativa Juan Montalvo",
     categoria: "bloque",
     etiquetaCategoria: "UNIDAD EDUCATIVA / HISTÓRICO",
     facultad: "Unidad Educativa Juan Montalvo • Edificio Patrimonial",
@@ -267,7 +267,7 @@ const CAMPUS_DATA = [
   {
     id: "plaza-cultural",
     codigo: "PLAZA",
-    nombre: "Plaza Centenario ULEAM",
+    nombre: "Plaza Centenario ULEAM y DBU",
     categoria: "deporte",
     etiquetaCategoria: "ESPACIO CULTURAL Y CÍVICO",
     facultad: "Explanada de Eventos, Actos Solemnes y Encuentro Estudiantil",
@@ -302,7 +302,7 @@ const CAMPUS_DATA = [
     nombre: "Monumento Eloy Alfaro",
     categoria: "deporte",
     etiquetaCategoria: "HITO HISTÓRICO",
-    facultad: "Paraninfo Aguilar de Bienvenida • General Eloy Alfaro Delgado",
+    facultad: "Paraninfo Alfonso Aguilar de Bienvenida • General Eloy Alfaro Delgado",
     referencia: "A la derecha del Ingreso Puerta 1.",
     zoomScale: 3.3,
     polygon: [
@@ -314,11 +314,11 @@ const CAMPUS_DATA = [
   },
   {
     id: "punto-encuentro",
-    codigo: "ENCUENTRO",
-    nombre: "Punto de Encuentro",
+    codigo: "FET",
+    nombre: "Educación Inicial - Punto de Encuentro",
     categoria: "servicio",
     etiquetaCategoria: "SEGURIDAD Y REUNIÓN",
-    facultad: "Zona Segura y Punto de Reunión Estudiantil",
+    facultad: "Carrera de Educación - Zona Segura y Punto de Reunión Estudiantil",
     referencia: "Entre Bloque 02 e Ingreso Puerta 1.",
     zoomScale: 3.2,
     polygon: [
@@ -351,7 +351,7 @@ const CAMPUS_DATA = [
     categoria: "deporte",
     etiquetaCategoria: "ÁREA DEPORTIVA",
     facultad: "Canchas de Uso Múltiple • Baloncesto y Ecuavóley",
-    referencia: "Entre Juan Montalvo Bloque Antiguo y Bloque 14.",
+    referencia: "Entre Juan Montalvo y Bloque 14.",
     zoomScale: 2.9,
     polygon: [
       [90, 528], [138, 492], [190, 594], [142, 636]
