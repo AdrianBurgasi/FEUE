@@ -39,10 +39,10 @@ const CAMPUS_DATA = [
   {
     id: "bloque-17",
     codigo: "B-17",
-    nombre: "Bloque 17",
+    nombre: "FCSDB",
     categoria: "bloque",
     etiquetaCategoria: "BLOQUE ACADÉMICO",
-    facultad: "Unidad Académica • Sector Norte (Techo Rojo)",
+    facultad: "Comunicación",
     referencia: "Entre Calle S/N y el sector norte del Estadio Universitario.",
     zoomScale: 3.1,
     polygon: [
